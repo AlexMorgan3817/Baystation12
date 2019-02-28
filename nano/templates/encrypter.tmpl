@@ -51,23 +51,14 @@
 	{{else}}
 		<h2>Document: {{:data.filename}}</h2>
 			<div class='item'>
-				{{:helper.link('LOAD FILE', null, { "PRG_newfile" : 1 })}}
-				{{:helper.link('SAVE AS', null, { "PRG_saveasfile" : 1 })}}
-			</div>
-			<div class='item'>
-				{{:helper.link('SET ENCRYPTION KEY', null, { "PRG_setpass" : 1 })}}
+				{{:helper.link('LOAD', null, { "PRG_loadmenu" : 1 })}}
 				{{:helper.link('START ENCRYPTING', null, { "PRG_startencrypt" : 1 })}}
-				{{:helper.link('STOP PROCESS', null, { "PRG_stopencrypt" : 1 })}}
 				{{:helper.link('START DECRYPTING', null, { "PRG_startdecrypt" : 1 })}}
 			</div><hr>
 		<div class='block'>
-			{{:data.filedata}}
 	{{/if}}
-		{{if data.proccess}}
+		{{if data.is_working}}
 			{{:helper.link('STOP PROCESS', null, { "PRG_stopencrypt" : 1 })}}
-			<progress max="100" value="{{data.progress}}">
-				Выполненно на {{data.progress}}%
-			</progress>
+			<progress max="100" value="{{:data.progress}}"></progress>
   		{{/if}}
-  		<div>Proccess complete sucsessfully</div>
 {{/if}}

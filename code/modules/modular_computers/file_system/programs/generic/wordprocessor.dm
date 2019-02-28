@@ -17,7 +17,7 @@
 
 /datum/computer_file/program/wordprocessor/proc/open_file(var/filename)
 	var/datum/computer_file/data/F = get_file(filename)
-	if(F)
+	if(F && !(F.encrypted))
 		open_file = F.filename
 		loaded_data = F.stored_data
 		return 1

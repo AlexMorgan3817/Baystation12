@@ -1,3 +1,6 @@
+/datum/computer_file/data
+	var/encrypted = FALSE
+
 /datum/computer_file/program/encrypter
 	filename = "encrpt"
 	filedesc = "Free NT Encrypter"
@@ -9,37 +12,28 @@
 	available_on_ntnet = 1
 	nanomodule_path = /datum/nano_module/program/encrypter
 	var/list/data = list()
-	var/browsing
 	var/open_file
-	var/loaded_data
+	var/browsing = 1
 	var/error
 	var/is_edited
+	var/progress = 0
+	var/is_working = 0
+	var/en_key = null
+	var/en_speed = 1
 	usage_flags = PROGRAM_ALL
+
+/datum/computer_file/program/encrypter/process_tick()
+	if (is_working)
+		progress = min(progress + 1, 100)
+	if (progress == 100)
+		is_working = 0
+
 
 /datum/computer_file/program/encrypter/proc/open_file(var/filename)
 	var/datum/computer_file/data/F = get_file(filename)
-	if(F)
+	if(F && !(F.encrypted))
 		open_file = F.filename
-		loaded_data = F.stored_data
 		return 1
-
-/datum/computer_file/program/encrypter/proc/save_file(var/filename)
-	var/datum/computer_file/data/F = get_file(filename)
-	if(!F) //try to make one if it doesn't exist
-		F = create_file(filename, loaded_data, /datum/computer_file/data/text)
-		return !isnull(F)
-	var/datum/computer_file/data/backup = F.clone()
-	var/obj/item/weapon/computer_hardware/hard_drive/HDD = computer.hard_drive
-	if(!HDD)
-		return
-	HDD.remove_file(F)
-	F.stored_data = loaded_data
-	F.calculate_size()
-	if(!HDD.store_file(F))
-		HDD.store_file(backup)
-		return 0
-	is_edited = 0
-	return 1
 
 /datum/computer_file/program/encrypter/Topic(href, href_list)
 	if(..())
@@ -59,61 +53,32 @@
 
 	if(href_list["PRG_openfile"])
 		. = 1
-		if(is_edited)
-			if(alert("Would you like to save your changes first?",,"Yes","No") == "Yes")
-				save_file(open_file)
-		browsing = 1
+		browsing = 0
 		if(!open_file(href_list["PRG_openfile"]))
 			error = "I/O error: Unable to open file '[href_list["PRG_openfile"]]'."
 
-	if(href_list["PRG_saveasfile"])
-		. = 1
-		var/newname = sanitize(input(usr, "Enter file name:", "Save As") as text|null)
-		if(!newname)
-			return 1
-		var/datum/computer_file/data/F = create_file(newname, loaded_data, /datum/computer_file/data/text)
-		if(F)
-			open_file = F.filename
-		else
-			error = "I/O error: Unable to create file '[href_list["PRG_saveasfile"]]'."
-		return 1
-
 	if(href_list["PRG_setpass"])
-		var/enckey = sanitize(input(usr, "Enter new encryption key:", "Save As") as text|null)
-	var/Fl_size = F.size
-	if(href_list["RPG_startencrypt"])
-		data["proccess"] = TRUE
-		if(Fl_size <= 10)//time to encrypt = 5
-			data["progress"] = 0
-			while (data["progress"] <= 100)
-				data["progress"] += 20
-				sleep(1)
-		if(F.size < 10)//time to encrypt = 20
-			data["progress"] = 0
-			while (data["progress"] <= 100)
-				data["progress"] += 10
-				sleep(2)
-		if(F.size <= 25)//time to encrypt = 40
-			data["progress"] = 0
-			while (data["progress"] <= 100)
-				data["progress"] += 5
-				sleep(2)
-		//End of process
-		data["proccess"] = FALSE
-	if(href_list["RPG_stopprocess"])
-		.=1
-		if(data["proccess"] == 1)
-			data["proccess"] = null
+		en_key = sanitize(input(usr, "Enter new encryption key:", "Save As") as text|null)
+
+	if(href_list["PRG_startencrypt"])
+		. = 1
+		var/computer_file/data/F = get_file(filename)
+		is_working = 1
+		progress = 0
+		en_speed = 1
+
+	if(href_list["PRG_stopprocess"])
+		. = 1
+		is_working = 0 
 
 /datum/nano_module/program/encrypter
 	name = "Encrypter"
 
 /datum/nano_module/program/encrypter/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
 	var/list/data = host.initial_data()
-	var/datum/computer_file/program/wordprocessor/PRG
+	var/datum/computer_file/program/encrypter/PRG
 	PRG = program
 	var/obj/item/weapon/computer_hardware/hard_drive/HDD
-	var/obj/item/weapon/computer_hardware/hard_drive/portable/RHDD
 	if(PRG.error)
 		data["error"] = PRG.error
 	if(PRG.browsing)
@@ -125,29 +90,12 @@
 			var/list/files[0]
 			for(var/datum/computer_file/F in HDD.stored_files)
 				if(F.filetype == "TXT")
-					files.Add(list(list(
-						"name" = F.filename,
-						"size" = F.size
-					)))
+					files.Add(list(list( "name" = F.filename, "size" = F.size )))
 			data["files"] = files
-
-			RHDD = PRG.computer.portable_drive
-			if(RHDD)
-				data["usbconnected"] = 1
-				var/list/usbfiles[0]
-				for(var/datum/computer_file/F in RHDD.stored_files)
-					if(F.filetype == "ENC")
-						usbfiles.Add(list(list(
-							"name" = F.filename,
-							"size" = F.size,
-						)))
-				data["usbfiles"] = usbfiles
-	else if(PRG.open_file)
-		data["filedata"] = pencode2html(PRG.loaded_data)
-		data["filename"] = PRG.is_edited ? "[PRG.open_file]*" : PRG.open_file
 	else
-		data["filedata"] = pencode2html(PRG.loaded_data)
-		data["filename"] = "UNNAMED"
+		data["filename"] = PRG.open_file
+		data["is_working"] = PRG.is_working
+		data["progress"] = PRG.progress
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
