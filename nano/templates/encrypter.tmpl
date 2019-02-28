@@ -1,0 +1,73 @@
+{{if data.error}}
+	<h2>
+		An error has occurred:
+	</h2>
+	Additional information: {{:data.error}}<br>
+	<i>
+		Please try again. If the problem persists, contact your system administrator for assistance.
+	</i>
+	<table>
+		<tr>
+			<td>
+				<th>
+					{{:helper.link('Back to menu', null, { "PRG_backtomenu" : 1 })}}
+				<th>
+			</td>
+		</tr>
+	</table>
+{{else}}
+	{{if data.browsing}}
+		{{:helper.link('BACK TO EDITOR', null, { "PRG_closebrowser" : 1 })}}
+		<h2>Available documents (local):</h2>
+		<table>
+			<tr><th>Name
+			<th>Size (GQ)
+			{{for data.files}}
+				<tr>
+					<td>
+						{{:value.name}}
+					</td>
+					<td>
+						{{:value.size}}GQ
+					</td>
+					<td>
+						{{:helper.link('OPEN', null, { "PRG_openfile" : value.name })}}
+					</td>
+				</tr>
+			{{/for}}
+		</table>
+		{{if data.usbconnected}}
+			<h2>Available documents (portable device):</h2>
+			<table>
+				<tr><th>Name
+				<th>Size (GQ)
+				{{for data.usbfiles}}
+					<tr>td>{{:value.name}}
+					<td>{{:value.size}}GQ
+					<td>{{:helper.link('OPEN', null, { "PRG_openfile" : value.name })}}
+				{{/for}}
+			</table>
+		{{/if}}
+	{{else}}
+		<h2>Document: {{:data.filename}}</h2>
+			<div class='item'>
+				{{:helper.link('LOAD FILE', null, { "PRG_newfile" : 1 })}}
+				{{:helper.link('SAVE AS', null, { "PRG_saveasfile" : 1 })}}
+			</div>
+			<div class='item'>
+				{{:helper.link('SET ENCRYPTION KEY', null, { "PRG_setpass" : 1 })}}
+				{{:helper.link('START ENCRYPTING', null, { "PRG_startencrypt" : 1 })}}
+				{{:helper.link('STOP PROCESS', null, { "PRG_stopencrypt" : 1 })}}
+				{{:helper.link('START DECRYPTING', null, { "PRG_startdecrypt" : 1 })}}
+			</div><hr>
+		<div class='block'>
+			{{:data.filedata}}
+	{{/if}}
+		{{if data.proccess}}
+			{{:helper.link('STOP PROCESS', null, { "PRG_stopencrypt" : 1 })}}
+			<progress max="100" value="{{data.progress}}">
+				Выполненно на {{data.progress}}%
+			</progress>
+  		{{/if}}
+  		<div>Proccess complete sucsessfully</div>
+{{/if}}

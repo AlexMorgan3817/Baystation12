@@ -3066,6 +3066,7 @@
 #include "infinity\code\modules\culture_descriptor\location\locations_tajaran.dm"
 #include "infinity\code\modules\culture_descriptor\location\locations_unathi.dm"
 #include "infinity\code\modules\culture_descriptor\location\locations_vox.dm"
+#include "infinity\code\modules\modular_computers\file_system\programs\generic\encrypter.dm"
 #include "infinity\code\modules\projectiles\gun.dm"
 #include "infinity\code\modules\projectiles\ammunition\boxes.dm"
 #include "infinity\code\modules\projectiles\ammunition\bullets.dm"
