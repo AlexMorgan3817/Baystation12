@@ -151,6 +151,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 
 /decl/hierarchy/outfit/job/sierra/crew/engineering/senior_engineer
 	name = OUTFIT_JOB_NAME("Senior Engineer")
+	l_ear = /obj/item/device/radio/headset/esenior
 	uniform = /obj/item/clothing/under/rank/engineer/senior
 	shoes = /obj/item/clothing/shoes/workboots/alt
 	id_type = /obj/item/weapon/card/id/sierra/crew/engineering/senior
@@ -228,6 +229,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 
 /decl/hierarchy/outfit/job/sierra/crew/medical/senior
 	name = OUTFIT_JOB_NAME("Surgeon - Sierra")
+	l_ear = /obj/item/device/radio/headset/msenior
 	uniform = /obj/item/clothing/under/rank/medical/scrubs
 	id_type = /obj/item/weapon/card/id/sierra/crew/medical/senior
 
@@ -434,6 +436,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 
 /decl/hierarchy/outfit/job/sierra/crew/research/senior_scientist
 	name = OUTFIT_JOB_NAME("Senior Researcher")
+	l_ear = /obj/item/device/radio/headset/ssenior
 	uniform = /obj/item/clothing/under/rank/scientist/executive/nanotrasen
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science/nanotrasen
 	shoes = /obj/item/clothing/shoes/white

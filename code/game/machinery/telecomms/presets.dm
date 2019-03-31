@@ -123,7 +123,7 @@
 /obj/machinery/telecomms/bus/preset_three
 	id = "Bus 3"
 	network = "tcommsat"
-	freq_listening = list(SEC_FREQ, COMM_FREQ)
+	freq_listening = list(SEC_FREQ, COMM_FREQ, IDEP_FREQ)
 	autolinkers = list("processor3", "security", "command")
 
 /obj/machinery/telecomms/bus/preset_four
@@ -222,8 +222,8 @@
 
 /obj/machinery/telecomms/server/presets/command
 	id = "Command Server"
-	freq_listening = list(COMM_FREQ)
-	channel_tags = list(list(COMM_FREQ, "Command", COMMS_COLOR_COMMAND))
+	freq_listening = list(COMM_FREQ, IDEP_FREQ)
+	channel_tags = list(list(COMM_FREQ, "Command", COMMS_COLOR_COMMAND), list(IDEP_FREQ, "Interdepartmental", COMMS_COLOR_INTERDEPARTMENTAL))
 	autolinkers = list("command")
 
 /obj/machinery/telecomms/server/presets/engineering

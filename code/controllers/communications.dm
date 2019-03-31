@@ -104,6 +104,9 @@ var/const/RADIO_HIGH_FREQ	= 1600
 
 var/const/BOT_FREQ	= 1447
 var/const/COMM_FREQ = 1353
+//#Infinity___________________________________
+var/const/IDEP_FREQ = 1363
+//#_____________________________________#_____
 var/const/ERT_FREQ	= 1345
 var/const/AI_FREQ	= 1343
 var/const/DTH_FREQ	= 1341
@@ -142,13 +145,15 @@ var/list/radiochannels = list(
 	"AI Private"	= AI_FREQ,
 	"Entertainment" = ENT_FREQ,
 	"Medical(I)"	= MED_I_FREQ,
-	"Security(I)"	= SEC_I_FREQ
+	"Security(I)"	= SEC_I_FREQ,
+	"Interdepartmental" = IDEP_FREQ
 )
 
 var/list/channel_color_presets = list(
 	"Global Green" = COMMS_COLOR_COMMON,
 	"Phenomenal Purple" = COMMS_COLOR_SCIENCE,
 	"Bitchin' Blue" = COMMS_COLOR_COMMAND,
+	"Bitchin' Blue 2" = COMMS_COLOR_INTERDEPARTMENTAL,
 	"Menacing Maroon" = COMMS_COLOR_SYNDICATE,
 	"Pretty Periwinkle" = COMMS_COLOR_CENTCOMM,
 	"Painful Pink" = COMMS_COLOR_AI,
@@ -204,6 +209,8 @@ var/list/DEPT_FREQS = list(AI_FREQ, COMM_FREQ, ENG_FREQ, MED_FREQ, SEC_FREQ, SCI
 		return "entradio"
 	if(frequency in DEPT_FREQS)
 		return "deptradio"
+	if(frequency == IDEP_FREQ)
+		return "idepradio"
 
 	return "radio"
 

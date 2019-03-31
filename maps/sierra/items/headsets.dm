@@ -97,3 +97,47 @@
 	name = "pilot bowman headset"
 	icon_state = "pilot_headset_alt"
 	item_state = "pilot_headset_alt"
+//Senior>>Infinity
+/obj/item/device/radio/headset/msenior
+	name = "senior medical employee headset"
+	icon_state = "med_headset"
+	item_state = "med_headset"
+	ks1type = /obj/item/device/encryptionkey/msenior
+
+/obj/item/device/radio/headset/msenior/alt
+	name = "senior medical employee headset"
+	icon_state = "med_headset_alt"
+	item_state = "med_headset_alt"
+
+/obj/item/device/radio/headset/esenior
+	name = "senior engineer headset"
+	icon_state = "eng_headset"
+	item_state = "eng_headset"
+	ks1type = /obj/item/device/encryptionkey/esenior
+
+/obj/item/device/radio/headset/esenior/alt
+	name = "senior engineer headset"
+	icon_state = "eng_headset_alt"
+	item_state = "eng_headset_alt"
+
+/obj/item/device/radio/headset/warden
+	name = "warden headset"
+	icon_state = "sec_headset"
+	item_state = "sec_headset"
+	ks1type = /obj/item/device/encryptionkey/warden
+
+/obj/item/device/radio/headset/warden/alt
+	name = "warden headset"
+	icon_state = "sec_headset_alt"
+	item_state = "sec_headset_alt"
+
+/obj/item/device/radio/headset/ssenior
+	name = "senior researcher headset"
+	icon_state = "com_headset"
+	item_state = "com_headset"
+	ks1type = /obj/item/device/encryptionkey/ssenior
+
+/obj/item/device/radio/headset/ssenior/alt
+	name = "senior researcher headset"
+	icon_state = "com_headset_alt"
+	item_state = "com_headset_alt"

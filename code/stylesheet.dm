@@ -59,6 +59,8 @@ em						{font-style: normal;font-weight: bold;}
 .srvradio				{color: #709b00;}
 .expradio				{color: #929820;}
 
+.idepradio				{color: #7d79ff;}
+
 /* Miscellaneous */
 .name					{font-weight: bold;}
 .say					{}

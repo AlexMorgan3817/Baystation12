@@ -70,6 +70,7 @@
 		interpreter.SetVar("$security",	SEC_FREQ)
 		interpreter.SetVar("$supply",	SUP_FREQ)
 		interpreter.SetVar("$exploration",	EXP_FREQ)
+		interpreter.SetVar("$interdepartmental",	IDEP_FREQ)
 
 		// Signal data
 

@@ -17,6 +17,9 @@ var/list/department_radio_keys = list(
 	  ":p" = "AI Private",	".p" = "AI Private",
 	  ":z" = "Entertainment",".z" = "Entertainment",
 	  ":y" = "Exploration",		".y" = "Exploration",
+	  //#Infinity
+	  ":a" = "Interdepartmental",	".a" = "Interdepartmental",
+	  //#
 
 	  ":R" = "right ear",	".R" = "right ear",
 	  ":L" = "left ear",	".L" = "left ear",
@@ -35,6 +38,9 @@ var/list/department_radio_keys = list(
 	  ":P" = "AI Private",	".P" = "AI Private",
 	  ":Z" = "Entertainment",".Z" = "Entertainment",
 	  ":Y" = "Exploration",		".Y" = "Exploration",
+	  //#Infinity
+	  ":A" = "Interdepartmental",	".A" = "Interdepartmental",
+	  //#
 
 	  //localized radio keys by ~KareTa
 	  ":ê" = "right ear",	".ê" = "right ear",
@@ -53,7 +59,9 @@ var/list/department_radio_keys = list(
 	  ":ç" = "AI Private",	".ç" = "AI Private",
 	  ":ÿ" = "Entertainment",".ÿ" = "Entertainment",
 	  ":í" = "Exploration",		".í" = "Exploration",
-
+	  //#not by ~KareTa	Infinity
+	  ":ô" = "Interdepartmental",	".ô" = "Interdepartmental",
+	  //#
 	  ":Ê" = "right ear",	".Ê" = "right ear",
 	  ":Ä" = "left ear",	".Ä" = "left ear",
 	  ":Ø" = "intercom",	".Ø" = "intercom",
@@ -70,7 +78,9 @@ var/list/department_radio_keys = list(
 	  ":Ç" = "AI Private",	".Ç" = "AI Private",
 	  ":ß" = "Entertainment",".ß" = "Entertainment",
 	  ":Í" = "Exploration",		".Í" = "Exploration",
-
+	  //#not by ~KareTa	Infinity
+	  ":Ô" = "Interdepartmental",	".Ô" = "Interdepartmental",
+	  //#
 	  /*
 	  //kinda localization -- rastaf0
 	  //same keys as above, but on russian keyboard layout. This file uses cp1251 as encoding.
