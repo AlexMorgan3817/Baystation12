@@ -67,20 +67,22 @@
 			else if(!is_blind())
 				to_chat(src, "<span class='name'>[speaker_name]</span>[alt_name] talks but you cannot hear \him.")
 	else
-		if(language)
-			var/nverb = null
-			if(!say_understands(speaker,language) || language.name == LANGUAGE_GALCOM) //Check to see if we can understand what the speaker is saying. If so, add the name of the language after the verb. Don't do this for Galactic Common.
-				on_hear_say("<span class='game say'>[track]<span class='name'>[speaker_name]</span>[alt_name] [language.format_message(message, verb)]</span>")
-			else //Check if the client WANTS to see language names.
-				switch(src.get_preference_value(/datum/client_preference/language_display))
-					if(GLOB.PREF_FULL) // Full language name
-						nverb = "[verb] in [language.name]"
-					if(GLOB.PREF_SHORTHAND) //Shorthand codes
-						nverb = "[verb] ([language.shorthand])"
-					if(GLOB.PREF_OFF)//Regular output
-						nverb = verb
-				on_hear_say("<span class='game say'>[track]<span class='name'>[speaker_name]</span>[alt_name] [language.format_message(message, nverb)]</span>")
-
+		if (language)
+			var/nverb = verb
+			if (say_understands(speaker, language))
+				var/skip = FALSE
+				if (isliving(src))
+					var/mob/living/L = src
+					skip = L.default_language == language
+				if (!skip)
+					switch(src.get_preference_value(/datum/client_preference/language_display))
+						if(GLOB.PREF_FULL) // Full language name
+							nverb = "[verb] in [language.name]"
+						if(GLOB.PREF_SHORTHAND) //Shorthand codes
+							nverb = "[verb] ([language.shorthand])"
+						if(GLOB.PREF_OFF)//Regular output
+							nverb = verb
+			on_hear_say("<span class='game say'>[track]<span class='name'>[speaker_name]</span>[alt_name] [language.format_message(message, nverb)]</span>")
 		else
 			on_hear_say("<span class='game say'>[track]<span class='name'>[speaker_name]</span>[alt_name] [verb], <span class='message'><span class='body'>\"[message]\"</span></span></span>")
 		if (speech_sound && (get_dist(speaker, src) <= world.view && src.z == speaker.z))
@@ -99,7 +101,7 @@
 	if(!client)
 		return
 
-	if(last_radio_sound + 0.5 SECOND > world.time)
+	if((last_radio_sound + 0.5 SECOND) < world.time && src != speaker)
 		playsound(loc, 'sound/effects/radio_chatter.ogg', 10, 0, -1, falloff = -3)
 		last_radio_sound = world.time
 
@@ -209,13 +211,10 @@
 		if(speaker_name != speaker.real_name && !isAI(speaker)) //Announce computer and various stuff that broadcasts doesn't use it's real name but AI's can't pretend to be other mobs.
 			speaker_name = "[speaker.real_name] ([speaker_name])"
 		track = "([ghost_follow_link(speaker, src)]) [speaker_name]"
-	else
-		var/radio_sound = list('sound/effects/radio1.ogg', 'sound/effects/radio2.ogg', 'sound/effects/radio3.ogg', 'sound/effects/radio4.ogg')
-		playsound(loc, pick(radio_sound), 15, 0, -1)
 
 	var/formatted
 	if(language)
-		if(!say_understands(speaker,language) || language.name == LANGUAGE_GALCOM) //Check if we understand the message. If so, add the language name after the verb. Don't do this for Galactic Common.
+		if(!say_understands(speaker,language)) //Check if we understand the message. If so, add the language name after the verb. Don't do this for Galactic Common.
 			formatted = language.format_message_radio(message, verb)
 		else
 			var/nverb = null

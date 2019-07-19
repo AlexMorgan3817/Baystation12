@@ -44,6 +44,9 @@ var/bomb_set
 		if(timeleft <= 0)
 			addtimer(CALLBACK(src, .proc/explode), 0)
 		SSnano.update_uis(src)
+		if(!escaped && timeleft <= time_before_launch && GLOB.using_map.evac_on_delta_code)
+			escaped = 1
+			start_evacuation()
 
 /obj/machinery/nuclearbomb/attackby(obj/item/weapon/O as obj, mob/user as mob, params)
 	if(isScrewdriver(O))
@@ -283,10 +286,17 @@ var/bomb_set
 				if(wires.IsIndexCut(NUCLEARBOMB_WIRE_TIMING))
 					to_chat(usr, "<span class='warning'>Nothing happens, something might be wrong with the wiring.</span>")
 					return 1
+				if(spam_check >= world.time)
+					to_chat(usr, SPAN_WARNING("Wait for [round((spam_check - world.time)/10)] seconds to toggle it again."))
+					return 1
+				else
+					spam_check = world.time + 100
 				if(!timing && !safety)
 					start_bomb()
+					if(GLOB.using_map.evac_on_delta_code) prepare_evacuation()
 				else
 					check_cutoff()
+					if(GLOB.using_map.evac_on_delta_code) addtimer(CALLBACK(src, .proc/stop_evacuation), 10 SECONDS)
 			if(href_list["safety"])
 				if (wires.IsIndexCut(NUCLEARBOMB_WIRE_SAFETY))
 					to_chat(usr, "<span class='warning'>Nothing happens, something might be wrong with the wiring.</span>")

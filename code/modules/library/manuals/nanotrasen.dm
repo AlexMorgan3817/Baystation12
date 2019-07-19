@@ -1,21 +1,11 @@
 /obj/item/weapon/book/manual/nt_regs
 	name = "Corporate Regulations"
 	desc = "A set of corporate guidelines for employees of a megacorporation."
-	icon = 'icons/obj/library_inf.dmi'
+	icon = 'infinity/icons/obj/library.dmi'
 	icon_state = "bookNTLaw"
 	author = "Employee Materials"
 	title = "Corporate Regulations"
-
-/obj/item/weapon/book/manual/nt_regs/New()
-	..()
-	dat = {"
-		<html><head>
-		</head>
-		<body>
-		<iframe width='100%' height='97%' src="[config.wikiurl]index.php?title=Корпоративные_законы&printable=yes&remove_links=1" frameborder="0" id="main_frame"></iframe>
-		</body>
-		</html>
-		"}
+	url = "Корпоративные_законы"
 
 /obj/item/weapon/book/manual/hydroponics_pod_people
 	name = "The Diona Harvest - From Seed to Market"

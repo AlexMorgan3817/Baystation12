@@ -22,8 +22,8 @@ em						{font-style: normal;font-weight: bold;}
 .ooc .looc				{color: #3a9696;}
 .ooc .elevated			{color: #306082;}
 .ooc .moderator			{color: #184880;}
-.ooc .developer			{color: #b55801;}
-.ooc .admin				{color: #992d22;}
+.ooc .developer			{color: #1b521f;}
+.ooc .admin				{color: #b82e00;}
 .ooc .aooc				{color: #960018;}
 
 .staffwarn				{color: #ff0000; font-weight:bold; font-size: 150%;}
@@ -34,9 +34,13 @@ em						{font-style: normal;font-weight: bold;}
 .pm  .other				{color: #0000ff;}
 
 /* Admin: Channels */
-.staff_channel			{color: #e5892d;	font-weight: bold;}
-.staff_channel .admin		{color: #b82e00;	font-weight: bold;}
+.mod_channel			{color: #735638;	font-weight: bold;}
+.mod_channel .admin		{color: #b82e00;	font-weight: bold;}
 .admin_channel			{color: #ff5097;	font-weight: bold;}
+
+.staff_channel			{color: #a66300;	font-weight: bold;}
+.staff_channel .admin	{color: #b82e00;	font-weight: bold;}
+.staff_channel .developer {color: #1b521f;	font-weight: bold;}
 
 /* Radio: Misc */
 .deadsay				{color: #530fad;}
@@ -74,6 +78,8 @@ h1.alert, h2.alert		{color: #000000;}
 .disarm					{color: #990000;}
 .passive				{color: #660000;}
 
+.italic				{font-style: italic;}
+.bold					{font-weight: bold;}
 .danger					{color: #ff0000; font-weight: bold;}
 .warning				{color: #ff0000; font-style: italic;}
 .boldannounce			{color: #ff0000; font-weight: bold;}
@@ -102,13 +108,13 @@ h1.alert, h2.alert		{color: #000000;}
 .say_quote				{font-family: Georgia, Verdana, sans-serif;}
 .adherent				{color: #526c7a;}
 
-.solcom					{color: #22228b;}
 .chinese				{color: #d4a52a;}
 .indian					{color: #422863;}
 .iberian				{color: #ff6600;}
 .russian				{color: #9c250b;}
 .arabic					{color: #128b11;}
 .spacer					{color: #9c660b;}
+.selenian       {color: #22228b;}
 
 .interface				{color: #330033;}
 

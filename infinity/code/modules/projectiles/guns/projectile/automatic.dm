@@ -7,11 +7,11 @@
 	desc = "The NT41 Enforcer is a self-defense weapon made on bullpup system. Produced by NanoTrasen for it's Security Force. Looks cool and stylish, but sometimes too uncomfortably to run with it. Uses 5.7x28mm rounds."
 	icon_state = "nt41"
 	item_state = "nt41"
-	icon = 'icons/obj/infinity_guns.dmi'
+	icon = 'infinity/icons/obj/guns.dmi'
 	wielded_item_state = "nt41-wielded"
 	item_icons = list(
-		slot_r_hand_str = 'icons/mob/infinity/misc.dmi',
-		slot_l_hand_str = 'icons/mob/infinity/misctwo.dmi',
+		slot_r_hand_str = 'infinity/icons/mob/onmob/righthand.dmi',
+		slot_l_hand_str = 'infinity/icons/mob/onmob/lefthand.dmi',
 		)
 
 	w_class = ITEM_SIZE_NORMAL
@@ -37,7 +37,7 @@
 /obj/item/weapon/gun/projectile/automatic/amrcarabine
 	name = "LDC-542 carabine"
 	desc = "The sielent and deadly and manufactured by Aussec Armory, bullpup carabine LDC-542 is a common weapon for a long-medium ranged combat units in Private Military Companies. Uses 12.7x55mm rounds."
-	icon = 'icons/obj/infinity_guns.dmi'
+	icon = 'infinity/icons/obj/guns.dmi'
 	icon_state = "amrcarabine"
 	item_state = "z8carbine"
 	w_class = ITEM_SIZE_HUGE
@@ -130,7 +130,7 @@
 	else
 		if(src == user.get_active_hand())
 			projetcile_type = !projetcile_type
-			playsound(user, 'sound/weapons/selector.ogg', 50, 1)
+			playsound(user, 'infinity/sound/weapons/selector.ogg', 50, 1)
 			to_chat(user, "<span class='notice'>You toggle the bullet penetration mode [projetcile_type ? "on":"off"].</span>")
 
 /obj/item/weapon/gun/projectile/automatic/invider/Fire(atom/target, mob/living/user, clickparams, pointblank=0, reflex=0, var/list/params = list())
@@ -146,3 +146,49 @@
 	else
 		icon_state = "pdw-empty"
 	return
+
+/obj/item/weapon/gun/projectile/automatic/tv3
+	name = "TV-3S carabine"
+	desc = "The TV-3S carabine is the one of traditional carabines of CCA."
+	icon = 'infinity/icons/obj/guns.dmi'
+	icon_state = "TV-3Sm"
+	item_state = null
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	caliber = CALIBER_TV
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 3)
+	ammo_type = /obj/item/ammo_casing/rifle/tv
+	slot_flags = SLOT_BELT | SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/tv
+	allowed_magazines = /obj/item/ammo_magazine/tv
+	auto_eject = 1
+	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
+	accuracy = 4
+	accuracy_power = 7
+	one_hand_penalty = 8
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 3
+	wielded_item_state = "arifle-wielded"
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+
+	firemodes = list(
+		list(mode_name="semi auto",       burst=1, fire_delay=null,    move_delay=null, one_hand_penalty=8, burst_accuracy=null, dispersion=null),
+		list(mode_name="2-round bursts", burst=2, fire_delay=null, move_delay=2,    one_hand_penalty=9, burst_accuracy=null, dispersion=null),
+		)
+
+/obj/item/weapon/gun/projectile/automatic/tv3/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "TV-3Sm"
+	else
+		icon_state = "TV-3S"
+
+/obj/item/weapon/gun/projectile/automatic/tv3/special_check(user)
+	if(istype(user,/mob/living/carbon/human))
+		var/mob/living/carbon/human/H = user
+		if(H.species && H.species.get_bodytype(H) != SPECIES_TAJARA)
+			to_chat(user, "<span class='warning'>\The [src] trigger because of the anatomical structure of your hand is not pressed!</span>")
+			return 0
+	return ..()

@@ -5,7 +5,7 @@
 
 /obj/item/clothing/suit/storage/toggle/Resomicoat
 	 name = "small cloak"
-	 icon = 'icons/obj/clothing/infinity/suits.dmi'
+	 icon = 'infinity/icons/obj/clothing/obj_suit.dmi'
 	 desc = "A cloak that seems too small to fit a human."
 	 icon_state = "resomicoat"
 	 item_state = "resomicoat"
@@ -22,7 +22,7 @@
 
 /obj/item/clothing/suit/storage/toggle/Resomilabcoat
 	name = "small labcoat"
-	icon = 'icons/obj/clothing/infinity/suits.dmi'
+	icon = 'infinity/icons/obj/clothing/obj_suit.dmi'
 	desc = "A labcoat that seems too small to fit a human."
 	icon_state = "resomi_labcoat"
 	item_state = "resomi_labcoat"
@@ -36,18 +36,13 @@
 //standart resomicloak
 
 /obj/item/clothing/suit/storage/resomicloak
-	name = "broken cloak"
+	name = "black and orange cloak"
 	desc = "It drapes over a Resomes's shoulders and closes at the neck with pockets convienently placed inside."
 	icon = 'infinity/icons/obj/clothing/species/resomi/resomi_cloak.dmi'
 	item_icons = list(slot_wear_suit_str = 'infinity/icons/obj/clothing/species/resomi/resomi_cloak.dmi')
 	icon_state = "tesh_cloak_bo"
 	species_restricted = list(SPECIES_RESOMI)
 	body_parts_covered = UPPER_TORSO|ARMS|LOWER_TORSO
-
-/obj/item/clothing/suit/storage/resomicloak/standard/black_orange
-	name = "black and orange cloak"
-	icon_state = "tesh_cloak_bo"
-	item_state = "tesh_cloak_bo"
 
 /obj/item/clothing/suit/storage/resomicloak/standard/black_grey
 	name = "black and grey cloak"

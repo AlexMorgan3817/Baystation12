@@ -25,7 +25,7 @@
 	bloodstr.clear_reagents()
 	touching.clear_reagents()
 	var/datum/reagents/R = get_ingested_reagents()
-	if(istype(R)) 
+	if(istype(R))
 		R.clear_reagents()
 	nutrition = 400
 	..()
@@ -330,7 +330,7 @@
 
 	item.throw_at(target, throw_range, item.throw_speed * skill_mod, src)
 
-	playsound(src, 'sound/effects/throw.ogg', 50, 1)
+	playsound(src, 'infinity/sound/effects/throw.ogg', 50, 1)
 
 /mob/living/carbon/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	..()
@@ -400,6 +400,17 @@
 /mob/living/carbon/get_default_language()
 	if(default_language && can_speak(default_language))
 		return default_language
+
+/mob/living/carbon/proc/get_any_good_language(set_default=FALSE)
+	var/datum/language/result = get_default_language()
+	if (!result)
+		for (var/datum/language/L in languages)
+			if (can_speak(L))
+				result = L
+				if (set_default)
+					set_default_language(result)
+				break
+	return result
 
 /mob/living/carbon/show_inv(mob/user as mob)
 	user.set_machine(src)

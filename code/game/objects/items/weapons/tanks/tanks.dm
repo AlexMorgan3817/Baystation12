@@ -22,7 +22,7 @@ var/list/global/tank_gauge_cache = list()
 	throw_range = 4
 
 	sprite_sheets = list(
-		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/back.dmi',
+		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_back_resomi.dmi',
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/back.dmi'
 		)
 
@@ -294,7 +294,7 @@ var/list/global/tank_gauge_cache = list()
 			if(can_open_valve)
 				location.internal = src
 				to_chat(user, "<span class='notice'>You open \the [src] valve.</span>")
-				playsound(location.loc, 'sound/items/internals_on.ogg', 145, 1)
+				playsound(location.loc, 'infinity/sound/items/internals_on.ogg', 145, 1)
 				if (location.internals)
 					location.internals.icon_state = "internal1"
 			else

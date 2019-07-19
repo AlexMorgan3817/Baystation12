@@ -28,6 +28,7 @@
 	damage_mask = 		'infinity/icons/mob/human_races/species/resomi/damage_mask.dmi'
 	blood_mask = 		'infinity/icons/mob/human_races/species/resomi/blood_mask.dmi'
 	preview_icon =		'infinity/icons/mob/human_races/species/resomi/preview.dmi'
+	husk_icon = 		'infinity/icons/mob/human_races/species/resomi/husk.dmi'
 
 	slowdown = -0.8 //speed fix?
 	total_health = 150
@@ -61,7 +62,11 @@
 		"Your feathers prickle in the heat.",
 		"You feel uncomfortably warm.",
 		)
-	cold_discomfort_level = 180
+	cold_discomfort_level = 200
+	cold_discomfort_strings = list(
+		"You can't feel your paws because of the cold.",
+		"You feel sluggish and cold.",
+		"Your feathers bristle against the cold.")
 
 	has_limbs = list(
 		BP_CHEST =  list("path" = /obj/item/organ/external/chest),
@@ -173,10 +178,3 @@
 
 /datum/species/resomi/get_surgery_overlay_icon(var/mob/living/carbon/human/H)
 	return 'infinity/icons/mob/human_races/species/resomi/surgery.dmi'
-
-/mob/living/proc/toggle_pass_table()
-	set name = "Toggle Agility" //Dunno a better name for this. You have to be pretty agile to hop over stuff!!!
-	set desc = "Allows you to start/stop hopping over things such as hydroponics trays, tables, and railings."
-	set category = "IC"
-	pass_flags ^= PASS_FLAG_TABLE //I dunno what this fancy ^= is but Aronai gave it to me.
-	to_chat(src, "You [pass_flags&PASS_FLAG_TABLE ? "will" : "will NOT"] move over tables/railings/trays!")

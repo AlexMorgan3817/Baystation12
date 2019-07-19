@@ -1,13 +1,13 @@
 /obj/item/weapon/gun/energy/laser/alien
 	name = "alien rifle"
 	desc = "An alien weapon never before seen by the likes of your species."
-	icon = 'icons/obj/infinity_guns.dmi'
+	icon = 'infinity/icons/obj/guns.dmi'
 	icon_state = "alienrifle"
 	item_state = "alienrifle"
 	wielded_item_state = "alienrifle-wielded"
 	item_icons = list(
-		slot_r_hand_str = 'icons/mob/infinity/misc.dmi',
-		slot_l_hand_str = 'icons/mob/infinity/misctwo.dmi',
+		slot_r_hand_str = 'infinity/icons/mob/onmob/righthand.dmi',
+		slot_l_hand_str = 'infinity/icons/mob/onmob/lefthand.dmi',
 		)
 	self_recharge = 1
 	charge_cost = 40

@@ -6,10 +6,10 @@
 	associated_paths = list(/obj/item/clothing/accessory/locket)
 	mechanics_text = "Also, you can write in locket with a pen."
 
-/datum/codex_entry/wrist_pda
-	associated_paths = list(/obj/item/modular_computer/wrist)
+/datum/codex_entry/wrist_computer
+	associated_paths = list(/obj/item/modular_computer/pda/wrist)
 	lore_text = "Morally obsolete and replaced by a more compact and perfect personal computer, \
-	the wrist PDA has been used to this day as a cheap replacement for more expensive equipment in some small corporations, \
+	the wrist computer has been used to this day as a cheap replacement for more expensive equipment in some small corporations, \
 	and sometimes for the sake of aesthetic pleasure of it's owner."
 
 /datum/codex_entry/floor_light
@@ -24,3 +24,10 @@
 	но она не будет переноситьс между раундами. Является одним из компонентов рельсотрона. \
 	Вместе с железным стержнем можно сделать самодельную медицинскую шину.\
 	Помимо прочего, ею можно заменить FixOVein и медикаменты при лечении артерий и внутренних органов."
+
+/datum/codex_entry/bs_snare
+	associated_paths = list(/obj/item/clothing/accessory/bs_silk)
+	mechanics_text = "Это блуспейс силок, он может быть привЯзан к хабу силка.\
+	При активации привязанного хаба с консоли, возвращает владельца силка к привязанному хабу.\
+	С помощью установленного на силке доступа, можно его заблокировать, так что его нельзя будет снять с униформы.\
+	ВНИМАНИЕ. После надевания блокированного силка, силок будет невозможно снять, даже имея нужный доступ."

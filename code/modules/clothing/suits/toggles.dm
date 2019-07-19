@@ -83,7 +83,7 @@
 	name = "winter hood"
 	desc = "A hood attached to a heavy winter jacket."
 	icon_state = "coatwinter_hood"
-	item_icons = list(slot_head_str = 'icons/mob/infinity/hats.dmi')
+	item_icons = list(slot_head_str = 'infinity/icons/mob/onmob/onmob_head.dmi')
 	body_parts_covered = HEAD
 	cold_protection = HEAD
 	flags_inv = HIDEEARS | BLOCKHAIR
@@ -148,7 +148,7 @@
 	action_button_name = "Toggle Hood"
 	hoodtype = /obj/item/clothing/head/hoodiehood
 	sprite_sheets = list(
-		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/suit.dmi',
+		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_suit_resomi.dmi',
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/suit.dmi'
 		)
 

@@ -254,8 +254,8 @@ obj/item/organ/external/take_general_damage(var/amount, var/silent = FALSE)
 	var/last_pain = pain
 	pain = max(0,min(max_damage,pain+amount))
 	if(owner && ((amount > 15 && prob(20)) || (amount > 30 && prob(60))))
-		owner.emote("scream")
-		agony_scream(owner)
+	//	owner.emote("scream")
+		owner.agony_scream() // inf-dev
 	return pain-last_pain
 
 /obj/item/organ/external/proc/stun_act(var/stun_amount, var/agony_amount)
@@ -264,7 +264,9 @@ obj/item/organ/external/take_general_damage(var/amount, var/silent = FALSE)
 		if((limb_flags & ORGAN_FLAG_CAN_GRASP) && prob(25))
 			owner.grasp_damage_disarm(src)
 
-		if((limb_flags & ORGAN_FLAG_CAN_STAND) && prob(min(agony_amount * ((body_part == LEG_LEFT || body_part == LEG_RIGHT)? 2 : 4),70)))
+		// to_world("Chance to stun: [min(agony_amount * ((body_part == FOOT_LEFT || body_part == FOOT_RIGHT)? 1.1 : 2),70)]")
+		// inf, bay original: body_part == LEG and 2 : 4; Should we lower * modifer to 1.5 and 2 ?
+		if((limb_flags & ORGAN_FLAG_CAN_STAND) && prob(min(agony_amount * ((body_part == FOOT_LEFT || body_part == FOOT_RIGHT)? 2 : 4),70)))
 			owner.stance_damage_prone(src)
 
 		if(vital && get_pain() > 0.5 * max_damage)

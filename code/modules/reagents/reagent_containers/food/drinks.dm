@@ -13,11 +13,6 @@
 	var/base_name = null // Name to put in front of drinks, i.e. "[base_name] of [contents]"
 	var/base_icon = null // Base icon name for fill states
 
-/obj/item/weapon/reagent_containers/food/drinks/Initialize()
-	. = ..()
-	if(is_open_container())
-		verbs += /obj/item/weapon/reagent_containers/food/drinks/proc/gulp_whole
-
 /obj/item/weapon/reagent_containers/food/drinks/on_reagent_change()
 	update_icon()
 	return
@@ -27,10 +22,15 @@
 		open(user)
 
 /obj/item/weapon/reagent_containers/food/drinks/proc/open(mob/user)
-	playsound(loc,'sound/effects/canopen.ogg', rand(10,50), 1)
+//	playsound(loc,'sound/effects/canopen.ogg', rand(10,50), 1) inf-dev: see below
 	to_chat(user, "<span class='notice'>You open \the [src] with an audible pop!</span>")
 	atom_flags |= ATOM_FLAG_OPEN_CONTAINER
+
+	// INF@CODE - START
 	verbs += /obj/item/weapon/reagent_containers/food/drinks/proc/gulp_whole
+	if(open_sound)
+		playsound(src, open_sound, rand(10, 50), 1)
+	// INF@CODE - END
 
 /obj/item/weapon/reagent_containers/food/drinks/attack(mob/M as mob, mob/user as mob, def_zone)
 	if(force && !(item_flags & ITEM_FLAG_NO_BLUDGEON) && user.a_intent == I_HURT)
@@ -51,7 +51,7 @@
 	if(user.a_intent == I_HURT)
 		if(reagents && reagents.total_volume)
 			to_chat(user, "<span class='notice'>You splash the contents of \the [src] onto [target].</span>") //They are on harm intent, aka wanting to spill it.
-			playsound(src,'sound/effects/Splash_Small_01_mono.ogg',50,1)
+			playsound(src,'infinity/sound/effects/Splash_Small_01_mono.ogg',50,1)
 			reagents.splash(target, reagents.total_volume)
 			return
 	..()
@@ -119,43 +119,6 @@
 	else
 		SetName(initial(name))
 		desc = initial(desc)
-
-/obj/item/weapon/reagent_containers/food/drinks/proc/gulp_whole()
-	set category = "Object"
-	set name = "Gulp Down"
-	set src in view(1)
-
-	if(!istype(usr.get_active_hand(), src))
-		to_chat(usr, SPAN_WARNING("You need to hold \the [src] in hands!"))
-		return
-
-	if(is_open_container())
-		if(!reagents || reagents.total_volume == 0)
-			to_chat(usr, "<span class='notice'>\The [src] is empty!</span>")
-		else
-			if(ishuman(usr))
-				var/mob/living/carbon/human/H = usr
-				if(!H.check_has_mouth())
-					to_chat(H, "Where do you intend to put \the [src]? You don't have a mouth!")
-					return
-				var/obj/item/blocked = H.check_mouth_coverage()
-				if(blocked)
-					to_chat(H, SPAN_WARNING("\The [blocked] is in the way!"))
-					return
-			if(reagents.total_volume > 30) // 30 equates to 3 SECONDS.
-				usr.visible_message(SPAN_NOTICE("[usr] prepares to gulp down [src]."), SPAN_NOTICE("You prepare to gulp down [src]."))
-			playsound(usr, 'sound/items/drinking.ogg', reagents.total_volume, 1)
-			if(!do_after(usr, reagents.total_volume))
-				if(!Adjacent(usr))
-					return
-				standard_splash_mob(src, src)
-			if(!Adjacent(usr))
-				return
-			usr.visible_message(SPAN_NOTICE("[usr] gulped down the whole [src]!"),SPAN_NOTICE("You gulped down the whole [src]!"))
-			playsound(usr, 'sound/items/drinking_after.ogg', reagents.total_volume, 1)
-			reagents.trans_to_mob(usr, reagents.total_volume, CHEM_INGEST)
-	else
-		to_chat(usr, SPAN_NOTICE("You need to open \the [src] first!"))
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Drinks. END
@@ -239,7 +202,7 @@
 /obj/item/weapon/reagent_containers/food/drinks/h_chocolate
 	name = "cup of hot cocoa"
 	desc = "A tall plastic cup of creamy hot chocolate."
-	icon_state = "hot_coco"
+	icon_state = "coffee"
 	item_state = "coffee"
 	center_of_mass = "x=15;y=13"
 
@@ -335,135 +298,6 @@
 	icon_state = "vacuumflask"
 	volume = 60
 	center_of_mass = "x=15;y=4"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup
-	name = "coffee cup"
-	desc = "A plain white coffee cup."
-	icon_state = "coffeecup"
-	item_state = "coffee"
-	volume = 30
-	center_of_mass = "x=15;y=13"
-	filling_states = "40;80;100"
-	base_name = "cup"
-	base_icon = "coffeecup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/black
-	name = "black coffee cup"
-	desc = "A sleek black coffee cup."
-	icon_state = "coffeecup_black"
-	base_name = "black cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/green
-	name = "green coffee cup"
-	desc = "A pale green and pink coffee cup."
-	icon_state = "coffeecup_green"
-	base_name = "green cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/heart
-	name = "heart coffee cup"
-	desc = "A white coffee cup, it prominently features a red heart."
-	icon_state = "coffeecup_heart"
-	base_name = "heart cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/SCG
-	name = "\improper SCG coffee cup"
-	desc = "A blue coffee cup emblazoned with the crest of the Sol Central Government."
-	icon_state = "coffeecup_SCG"
-	base_name = "\improper SCG cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/NT
-	name = "\improper NT coffee cup"
-	desc = "A red NanoTrasen coffee cup."
-	icon_state = "coffeecup_NT"
-	base_name = "NT cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/corp
-	name = "\improper EXO coffee cup"
-	desc = "A tasteful coffee cup in Expeditionary Corps Organisation corporate colours."
-	icon_state = "coffeecup_corp"
-	base_name = "EXO cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/one
-	name = "#1 coffee cup"
-	desc = "A white coffee cup, prominently featuring a #1."
-	icon_state = "coffeecup_one"
-	base_name = "#1 cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/punitelli
-	name = "#1 monkey coffee cup"
-	desc = "A white coffee cup, prominently featuring a \"#1 monkey\"."
-	icon_state = "coffeecup_punitelli"
-	base_name = "#1 monkey cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/punitelli/New()
-	..()
-	reagents.add_reagent(/datum/reagent/drink/juice/banana, 30)
-	update_icon()
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/rainbow
-	name = "rainbow coffee cup"
-	desc = "A rainbow coffee cup. The colors are almost as blinding as a welder."
-	icon_state = "coffeecup_rainbow"
-	base_name = "rainbow cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/metal
-	name = "metal coffee cup"
-	desc = "A metal coffee cup. You're not sure which metal."
-	icon_state = "coffeecup_metal"
-	base_name = "metal cup"
-	atom_flags = ATOM_FLAG_OPEN_CONTAINER
-	obj_flags = OBJ_FLAG_CONDUCTIBLE
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/STC
-	name = "ICCG coffee cup"
-	desc = "A coffee cup adorned with the flag of the Gilgamesh Colonial Confederation, for when you need some espionage charges to go with your morning coffee."
-	icon_state = "coffeecup_STC"
-	base_name = "ICCG cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/pawn
-	name = "pawn coffee cup"
-	desc = "A black coffee cup adorned with the image of a red chess pawn."
-	icon_state = "coffeecup_pawn"
-	base_name = "pawn cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/diona
-	name = "diona nymph coffee cup"
-	desc = "A green coffee cup featuring the image of a diona nymph."
-	icon_state = "coffeecup_diona"
-	base_name = "diona cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/britcup
-	name = "british coffee cup"
-	desc = "A coffee cup with the British flag emblazoned on it."
-	icon_state = "coffeecup_brit"
-	base_name = "british cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/tall
-	name = "tall coffee cup"
-	desc = "An unreasonably tall coffee cup, for when you really need to wake up in the morning."
-	icon_state = "coffeecup_tall"
-	volume = 60
-	center_of_mass = "x=15;y=19"
-	filling_states = "50;70;90;100"
-	base_name = "tall cup"
-	base_icon = "coffeecup_tall"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/dais
-	name = "\improper DAIS coffee cup"
-	desc = "A coffee cup imprinted with the stylish logo of Deimos Advanced Information Systems."
-	icon_state = "coffeecup_dais"
-	base_name = "DAIS cup"
-
-/obj/item/weapon/reagent_containers/food/drinks/coffeecup/teacup
-	name = "teacup"
-	desc = "A plain white porcelain teacup."
-	icon_state = "teacup"
-	item_state = "coffee"
-	volume = 20
-	center_of_mass = "x=15;y=13"
-	filling_states = "100"
-	base_name = "teacup"
-	base_icon = "teacup"
 
 //tea and tea accessories
 /obj/item/weapon/reagent_containers/food/drinks/tea

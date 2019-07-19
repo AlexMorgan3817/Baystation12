@@ -1,7 +1,5 @@
 #if !defined(using_map_DATUM)
 
-	#include "torch_define.dm"
-
 	#include "torch_announcements.dm"
 	#include "torch_antagonism.dm"
 	#include "torch_areas.dm"
@@ -116,6 +114,7 @@
 	#include "loadout/loadout_suit.dm"
 	#include "loadout/loadout_uniform.dm"
 	#include "loadout/loadout_xeno.dm"
+	#include "loadout/loadout_xinf.dm"
 	#include "loadout/~defines.dm"
 
 	#include "torch1_deck5.dmm"

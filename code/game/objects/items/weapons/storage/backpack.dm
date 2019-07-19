@@ -17,11 +17,6 @@
 		slot_l_hand_str = "backpack",
 		slot_r_hand_str = "backpack",
 		)
-	sprite_sheets = list(
-		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/back.dmi',
-		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/back.dmi'
-		)
-
 	w_class = ITEM_SIZE_HUGE
 	slot_flags = SLOT_BACK
 	max_w_class = ITEM_SIZE_LARGE
@@ -52,11 +47,9 @@
 	desc = "A backpack that opens into a localized pocket of Blue Space."
 	origin_tech = list(TECH_BLUESPACE = 4)
 	icon_state = "holdingpack"
+	max_w_class = ITEM_SIZE_NORMAL
 	max_storage_space = 56
-	item_icons = list(
-		slot_l_hand_str = 'icons/mob/infinity/lefthand.dmi',
-		slot_r_hand_str = 'icons/mob/infinity/righthand.dmi',
-		)
+
 /obj/item/weapon/storage/backpack/holding/New()
 	..()
 	return
@@ -153,7 +146,6 @@
 	desc = "A sturdy military-grade backpack with low-profile straps. Designed to work well with armor."
 	icon_state = "rucksack"
 	item_state_slots = list(slot_l_hand_str = "rucksack", slot_r_hand_str = "rucksack",)
-	sprite_sheets = list(SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/back.dmi')
 
 /obj/item/weapon/storage/backpack/rucksack/blue
 	name = "blue rucksack"
@@ -477,4 +469,3 @@
 	name = "corporate security messenger bag"
 	desc = "A tactical backpack worn over one shoulder. This is black and bottle green."
 	icon_state = "courierbagsec_exo"
-

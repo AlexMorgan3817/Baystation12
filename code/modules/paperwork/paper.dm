@@ -9,7 +9,7 @@
 /obj/item/weapon/paper
 	name = "sheet of paper"
 	gender = NEUTER
-	icon = 'icons/obj/bureaucracy_inf.dmi'
+	icon = 'infinity/icons/obj/bureaucracy.dmi'
 	icon_state = "paper"
 	item_state = "paper"
 	randpixel = 8
@@ -22,7 +22,7 @@
 	body_parts_covered = HEAD
 	attack_verb = list("bapped")
 	sprite_sheets = list(
-		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/head.dmi'
+		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_head_resomi.dmi'
 		)
 
 	var/info		//What's actually written on the paper.
@@ -406,7 +406,7 @@
 		if((!in_range(src, usr) && loc != user && !( istype(loc, /obj/item/weapon/material/clipboard) ) && loc.loc != user && user.get_active_hand() != P))
 			return
 
-		playsound(src,'sound/effects/Stamp2.ogg',40,1)
+		playsound(src,'infinity/sound/effects/Stamp2.ogg',40,1)
 		stamps += (stamps=="" ? "<HR>" : "<BR>") + "<i>This paper has been stamped with the [P.name].</i>"
 
 		var/image/stampoverlay = image('icons/obj/bureaucracy.dmi')
@@ -438,7 +438,7 @@
 		stamped += P.type
 		overlays += stampoverlay
 
-		playsound(src, 'sound/effects/stamp2.ogg', 50, 1)
+		playsound(src, 'infinity/sound/effects/stamp2.ogg', 50, 1)
 		to_chat(user, "<span class='notice'>You stamp the paper with your [P.name].</span>")
 
 	else if(istype(P, /obj/item/weapon/flame))

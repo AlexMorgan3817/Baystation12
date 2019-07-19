@@ -1,5 +1,5 @@
 /proc/add_note(target_ckey, notetext, timestamp, adminckey, logged = 1, server)
-	if(!usr.client.holder) return
+	if(!check_rights(R_INVESTIGATE, 1, usr)) return
 
 	if(!dbcon.IsConnected())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
@@ -46,7 +46,7 @@
 		notetext = sanitize_u2a(notetext)
 		log_admin("[key_name(usr)] has added a note to [target_ckey]: [notetext]")
 		message_admins("[key_name_admin(usr)] has added a note to [target_ckey]:<br>[notetext]")
-		send2adminlogirc("[key_name(usr)] добавил нотес игроку [target_ckey]: [notetext]")
+		send2adminirc("[get_key(usr)] добавил нотес игроку [target_ckey]: \"[notetext]\"")
 		show_note(target_ckey)
 
 /proc/remove_note(note_id)
@@ -54,7 +54,7 @@
 	var/notetext
 	var/adminckey
 
-	if(!usr.client.holder) return
+	if(!check_rights(R_INVESTIGATE, 1, usr)) return
 
 	if(!dbcon.IsConnected())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
@@ -79,11 +79,11 @@
 	notetext = sanitize_u2a(notetext)
 	log_admin("[key_name(usr)] has removed a note made by [adminckey] from [ckey]: [notetext]")
 	message_admins("[key_name_admin(usr)] has removed a note made by [adminckey] from [ckey]:<br>[notetext]")
-	send2adminlogirc("[key_name(usr)] убрал нотес от [adminckey] у игрока [ckey]: [notetext]")
+	send2adminirc("[get_key(usr)] убрал нотес от [adminckey] у игрока [ckey]: \"[notetext]\"")
 	show_note(ckey)
 
 /proc/edit_note(note_id)
-	if(!usr.client.holder) return
+	if(!check_rights(R_INVESTIGATE, 1, usr)) return
 
 	if(!dbcon.IsConnected())
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
@@ -118,6 +118,7 @@
 			return
 		log_admin("[key_name(usr)] has edited [target_ckey]'s note made by [adminckey] from [old_note] to [new_note]")
 		message_admins("[key_name_admin(usr)] has edited [target_ckey]'s note made by [adminckey] from<br>[old_note]<br>to<br>[new_note]")
+		send2adminirc("[get_key(usr)] изменил нотес [adminckey] у игрока [target_ckey] с - \"[old_note]\" на - \"[new_note]\"")
 		show_note(target_ckey)
 
 /proc/show_note(target_ckey, index, linkless = 0)
@@ -132,7 +133,7 @@
 	<input type='hidden' name='_src_' value='holder'>\
 	<input type='text' name='notessearch' value='[index]'>\
 	<input type='submit' value='Search'></form>"
-	if(!linkless && usr.client.holder)
+	if(!linkless && check_rights(R_INVESTIGATE, 0, usr))
 		output = navbar
 	if(target_ckey)
 		var/target_sql_ckey = sanitizeSQL(target_ckey)
@@ -143,7 +144,7 @@
 			to_chat(usr, "No DB connection founded. Please, report to development team. Code: TC.")
 			return
 		output += "<h2><center>Notes of [target_ckey]</center></h2>"
-		if(!linkless && usr.client.holder)
+		if(!linkless && check_rights(R_INVESTIGATE, 0, usr))
 			output += "<center><a href='?_src_=holder;addnote=[target_ckey]'>\[Add Note\]</a></center>"
 		output += ruler
 		while(query_get_notes.NextRow())
@@ -154,7 +155,7 @@
 			var/last_editor = query_get_notes.item[5]
 			var/server = query_get_notes.item[6]
 			output += "<b>[timestamp] | [server] | [adminckey]</b>"
-			if(!linkless && usr.client.holder)
+			if(!linkless && check_rights(R_INVESTIGATE, 0, usr))
 				output += " <a href='?_src_=holder;removenote=[id]'>\[Remove Note\]</a> <a href='?_src_=holder;editnote=[id]'>\[Edit Note\]</a>"
 				if(last_editor)
 					output += " <font size='2'>Last edit by [last_editor] <a href='?_src_=holder;noteedits=[id]'>(Click here to see edit log)</a></font>"
@@ -162,7 +163,7 @@
 	else if(index)
 		var/index_ckey
 		var/search
-		if(usr.client.holder)
+		if(check_rights(R_INVESTIGATE, 0, usr))
 			output += "<center><a href='?_src_=holder;addnoteempty=1'>\[Add Note\]</a></center>"
 		output += ruler
 		if(!isnum(index))
@@ -184,7 +185,7 @@
 			index_ckey = query_list_notes.item[1]
 			output += "<a href='?_src_=holder;shownoteckey=[index_ckey]'>[index_ckey]</a><br>"
 	else
-		if(usr.client.holder)
+		if(check_rights(R_INVESTIGATE, 0, usr))
 			output += "<center><a href='?_src_=holder;addnoteempty=1'>\[Add Note\]</a></center>"
 		output += ruler
 	show_browser(usr, output, "window=show_notes;size=900x500")

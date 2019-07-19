@@ -154,7 +154,7 @@ var/const/NO_EMAG_ACT = -50
 /obj/item/weapon/card/emag/examine(mob/user)
 	. = ..()
 	if(. && user.skill_check(SKILL_DEVICES,SKILL_ADEPT))
-		to_chat(user, SPAN_WARNING("This ID card has some non-standard modifications commonly used to gain illicit access to computer systems."))
+		to_chat(user, SPAN_WARNING("This ID card has some form of non-standard modifications."))
 
 /obj/item/weapon/card/id
 	name = "identification card"
@@ -164,7 +164,7 @@ var/const/NO_EMAG_ACT = -50
 	slot_flags = SLOT_ID
 
 	sprite_sheets = list(
-		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/id.dmi',
+		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_id_resomi.dmi',
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/id.dmi'
 		)
 
@@ -410,7 +410,13 @@ var/const/NO_EMAG_ACT = -50
 
 /obj/item/weapon/card/id/centcom/ERT/New()
 	..()
-	access |= get_all_station_access()
+//	access |= get_all_station_access() inf-dev
+	access |= list(
+		access_security, access_medical, access_engine, access_network, access_maint_tunnels,
+		access_emergency_storage, access_bridge, access_janitor, access_kitchen,
+		access_cargo, access_mailsorting, access_RC_announce, access_keycard_auth,
+		access_external_airlocks, access_eva, access_cent_creed
+		)
 
 /obj/item/weapon/card/id/foundation
 	name = "\improper Foundation warrant card"

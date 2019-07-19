@@ -133,6 +133,7 @@
 
 				message_admins("[key_name_admin(usr)] removed [adm_ckey] from the admins list")
 				log_admin("[key_name(usr)] removed [adm_ckey] from the admins list")
+				send2adminirc("[get_key(usr)] удалил ранг у игрока: \"[adm_ckey]\"")
 				log_admin_rank_modification(adm_ckey, "Removed")
 
 		else if(task == "rank")
@@ -179,6 +180,7 @@
 			message_admins("[key_name_admin(usr)] edited the admin rank of [adm_ckey] to [new_rank]")
 			log_admin("[key_name(usr)] edited the admin rank of [adm_ckey] to [new_rank]")
 			log_permissions("[key_name(usr)] edited the admin rank of [adm_ckey] to [new_rank]")
+			send2adminirc("[get_key(usr)] изменил ранг игрока: \"[adm_ckey]\" на \"[new_rank]\"")
 			log_admin_rank_modification(adm_ckey, new_rank)
 
 		else if(task == "permissions")
@@ -196,6 +198,7 @@
 			log_admin("[key_name(usr)] toggled the [new_permission] permission of [adm_ckey]")
 			log_permissions("[key_name(usr)] toggled the [new_permission] permission of [adm_ckey]")
 			log_admin_permission_modification(adm_ckey, permissionlist[new_permission])
+			send2adminirc("[get_key(usr)] переключил флаг: \"[new_permission]\" игроку: \"[adm_ckey]\"")
 
 		edit_admin_permissions()
 
@@ -789,6 +792,8 @@
 							msg += ", [job]"
 					add_note(M.ckey, "Banned  from [msg] - [reason]", null, usr.ckey, 0)
 					message_admins("[key_name_admin(usr)] banned [key_name_admin(M)] from [msg] for [mins] minutes", 1)
+					to_world(SPAN_NOTICE("<b>JOB-BAN: Администратор [get_key(usr)] временно заблокировал(а) роли ([msg]) игроку [get_key(M)]. Причина: \"[reason]\"; Срок - [mins] минут.</b>"))
+					send2adminlogirc("Администратор [get_key(usr)] временно заблокировал(а) роли ([msg]) игроку [get_key(M)]. Причина: \"[reason]\"; Срок - [mins] минут.")
 					to_chat(M, "<span class='danger'>You have been jobbanned by [usr.client.ckey] from: [msg].</span>")
 					to_chat(M, "<span class='warning'>The reason is: [reason]</span>")
 					to_chat(M, "<span class='warning'>This jobban will be lifted in [mins] minutes.</span>")
@@ -811,6 +816,8 @@
 							else		msg += ", [job]"
 						add_note(M.ckey, "Banned  from [msg] - [reason]", null, usr.ckey, 0)
 						message_admins("[key_name_admin(usr)] banned [key_name_admin(M)] from [msg]", 1)
+						to_world(SPAN_NOTICE("<b>JOB-BAN: Администратор [get_key(usr)] перманентно заблокировал(а) роли ([msg]) игроку [get_key(M)]. Причина: \"[reason]\"</b>"))
+						send2adminlogirc("Администратор [get_key(usr)] перманентно заблокировал(а) роли ([msg]) игроку [get_key(M)]. Причина: \"[reason]\"")
 						to_chat(M, "<span class='danger'>You have been jobbanned by [usr.client.ckey] from: [msg].</span>")
 						to_chat(M, "<span class='warning'>The reason is: [reason]</span>")
 						to_chat(M, "<span class='warning'>Jobban can be lifted only upon request.</span>")
@@ -890,6 +897,11 @@
 		var/mob/M = locate(href_list["newban"])
 		if(!ismob(M)) return
 
+		if(alert("ВНИМАНИЕ!\n \
+		Данный тип блокировки подразумевает полное отлучение игрока от сервера и он применим в случае экстренной ситуации (нарушение УК России, обход блокировок или эксплойты).\n \
+		Если случай не подходит под критерий \"серьёзно\" то используйте softban.",,"Continue", "Cancel") == "Cancel")
+			return
+
 		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
 
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
@@ -901,13 +913,13 @@
 					to_chat(usr, "<span class='warning'>Moderators can only job tempban up to [config.mod_tempban_max] minutes!</span>")
 					return
 				if(mins >= 525600) mins = 525599
-				var/reason = sanitize(input(usr,"Reason?","reason","Griefer") as text|null)
+				var/reason = sanitize(input(usr,"Reason?","reason","Ultra-Griefer") as text|null)
 				reason = sanitize_a0(reason)
 				if(!reason)
 					return
 				AddBan(M.ckey, M.computer_id, reason, usr.ckey, 1, mins)
 				ban_unban_log_save("[usr.client.ckey] has HARD banned [M.ckey]. - Reason: [reason] - This will be removed in [mins] minutes.")
-				add_note(M.ckey,"[usr.client.ckey] has banned [M.ckey]. - Reason: [reason] - This will be removed in [mins] minutes.", null, usr.ckey, 0)
+				add_note(M.ckey,"[usr.client.ckey] has hard banned [M.ckey]. - Reason: [reason] - This will be removed in [mins] minutes.", null, usr.ckey, 0)
 				to_chat(M, "<span class='danger'><BIG>Вы были ЖЕСТКО забанены администратором [key_name(usr)].\nПричина: [reason]</BIG></span>")
 				to_chat(M, "<span class='warning'>Это временный бан, он истечет через [mins] минут.</span>")
 				SSstatistics.add_field("ban_tmp",1)
@@ -917,7 +929,7 @@
 					to_chat(M, "<span class='warning'>Чтобы оспорить решение администратора, перейдите сюда: [config.banappeals]</span>")
 				else
 					to_chat(M, "<span class='warning'>No ban appeals URL has been set.</span>")
-				log_and_message_admins("has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes.")
+				log_and_message_admins("has hard banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes.")
 
 				qdel(M.client)
 				//qdel(M)	// See no reason why to delete mob. Important stuff can be lost. And ban can be lifted before round ends.
@@ -2167,84 +2179,10 @@
 	if(href_list["stickyban"])
 		stickyban(href_list["stickyban"],href_list)
 
-	if(href_list["pmp_play"])
-		if(!check_rights(R_ADMIN|R_FUN, 0, usr))
-			return
-
-		var/obj/item/device/pmp/pmp = locate(href_list["pmp_play"])
-		if(!pmp)
-			return
-
-		pmp.attack_self(usr)
-		pmp_control_panel()
-		return
-
-	if(href_list["pmp_volume"])
-		if(!check_rights(R_ADMIN|R_FUN, 0, usr))
-			return
-
-		var/obj/item/device/pmp/pmp = locate(href_list["pmp_volume"])
-		if(!pmp)
-			return
-
-		var/vol = input(usr, "What volume would you like the sound to play at? (maximum number is 50)",, pmp.volume) as null|num
-		if(vol)
-			pmp.AdjustVolume(vol)
-		pmp_control_panel()
-		return
-
-	if(href_list["pmp_explode"])
-		if(!check_rights(R_ADMIN|R_FUN, 0, usr))
-			return
-
-		var/obj/item/device/pmp/pmp = locate(href_list["pmp_explode"])
-		if(!pmp)
-			return
-
-		switch(alert("Do you really want explode this?",,"Yes","No"))
-			if("Yes")
-				pmp.explode()
-				log_and_message_admins("launched self-destruction mechanism in [pmp] <a href='?_src_=holder;adminplayerobservefollow=\ref[pmp]'>#[pmp.serial_number]</a>.")
-		pmp_control_panel()
-		return
-
-	if(href_list["listensound"])
-		var/sound/S = sound(locate(href_list["listensound"]))
-		if(!S)
-			return
-		S.channel = 703
-		sound_to(usr, S)
-		to_chat(usr, "<B><A HREF='?_src_=holder;stoplistensound=1'>Stop listening</A></B>")
-
-	if(href_list["stoplistensound"])
-		var/sound/S = sound(null)
-		S.channel = 703
-		sound_to(usr, S)
 /*	if(href_list["show_skills"])
 		var/mob/living/carbon/human/M = locate(href_list["show_skills"])
 		show_skill_window(usr, M)
 		skillset.open_ui(usr, M)*/
-	if(href_list["wipedata"])
-		var/obj/item/device/cassette/cassette = locate(href_list["wipedata"])
-		if(!cassette.track)
-			to_chat(usr, "This cassette have no data or already is wiped.")
-			return
-
-		if(alert("Wipe data written by [(cassette.uploader_ckey) ? cassette.uploader_ckey : "<b>*NULL*</b>"]?",,"Yes", "No") == "Yes")
-			if(istype(cassette.loc, /obj/machinery/media/jukebox))
-				var/obj/machinery/media/jukebox/J = cassette.loc
-				if(J.current_track && J.current_track == cassette.track)
-					J.StopPlaying()
-					J.current_track = null
-
-			if(istype(cassette.loc, /obj/item/device/pmp))
-				var/obj/item/device/pmp/pmp = cassette.loc
-				if(pmp.playing)
-					pmp.StopPlaying()
-
-			qdel(cassette.track)
-			cassette.ruin()
-			cassette.name = "burned cassette"
 
 mob/living/proc/can_centcom_reply()
 	return 0

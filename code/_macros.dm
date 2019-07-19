@@ -33,8 +33,6 @@
 
 #define is_drone(A) istype(A, /mob/living/silicon/robot/drone)
 
-#define is_bot(A) istype(A, /mob/living/bot)
-
 #define isEye(A) istype(A, /mob/observer/eye)
 
 #define ishuman(A) istype(A, /mob/living/carbon/human)
@@ -81,23 +79,9 @@
 
 #define isopenspace(A) istype(A, /turf/simulated/open)
 
-#define isWrench(A) istype(A, /obj/item/weapon/wrench)
-
-#define isWelder(A) istype(A, /obj/item/weapon/weldingtool)
-
-#define isCoil(A) istype(A, /obj/item/stack/cable_coil)
-
-#define isWirecutter(A) istype(A, /obj/item/weapon/wirecutters)
-
-#define isScrewdriver(A) istype(A, /obj/item/weapon/screwdriver)
-
-#define isMultitool(A) istype(A, /obj/item/device/multitool)
-
-#define isMultimeter(A) istype(A, /obj/item/device/multitool/multimeter)
-
-#define isCrowbar(A) istype(A, /obj/item/weapon/crowbar)
-
 #define isPlunger(A) istype(A, /obj/item/clothing/mask/plunger) || istype(A, /obj/item/device/plunger/robot)
+
+#define isspecies(A, B) (iscarbon(A) && A:species?.name == B)
 
 #define sequential_id(key) uniqueness_repository.Generate(/datum/uniqueness_generator/id_sequential, key)
 
@@ -183,17 +167,17 @@
 
 #define FLAGS_EQUALS(flag, flags) ((flag & (flags)) == (flags))
 
-#define isopenturf(target) istype(target, /turf/simulated/open)
-
 #define JOINTEXT(X) jointext(X, null)
+
+#define SPAN_ITALIC(X) "<span class='italic'>[X]</span>"
+
+#define SPAN_BOLD(X) "<span class='bold'>[X]</span>"
 
 #define SPAN_NOTICE(X) "<span class='notice'>[X]</span>"
 
 #define SPAN_WARNING(X) "<span class='warning'>[X]</span>"
 
 #define SPAN_DANGER(X) "<span class='danger'>[X]</span>"
-
-#define SPAN_LING(X) "<span class='changeling'>[X]</span>"
 
 #define SPAN_OCCULT(X) "<span class='cult'>[X]</span>"
 

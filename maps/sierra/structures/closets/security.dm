@@ -63,7 +63,6 @@
 		/obj/item/weapon/gun/energy/gun/secure,
 		/obj/item/weapon/melee/telebaton,
 		/obj/item/device/taperecorder,
-		/obj/item/device/tape/random = 3,
 		/obj/item/weapon/reagent_containers/spray/pepper,
 		/obj/item/clothing/accessory/storage/black_vest,
 		/obj/item/device/remote_device/head_of_security,
@@ -74,6 +73,7 @@
 		/obj/item/weapon/crowbar/prybar,
 		/obj/item/device/radio/off,
 		/obj/item/clothing/mask/gas/half,
+		/obj/item/weapon/storage/firstaid/individual/military
 	)
 
 /obj/structure/closet/secure_closet/warden/sierra
@@ -110,6 +110,7 @@
 		/obj/item/weapon/crowbar/prybar,
 		/obj/item/device/radio/off,
 		/obj/item/clothing/mask/gas/half,
+		/obj/item/weapon/storage/firstaid/individual/military
 	)
 
 /obj/structure/closet/secure_closet/forensics
@@ -142,6 +143,7 @@
 		/obj/item/weapon/crowbar/prybar,
 		/obj/item/device/radio/off,
 		/obj/item/clothing/mask/gas/half,
+		/obj/item/weapon/storage/firstaid/individual/military
 	)
 
 /obj/structure/closet/secure_closet/security/sierra
@@ -174,4 +176,5 @@
 		/obj/item/weapon/crowbar/prybar,
 		/obj/item/device/radio/off,
 		/obj/item/clothing/mask/gas/half,
+		/obj/item/weapon/storage/firstaid/individual/military
 	)

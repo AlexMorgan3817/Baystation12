@@ -94,8 +94,7 @@ var/list/admin_verbs_admin = list(
 	/client/proc/reestablish_db_connection,
 	/client/proc/investigate_show,
 	/datum/admins/proc/show_skills,
-	/datum/admins/proc/paralyze_mob,
-	/client/proc/cmd_admin_subtle_message
+	/datum/admins/proc/paralyze_mob
 	)
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
@@ -127,7 +126,7 @@ var/list/admin_verbs_fun = list(
 	/datum/admins/proc/ai_hologram_set,
 	/datum/admins/proc/intercom,		//send a fake intercom message, like an arrivals announcement,
 	/datum/admins/proc/intercom_convo,	//send a fake intercom conversation, like an ATC exchange,
-	/datum/admins/proc/pmp_control_panel,
+	/datum/admins/proc/mp_panel,
 	/proc/possess,
 	/proc/release
 	)
@@ -302,8 +301,7 @@ var/list/admin_verbs_hideable = list(
 	/proc/possess,
 	/proc/release,
 	/datum/admins/proc/show_skills,
-	/datum/admins/proc/paralyze_mob,
-	/client/proc/cmd_admin_subtle_message
+	/datum/admins/proc/paralyze_mob
 	)
 var/list/admin_verbs_mod = list(
 	/client/proc/cmd_admin_pm_context,
@@ -530,7 +528,9 @@ var/list/admin_verbs_mentor = list(
 		C.prefs.ooccolor = input(src, "Please select your OOC colour.", "OOC colour") as color
 	else if(response == "Reset to default")
 		C.prefs.ooccolor = initial(C.prefs.ooccolor)
-	if(C != src)
+	else
+		return
+	if(C && C != src)
 		to_chat(C, SPAN_NOTICE("[src] changed your OOC color to [C.prefs.ooccolor == initial(C.prefs.ooccolor) ? "default" : C.prefs.ooccolor]."))
 	log_and_message_admins("changed [C == src ? "his own" : "[C]"] OOC color to [C.prefs.ooccolor == initial(C.prefs.ooccolor) ? "default" : C.prefs.ooccolor].")
 	SScharacter_setup.queue_preferences_save(C.prefs)
@@ -967,20 +967,3 @@ var/list/admin_verbs_mentor = list(
 	T.add_spell(new S)
 	SSstatistics.add_field_details("admin_verb","GS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	log_and_message_admins("gave [key_name(T)] the spell [S].")
-
-/client/proc/observe_delay()
-	set name = "Change roundstart observe delay"
-	set category = "Server"
-
-	if(!holder)
-		return
-
-	var/oldtime = config.observe_delay
-	var/newtime = input("Set a new time. Its must be in MINUTES (not in seconds/byond tick). Set 0 to remove delay.", "Set Delay") as num|null
-
-	if(newtime <= 0)
-		log_and_message_admins("Admin [key_name_admin(usr)] has disabled observe delay.")
-	else
-		log_and_message_admins("Admin [key_name_admin(usr)] has changed observe delay from [oldtime] to [newtime] minutes.")
-
-	config.observe_delay = newtime

@@ -21,7 +21,7 @@ meteor_act
 		else
 			P.on_hit(src, 100, def_zone)
 			return 100
-	var/damage_multiplier = list(BP_HEAD = 1.5, BP_CHEST = 1.3, BP_GROIN = 0.95, BP_L_LEG = 0.7, BP_R_LEG = 0.7,
+	var/damage_multiplier = list(BP_HEAD = 1.0, BP_CHEST = 1.0, BP_GROIN = 0.8, BP_L_LEG = 0.7, BP_R_LEG = 0.7,
 	BP_L_ARM = 0.7, BP_R_ARM = 0.7, BP_L_HAND = 0.3, BP_R_HAND = 0.3, BP_R_FOOT = 0.3, BP_L_FOOT = 0.3)
 	P.damage *=  damage_multiplier [def_zone]
 	var/obj/item/organ/external/organ = get_organ(def_zone)
@@ -29,14 +29,15 @@ meteor_act
 	var/penetrating_damage = ((P.damage + P.armor_penetration) * P.penetration_modifier) - blocked
 
 	//Embed or sever artery
-	if(P.can_embed() && blocked < 1  && !(species.species_flags & SPECIES_FLAG_NO_EMBED) && prob(22.5 + max(penetrating_damage, -10)) && !(prob(50) && (organ.sever_artery())))
-		var/obj/item/weapon/material/shard/shrapnel/SP = new P.shrapnel_type()
-		SP.SetName((P.name != "shrapnel")? "[P.name] shrapnel" : "shrapnel")
-		SP.desc = "[SP.desc] It looks like it was fired from [P.shot_from]."
-		SP.forceMove(organ)
-		organ.embed(SP)
+	if(blocked < 1) //inf-dev
+		if(P.can_embed() && !(species.species_flags & SPECIES_FLAG_NO_EMBED) && prob(22.5 + max(penetrating_damage, -10)) && !(prob(50) && (organ.sever_artery())))
+			var/obj/item/weapon/material/shard/shrapnel/SP = new P.shrapnel_type()
+			SP.SetName((P.name != "shrapnel")? "[P.name] shrapnel" : "shrapnel")
+			SP.desc = "[SP.desc] It looks like it was fired from [P.shot_from]."
+			SP.forceMove(organ)
+			organ.embed(SP)
 
-	projectile_hit_bloody(P, P.damage*blocked_mult(blocked), def_zone)
+		projectile_hit_bloody(P, P.damage*blocked_mult(blocked), def_zone)
 
 	radio_interrupt_cooldown = world.time + (RADIO_INTERRUPT_DEFAULT * 0.8)
 
@@ -171,6 +172,8 @@ meteor_act
 	var/obj/item/organ/external/affecting = get_organ(hit_zone)
 	if(!affecting)
 		return //should be prevented by attacked_with_item() but for sanity.
+
+	if(stat != DEAD) receive_damage() //infinity
 
 	visible_message("<span class='danger'>[src] has been [I.attack_verb.len? pick(I.attack_verb) : "attacked"] in the [affecting.name] with [I.name] by [user]!</span>")
 	return standard_weapon_hit_effects(I, user, effective_force, hit_zone)

@@ -174,10 +174,10 @@
 		message_admins("[key_name_admin(user)]<A HREF='?_src_=holder;adminmoreinfo=\ref[user]'>?</A> (<A HREF='?_src_=holder;adminplayerobservefollow=\ref[user]'>FLW</A>) прочитал(а) книгу [name]/[title].")
 		log_game("[user.ckey]/[user.real_name] прочитал(а) книгу [name]/[title].")
 		onclose(user, "book")
-		playsound(src.loc, pick('sound/items/BOOK_Turn_Page_1.ogg',\
-			'sound/items/BOOK_Turn_Page_2.ogg',\
-			'sound/items/BOOK_Turn_Page_3.ogg',\
-			'sound/items/BOOK_Turn_Page_4.ogg',\
+		playsound(src.loc, pick('infinity/sound/items/BOOK_Turn_Page_1.ogg',\
+			'infinity/sound/items/BOOK_Turn_Page_2.ogg',\
+			'infinity/sound/items/BOOK_Turn_Page_3.ogg',\
+			'infinity/sound/items/BOOK_Turn_Page_4.ogg',\
  			), rand(40,80), 1)
 	else
 		to_chat(user, "This book is completely blank!")
@@ -250,4 +250,27 @@
 /obj/item/weapon/book/manual
 	icon = 'icons/obj/library.dmi'
 	unique = 1   // 0 - Normal book, 1 - Should not be treated as normal book, unable to be copied, unable to be modified
-	var/url // Full link to wiki-page
+	var/url // Using full url or just tittle, example - Standard_Operating_Procedure (https://wiki.baystation12.net/index.php?title=Standard_Operating_Procedure)
+
+/obj/item/weapon/book/manual/New()
+	..()
+	if(url)		// URL provided for this manual
+		// If we haven't wikiurl or it included in url - just use url
+		if(config.wikiurl && !findtextEx(url, config.wikiurl, 1, length(config.wikiurl)+1))
+			// If we have wikiurl, but it hasn't "index.php" then add it and making full link in url
+			if(config.wikiurl && !findtextEx(config.wikiurl, "/index.php", -10))
+				if(findtextEx(config.wikiurl, "/", -1))
+					url = config.wikiurl + "index.php?title=" + url
+				else
+					url = config.wikiurl + "/index.php?title=" + url
+			else	//Or just making full link in url
+				url = config.wikiurl + "?title=" + url
+		dat = {"
+			<html>
+				<head>
+				</head>
+				<body>
+					<iframe width='100%' height='100%' src="[url]&printable=yes&remove_links=1" frameborder="0" id="main_frame"></iframe>
+				</body>
+			</html>
+			"}

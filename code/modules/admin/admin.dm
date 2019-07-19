@@ -64,33 +64,39 @@ var/global/floorIsLava = 0
 		<a href='?src=\ref[src];traitor=\ref[M]'>TP</a> -
 		<a href='?src=\ref[usr];priv_msg=\ref[M]'>PM</a> -
 		<a href='?src=\ref[src];narrateto=\ref[M]'>DN</a> -
-		[admin_jump_link(M, src)]\] <br>
-		<a href='?src=\ref[src];subtlemessage=\ref[M]'>SM</a> -
 		<a href='?src=\ref[src];show_skills=\ref[M]'>SS</a> -
-		[admin_jump_link(M, src)]\] <br/><br/>
-		<b>Client Information:</b><br>
+		[admin_jump_link(M, src)]\]
+	"}
 
-		<b>Client [M.client ? "On" : "Off"]line</b><br>
-		<b>Ckey:</b> [M.client ? M.client.ckey : M.ckey]<br>
-		<b>Client Age:</b> [M.client ? "[M.client.player_age] days" : "Logged out"]<br>
-		<b>Client Gender:</b> [M.client ? M.client.gender : "Logged out"]<br>
-		<b>CID:</b> [M.client ?  M.client.computer_id : M.computer_id]<br>
-		<b>CID Related Accounts:</b> [M.client ? M.client.related_accounts_cid : "Logged out"]<br>
-		<b>IP:</b> [M.client ?  M.client.address : M.lastKnownIP]<br>
-		<b>IP Related Accounts:</b> [M.client ? M.client.related_accounts_ip : "Logged out"]<br>"}
+	// INF START
+	body += "<br>"
+	body += "<b>Client Information:</b><br>"
+
+	body += "<br>\[<b>Client [M.client ? "On" : "Off"]line</b>\]"
+	body += "<br>\[<b>Ckey:</b> [M.client ? M.client.ckey : M.ckey]\]"
+	body += "<br>\[<b>Client Age:</b> [M.client ? "[M.client.player_age] days" : "Logged out"]\]"
+	body += "<br>\[<b>Client Gender:</b> [M.client ? M.client.gender : "Logged out"]\]"
+	body += "<br>\[<b>CID:</b> [M.client ?  M.client.computer_id : M.computer_id]\]"
+	body += "<br>\[<b>CID Related Accounts:</b> [M.client ? M.client.related_accounts_cid : "Logged out"]\]"
+	body += "<br>\[<b>IP:</b> [M.client ?  M.client.address : M.lastKnownIP]\]"
+	body += "<br>\[<b>IP Related Accounts:</b> [M.client ? M.client.related_accounts_ip : "Logged out"]\]"
+	var/full_version = "Unknown"
+	if(M.client.byond_version)
+		full_version = "[M.client.byond_version].[M.client.byond_build ? M.client.byond_build : "xxx"]"
+	body += "<br>\[<b>Byond version:</b> [full_version]\]"
+	body += "<br><br>"
+	// INF END
 
 	body += {"
-		[admin_jump_link(M, src)]<br>
 		<b>Mob type:</b> [M.type]<br>
 		<b>Inactivity time:</b> [M.client ? "[M.client.inactivity/600] minutes" : "Logged out"]<br/><br/>
 		<A href='?src=\ref[src];boot2=\ref[M]'>Kick</A> |
 		<A href='?_src_=holder;warn=[M.ckey]'>Warn</A> |
-		<A href='?src=\ref[src];softban=\ref[M]'>Soft Ban</A> |
 		<A href='?src=\ref[src];newban=\ref[M]'>Ban</A> |
+		<A href='?src=\ref[src];softban=\ref[M]'>Soft Ban</A> |
 		<A href='?src=\ref[src];jobban2=\ref[M]'>Jobban</A> |
-		<A href='?_src_=holder;sendbacktolobby=\ref[M]'>Send back to Lobby</A> |
-		<A href='?src=\ref[src];shownoteckey=[M.ckey]'>Notes</A>
-		<A href='?src=\ref[src];notes=show;mob=\ref[M]'>Notes</A>
+		<A href='?src=\ref[src];notes=show;mob=\ref[M]'>Notes</A> |
+		<A href='?_src_=holder;sendbacktolobby=\ref[M]'>Send back to Lobby</A>
 	"}
 
 	if(M.client)
@@ -118,8 +124,7 @@ var/global/floorIsLava = 0
 		<br><br>
 		[check_rights(R_ADMIN|R_MOD,0) ? "<A href='?src=\ref[src];traitor=\ref[M]'>Traitor panel</A> | " : "" ]
 		[check_rights(R_INVESTIGATE,0) ? "<A href='?src=\ref[src];skillpanel=\ref[M]'>Skill panel</A> | " : "" ]
-		<A href='?src=\ref[src];narrateto=\ref[M]'>Narrate to</A> |
-		<A href='?src=\ref[src];subtlemessage=\ref[M]'>Subtle message</A>
+		<A href='?src=\ref[src];narrateto=\ref[M]'>Narrate to</A>
 	"}
 
 	if(M.mind)
@@ -130,9 +135,11 @@ var/global/floorIsLava = 0
 		body += "<br>"
 		body += "<a href='?src=\ref[M.mind];add_goal=1'>Add Random Goal</a>"
 
-	body += "<br><br>"
-	body += "<b>Psionics:</b><br/>"
+	//body += "<br><br>"
+	//body += "<b>Psionics:</b><br/>" inf, see below
 	if(isliving(M))
+		body += "<br><br>"
+		body += "<b>Psionics:</b><br/>"
 		var/mob/living/psyker = M
 		if(psyker.psi)
 			body += "<a href='?src=\ref[psyker.psi];remove_psionics=1'>Remove psionics.</a><br/><br/>"
@@ -743,111 +750,6 @@ var/global/floorIsLava = 0
 		to_world("<span class=notice><b>[usr.key] Announces:</b><p style='text-indent: 50px'>[message]</p></span>")
 		log_admin("Announce: [key_name(usr)] : [message]")
 	SSstatistics.add_field_details("admin_verb","A") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-/datum/admins/proc/intercom()
-	set category = "Fun"
-	set name = "Intercom Msg"
-	set desc = "Send an intercom message, like an arrivals announcement."
-	if(!check_rights(0))	return
-
-	var/channel = input("Channel for message:","Channel", null) as null|anything in radiochannels
-
-	if(channel) //They picked a channel
-		var/sender = input("Name of sender (max 75):", "Announcement", "Announcement Computer") as null|text
-
-		if(sender) //They put a sender
-			sender = sanitize(sender, 75, extra = 0)
-			var/message = input("Message content (max 500):", "Contents", "This is a test of the announcement system.") as null|message
-
-			if(message) //They put a message
-				message = sanitize(message, 500, extra = 0)
-				GLOB.global_announcer.autosay("[message]", "[sender]", "[channel == "Common" ? null : channel]") //Common is a weird case, as it's not a "channel", it's just talking into a radio without a channel set.
-				log_admin("Intercom: [key_name(usr)] : [sender]:[message]")
-
-	SSstatistics.add_field("admin_verb","IN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-/datum/admins/proc/intercom_convo()
-	set category = "Fun"
-	set name = "Intercom Convo"
-	set desc = "Send an intercom conversation, like several uses of the Intercom Msg verb."
-	set waitfor = FALSE //Why bother? We have some sleeps. You can leave tho!
-	if(!check_rights(0))	return
-
-	var/channel = input("Channel for message:","Channel", null) as null|anything in radiochannels
-
-	if(!channel) //They picked a channel
-		return
-
-	to_chat(usr,"<span class='notice'><B>Intercom Convo Directions</B><br>Start the conversation with the sender, a pipe (|), and then the message on one line. Then hit enter to \
-		add another line, and type a (whole) number of seconds to pause between that message, and the next message, then repeat the message syntax up to 20 times. For example:<br>\
-		--- --- ---<br>\
-		Some Guy|Hello guys, what's up?<br>\
-		5<br>\
-		Other Guy|Hey, good to see you.<br>\
-		5<br>\
-		Some Guy|Yeah, you too.<br>\
-		--- --- ---<br>\
-		The above will result in those messages playing, with a 5 second gap between each. Maximum of 20 messages allowed.</span>")
-
-	var/list/decomposed
-	var/message = input(usr,"See your chat box for instructions. Keep a copy elsewhere in case it is rejected when you click OK.", "Input Conversation", "") as null|message
-
-	if(!message)
-		return
-
-	//Split on pipe or \n
-	decomposed = splittext(message,regex("\\||$","m"))
-	decomposed += "0" //Tack on a final 0 sleep to make 3-per-message evenly
-
-	//Time to find how they screwed up.
-	//Wasn't the right length
-	if((decomposed.len) % 3) //+1 to accomidate the lack of a wait time for the last message
-		to_chat(usr,"<span class='warning'>You passed [decomposed.len] segments (senders+messages+pauses). You must pass a multiple of 3, minus 1 (no pause after the last message). That means a sender and message on every other line (starting on the first), separated by a pipe character (|), and a number every other line that is a pause in seconds.</span>")
-		return
-
-	//Too long a conversation
-	if((decomposed.len / 3) > 20)
-		to_chat(usr,"<span class='warning'>This conversation is too long! 20 messages maximum, please.</span>")
-		return
-
-	//Missed some sleeps, or sanitized to nothing.
-	for(var/i = 1; i < decomposed.len; i++)
-
-		//Sanitize sender
-		var/clean_sender = sanitize(decomposed[i])
-		if(!clean_sender)
-			to_chat(usr,"<span class='warning'>One part of your conversation was not able to be sanitized. It was the sender of the [(i+2)/3]\th message.</span>")
-			return
-		decomposed[i] = clean_sender
-
-		//Sanitize message
-		var/clean_message = sanitize(decomposed[++i])
-		if(!clean_message)
-			to_chat(usr,"<span class='warning'>One part of your conversation was not able to be sanitized. It was the body of the [(i+2)/3]\th message.</span>")
-			return
-		decomposed[i] = clean_message
-
-		//Sanitize wait time
-		var/clean_time = text2num(decomposed[++i])
-		if(!isnum(clean_time))
-			to_chat(usr,"<span class='warning'>One part of your conversation was not able to be sanitized. It was the wait time after the [(i+2)/3]\th message.</span>")
-			return
-		if(clean_time > 60)
-			to_chat(usr,"<span class='warning'>Max 60 second wait time between messages for sanity's sake please.</span>")
-			return
-		decomposed[i] = clean_time
-
-	log_admin("Intercom convo started by: [key_name(usr)] : [sanitize(message)]")
-	SSstatistics.add_field("admin_verb","IN") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-	//Sanitized AND we still have a chance to send it? Wow!
-	if(LAZYLEN(decomposed))
-		for(var/i = 1; i < decomposed.len; i++)
-			var/this_sender = decomposed[i]
-			var/this_message = decomposed[++i]
-			var/this_wait = decomposed[++i]
-			GLOB.global_announcer.autosay("[this_message]", "[this_sender]", "[channel == "Common" ? null : channel]") //Common is a weird case, as it's not a "channel", it's just talking into a radio without a channel set.
-			sleep(this_wait SECONDS)
 
 /datum/admins/proc/toggleooc()
 	set category = "Server"
@@ -1497,7 +1399,7 @@ var/global/floorIsLava = 0
 
 		if(4)	//Mentors
 			var/ref_mob = "\ref[M]"
-			return "<b>[key_name(C, link, name, highlight_special, ticket)] (<A HREF='?_src_=holder;adminmoreinfo=\ref[M]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=[ref_mob]'>SM</A>) ([admin_jump_link(M, src)])</b>"
+			return "<b>[key_name(C, link, name, highlight_special, ticket)] (<A HREF='?_src_=holder;adminmoreinfo=\ref[M]'>?</A>) (<A HREF='?_src_=holder;adminplayeropts=[ref_mob]'>PP</A>) (<A HREF='?_src_=vars;Vars=[ref_mob]'>VV</A>) ([admin_jump_link(M, src)])</b>"
 
 /proc/ishost(var/client/C)
 	return check_rights(R_HOST, 0, C)

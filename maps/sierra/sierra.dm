@@ -1,7 +1,5 @@
 #if !defined(using_map_DATUM)
 
-	#include "sierra_define.dm"
-
 	#include "sierra_announcements.dm"
 	#include "sierra_antagonism.dm"
 	#include "sierra_areas.dm"
@@ -13,15 +11,22 @@
 	#include "sierra_presets.dm"
 	#include "sierra_procs.dm"
 	#include "sierra_ranks.dm"
-	#include "sierra_renames.dm"
 	#include "sierra_security_state.dm"
+	#include "sierra_setup.dm"
 	#include "sierra_shuttles.dm"
 	#include "sierra_submaps.dm"
 	#include "sierra_turfs.dm"
 	#include "sierra_unit_testing.dm"
 
 	#include "datums/uniforms.dm"
-	#include "datums/reports.dm"
+
+	#include "datums/reports/command.dm"
+	#include "datums/reports/corporate.dm"
+	#include "datums/reports/exploration.dm"
+	#include "datums/reports/science.dm"
+	#include "datums/reports/security.dm"
+	#include "datums/reports/deck.dm"
+
 	#include "datums/shackle_law_sets.dm"
 	#include "datums/supplypacks/security.dm"
 	#include "datums/supplypacks/science.dm"
@@ -120,9 +125,10 @@
 	#include "../away/empty.dmm"
 
 	#include "../away_inf/yacht/yacht.dm"
-	#include "../away_inf/smugglers/smugglers.dm"
-	#include "../away_inf/blueriver/blueriver.dm"
 	#include "../away_inf/mining/mining.dm"
+//  #include "../away_inf/tajsc/tajsciship.dm"
+	#include "../away_inf/blueriver/blueriver.dm"
+	#include "../away_inf/smugglers/smugglers.dm"
 	#include "../away_inf/skrellscoutship/skrellscoutship.dm"
 
 	#include "../away/bearcat/bearcat.dm"

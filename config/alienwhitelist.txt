@@ -13,6 +13,7 @@ taushai - machine
 netreson - machine
 billluxe - machine
 firsttea - machine
+diesiege - machine
 he11d1ver - machine
 rockyfail - machine
 nikita588 - machine
@@ -20,6 +21,7 @@ mrnicolas - machine
 lunkydunk - machine
 skonoplich - machine
 coltrane97 - machine
+interl0per - machine
 wolforbykot - machine
 wheatley2013 - machine
 blacksoul231 - machine
@@ -53,7 +55,8 @@ coldmantis13 - skrell
 s1334 - skrell
 logfol - skrell
 laxesh - skrell
-arbuzpersikov - skrell.
+arbuzpersikov - skrell
+forrya - skrell
 cre77 - resomi
 s1334 - resomi
 shokumar - resomi
@@ -85,11 +88,16 @@ dagger17 - giant armoured serpentid
 hodovoy - giant armoured serpentid
 sarumyn - giant armoured serpentid
 portos - giant armoured serpentid
+exapster - giant armoured serpentid
 taushai - giant armoured serpentid
 ted201 - giant armoured serpentid
 s1334 - giant armoured serpentid
 dermanic - giant armoured serpentid
 wolfetd - giant armoured serpentid
+yourbro - giant armoured serpentid
+logfol - giant armoured serpentid
+forrya - giant armoured serpentid
+he11d1ver - giant armoured serpentid
 inubashirimomiji - diona
 bartstarter - diona
 wolforbykot - diona
@@ -105,6 +113,7 @@ s1334 - diona
 sfd - diona
 spiderling - diona
 wolfetd - diona
+reptiloid2 - diona
 wheatley2013 - vox
 wolforbykot - vox
 sosiskoed - vox
@@ -141,8 +150,6 @@ s1334 - unathi
 he11d1ver - unathi
 blacksoul231 - unathi
 cuddleandtea - tajaran
-blacksoul231 - tajaran
-richardfox - tajaran
 mrnicolas - tajaran
 romeo517 - tajaran
 korramy - tajaran
@@ -164,4 +171,5 @@ s1334 - adherent
 wolfetd - adherent
 hardstuck - adherent
 jacking - adherent
+redknighthero - adherent
 redknighthero - bionic

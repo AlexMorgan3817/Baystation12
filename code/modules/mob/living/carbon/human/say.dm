@@ -9,7 +9,11 @@
 		if (speaking)
 			message = copytext(message,2+length(speaking.key))
 		else
-			speaking = get_default_language()
+			speaking = get_any_good_language(set_default=TRUE)
+			if (!speaking)
+				to_chat(src, SPAN_WARNING("You don't know a language and cannot speak."))
+				emote("custom", AUDIBLE_MESSAGE, "[pick("grunts", "babbles", "gibbers", "jabbers", "burbles")] aimlessly.")
+				return
 
 	message = sanitize(message)
 	var/obj/item/organ/internal/voicebox/vox = locate() in internal_organs
@@ -200,11 +204,11 @@
 					used_radios += r_ear
 
 /mob/living/carbon/human/handle_speech_sound()
-	if(species.name == SPECIES_HUMAN)
-		species.speech_sounds = gender == MALE ? 'sound/voice/clearing-throat-m.ogg' : 'sound/voice/clearing-throat-f.ogg'
+	if(species.name == SPECIES_HUMAN) // infinity. needed for gender check
+		species.speech_sounds = GLOB.human_clearing_throat[gender]
 	if(species.speech_sounds && prob(species.speech_chance))
 		var/list/returns[2]
-		returns[1] = sound(pick(species.speech_sounds), volume = 35)
+		returns[1] = sound(pick(species.speech_sounds))
 		returns[2] = 50
 		return returns
 	return ..()

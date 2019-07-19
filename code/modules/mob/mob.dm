@@ -457,35 +457,6 @@
 		SScharacter_setup.queue_preferences_save(prefs)
 		winset(src, "rpane.changelog", "background-color=none;font-style=;")
 
-/client/verb/changes_infinity()
-	set name = "Infinity Changelog"
-	set category = "OOC"
-	getFiles(
-		'html/88x31.png',
-		'html/bug-minus.png',
-		'html/burn-exclamation.png',
-		'html/chevron.png',
-		'html/chevron-expand.png',
-		'html/cross-circle.png',
-		'html/hard-hat-exclamation.png',
-		'html/image-minus.png',
-		'html/image-plus.png',
-		'html/map-pencil.png',
-		'html/music-minus.png',
-		'html/music-plus.png',
-		'html/tick-circle.png',
-		'html/scales.png',
-		'html/spell-check.png',
-		'html/wrench-screwdriver.png',
-		'html/changelog.css',
-		'html/changelog.html'
-		)
-	src << browse('html/changelog_infinity.html', "window=changes;size=675x650")
-	if(prefs.lastinfchangelog != inf_changelog_hash)
-		prefs.lastinfchangelog = inf_changelog_hash
-		prefs.save_preferences()
-		winset(src, "rpane.changelog_infinity", "background-color=none;font-style=;")
-
 /mob/verb/cancel_camera()
 	set name = "Cancel Camera View"
 	set category = "OOC"
@@ -650,8 +621,17 @@
 			stat("Local Time", stationtime2text())
 			stat("Local Date", stationdate2text())
 			stat("Round Duration", roundduration2text())
+			// infinity code start
 			if(game_id)
 				stat("Round ID:", game_id)
+			var/server_status_info
+			if(SSticker.update_server)
+				server_status_info = "Server Update"
+			else if(SSticker.scheduled_map_change)
+				server_status_info = "Map Change"
+			if(server_status_info)
+				stat("Round End type:", server_status_info)
+			// infinity code end
 			stat("Server Time", time2text(world.realtime, "YYYY-MM-DD hh:mm"))
 		if(client.holder || isghost(client.mob))
 			stat("Location:", "([x], [y], [z]) [loc]")
@@ -1029,8 +1009,14 @@
 
 /mob/set_dir()
 	if(facing_dir)
-		if(!canface() || lying || buckled || restrained())
+		if(!canface() || lying || restrained())
 			facing_dir = null
+		else if(buckled)
+			if(buckled.obj_flags & OBJ_FLAG_ROTATABLE)
+				buckled.set_dir(facing_dir)
+				return ..(facing_dir)
+			else
+				facing_dir = null
 		else if(dir != facing_dir)
 			return ..(facing_dir)
 	else
