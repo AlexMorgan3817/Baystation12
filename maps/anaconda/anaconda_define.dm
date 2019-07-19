@@ -9,20 +9,20 @@
 	admin_levels = list(4)
 	overmap_size = 50
 	overmap_event_areas = 34
-	usable_email_tlds = list("anaconda.ec.scg", "anaconda.fleet.mil", "freemail.net", "anaconda.scg")
+	usable_email_tlds = list("tri_opium.net")
 
-	allowed_spawns = list("Cryogenic Storage", "Cyborg Storage")
+	allowed_spawns = list("Cryogenic Storage")
 	default_spawn = "Cryogenic Storage"
 
 	station_name  = "ITV Anaconda"
 	station_short = "Anaconda"
 	dock_name     = "TBD"
-	boss_name     = "Captain"
-	boss_short    = "Cap"
-	company_name  = "Anaconda"
-	company_short = "A\'Cond"
+	boss_name     = "Tri-Opium Command"
+	boss_short    = "Command"
+	company_name  = "Tri-Opium"
+	company_short = "Tri"
 
-	map_admin_faxes = list("Emergency Response")
+	map_admin_faxes = list("Tri-Opium Central Office")
 
 	//These should probably be moved into the evac controller...
 	shuttle_docked_message = "Attention all hands: Jump preparation complete. The Frame-Shift drive is now spooling up, secure all stations for departure. Time to jump: approximately %ETD%."

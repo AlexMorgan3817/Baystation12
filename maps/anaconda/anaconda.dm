@@ -3,7 +3,6 @@
 	#include "anaconda_announcements.dm"
 	#include "anaconda_antagonism.dm"
 	#include "anaconda_areas.dm"
-	//#include "anaconda_areas_override.dm"
 	#include "anaconda_lobby.dm"
 	#include "anaconda_npcs.dm"
 	#include "anaconda_overmap.dm"
