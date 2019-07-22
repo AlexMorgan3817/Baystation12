@@ -14,6 +14,7 @@
 	#include "anaconda_shuttles.dm"
 	#include "anaconda_turfs.dm"
 	#include "anaconda_unit_testing.dm"
+	#include "anaconda_elevator.dm"
 
 	#include "anaconda_define.dm"
 
@@ -97,10 +98,9 @@
 	#include "loadout/loadout_xeno.dm"
 	#include "loadout/~defines.dm"*/
 
-	#include "anaconda-1.dmm"
+	#include "_anaconda-R.dmm"
 	#include "anaconda-2.dmm"
 	#include "anaconda-3.dmm"
-	#include "centcomm_anac.dmm"
 	#include "../away/empty.dmm"
 
 	#include "../away_inf/yacht/yacht.dm"
