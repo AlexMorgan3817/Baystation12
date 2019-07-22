@@ -1,4 +1,4 @@
-/datum/map/sierra
+/datum/map/anaconda
 	species_to_job_whitelist = list(
 		/datum/species/adherent = list(/datum/job/ai, /datum/job/cyborg, /datum/job/assistant, /datum/job/janitor,\
 									   /datum/job/chef, /datum/job/cargo_assistant, /datum/job/scientist_assistant,\
@@ -9,7 +9,7 @@
 		/datum/species/vox = list(/datum/job/ai, /datum/job/cyborg, /datum/job/merchant, /datum/job/merchant_trainee)
 	)
 
-#define HUMAN_ONLY_JOBS /datum/job/captain, /datum/job/hos
+#define HUMAN_ONLY_JOBS /datum/job/captain
 	species_to_job_blacklist = list(
 		/datum/species/unathi  		 = list(HUMAN_ONLY_JOBS, /datum/job/iaa),
 		/datum/species/unathi/yeosa  = list(HUMAN_ONLY_JOBS, /datum/job/iaa),

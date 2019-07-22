@@ -494,7 +494,10 @@ var/list/alphabet = list("a","b","c","d","e","f","g","h","i","j","k","l","m","n"
 	t = replacetext(t, "\[xynlogo\]", "<img src = xynlogo.png>")
 	t = replacetext(t, "\[fleetlogo\]", "<img src = fleetlogo.png>")
 	t = replacetext(t, "\[ocielogo\]", "<img src = ocielogo.png>")
+	//[INF]
 	t = replacetext(t, "\[ccalogo\]", "<img src = ccalogo.png>")
+	t = replacetext(t, "\[trilogo\]", "<img src = triopium.png>")
+	//[/INF]
 	t = replacetext(t, "\[editorbr\]", "")
 	t = replacetext(t, "\[img\]","<img src=\"")
 	t = replacetext(t, "\[/img\]", "\" />")

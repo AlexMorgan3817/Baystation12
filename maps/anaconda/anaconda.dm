@@ -23,7 +23,9 @@
 	//#include "anaconda_unit_testing.dm"
 
 //secondary level
-	#include "job\access.dm"
+	#include "job/access.dm"
+	#include "obj/items.dm"
+	#include "obj/effects/effects.dm"
 
 
 

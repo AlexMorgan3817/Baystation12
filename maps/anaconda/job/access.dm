@@ -13,19 +13,6 @@
 	desc = "General Utility Pod Helm"
 	region = ACCESS_REGION_SUPPLY
 
-/var/const/access_iaa = "ACCESS_IAA"//78
-/datum/access/iaa
-	id = access_iaa
-	desc = "Internal Affairs Agent"
-	region = ACCESS_REGION_COMMAND
-	access_type = ACCESS_TYPE_NONE //Ruler of their own domain, Captain and RD cannot enter
-
-/var/const/access_gun = "ACCESS_GUN"//87
-/datum/access/gun
-	id = access_gun
-	desc = "BSA Cannon"
-	region = ACCESS_REGION_COMMAND
-
 /var/const/access_guppy = "ACCESS_GUPPY"//89
 /datum/access/guppy
 	id = access_guppy
@@ -44,21 +31,5 @@
 	desc = "Security EVA"
 	region = ACCESS_REGION_SECURITY
 
-/var/const/access_commissary = "ACCESS_COMMISSARY"//96
-/datum/access/commissary
-	id = access_commissary
-	desc = "Commissary"
-	region = ACCESS_REGION_GENERAL
-
-/************
-* ITV Anaconda *
-************/
-/*
-/datum/access/security
-	desc = "Security"
-
-/datum/access/sec_doors
-	desc = "Security Entrance"
-*/
 /datum/access/network
 	region = ACCESS_REGION_COMMAND

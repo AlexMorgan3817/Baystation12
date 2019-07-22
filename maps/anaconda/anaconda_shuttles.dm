@@ -561,7 +561,7 @@
 	name = "Guppy"
 	warmup_time = 5
 	move_time = 30
-	shuttle_area = /area/guppy_hangar/start
+	shuttle_area = /area/shuttles/guppy_hangar/start
 	dock_target ="guppy_shuttle"
 	current_location = "nav_hangar_guppy"
 	landmark_transition = "nav_transit_guppy"
