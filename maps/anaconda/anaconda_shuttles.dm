@@ -169,22 +169,6 @@
 /obj/effect/shuttle_landmark/escape_pod/transit/pod17
 	number = 17
 
-//Petrov
-
-/datum/shuttle/autodock/ferry/petrov
-	name = "Petrov"
-	warmup_time = 10
-	dock_target = "petrov_shuttle_airlock"
-	waypoint_station = "nav_petrov_start"
-	waypoint_offsite = "nav_petrov_out"
-	logging_home_tag = "nav_petrov_start"
-	logging_access = access_petrov_helm
-	ceiling_type = /turf/simulated/floor/shuttle_ceiling/anaconda
-
-/datum/shuttle/autodock/ferry/petrov/New(_name, var/obj/effect/shuttle_landmark/initial_location)
-	shuttle_area = subtypesof(/area/shuttle/petrov)
-	..()
-
 /obj/effect/shuttle_landmark/petrov/start
 	name = "First Deck"
 	landmark_tag = "nav_petrov_start"
@@ -573,49 +557,6 @@
 	base_area = /area/quartermaster/hangar
 	base_turf = /turf/simulated/floor/plating
 
-/datum/shuttle/autodock/overmap/exploration_shuttle
-	name = "Charon"
-	move_time = 90
-	shuttle_area = list(/area/exploration_shuttle/cockpit, /area/exploration_shuttle/atmos, /area/exploration_shuttle/medical, /area/exploration_shuttle/power, /area/exploration_shuttle/cargo, /area/exploration_shuttle/airlock)
-	dock_target = "calypso_shuttle"
-	current_location = "nav_hangar_calypso"
-	landmark_transition = "nav_transit_calypso"
-	range = 1
-	fuel_consumption = 4
-	logging_home_tag = "nav_hangar_calypso"
-	logging_access = access_expedition_shuttle_helm
-	ceiling_type = /turf/simulated/floor/shuttle_ceiling/anaconda
-
-/obj/effect/shuttle_landmark/anaconda/hangar/exploration_shuttle
-	name = "Charon Hangar"
-	landmark_tag = "nav_hangar_calypso"
-	base_area = /area/quartermaster/hangar
-	base_turf = /turf/simulated/floor/plating
-
-/obj/effect/shuttle_landmark/anaconda/deck1/exploration_shuttle
-	name = "Space near Fourth Deck"
-	landmark_tag = "nav_deck1_calypso"
-
-/obj/effect/shuttle_landmark/anaconda/deck2/exploration_shuttle
-	name = "Space near Third Deck"
-	landmark_tag = "nav_deck2_calypso"
-
-/obj/effect/shuttle_landmark/anaconda/deck3/exploration_shuttle
-	name = "Space near Second Deck"
-	landmark_tag = "nav_deck3_calypso"
-
-/obj/effect/shuttle_landmark/anaconda/deck4/exploration_shuttle
-	name = "Space near First Deck"
-	landmark_tag = "nav_deck4_calypso"
-
-/obj/effect/shuttle_landmark/anaconda/deck5/exploration_shuttle
-	name = "Space near Bridge"
-	landmark_tag = "nav_bridge_calypso"
-
-/obj/effect/shuttle_landmark/anaconda/transit/exploration_shuttle
-	name = "In transit"
-	landmark_tag = "nav_transit_calypso"
-
 /datum/shuttle/autodock/overmap/guppy
 	name = "Guppy"
 	warmup_time = 5
@@ -641,22 +582,50 @@
 /obj/effect/shuttle_landmark/anaconda/deck1/guppy
 	name = "Space near Fourth Deck"
 	landmark_tag = "nav_deck1_guppy"
+/obj/effect/shuttle_landmark/anaconda/deck1/guppy/north
+	name = "Space near North of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
+/obj/effect/shuttle_landmark/anaconda/deck1/guppy/south
+	name = "Space near South of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
+/obj/effect/shuttle_landmark/anaconda/deck1/guppy/west
+	name = "Space near West of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
 
 /obj/effect/shuttle_landmark/anaconda/deck2/guppy
 	name = "Space near Third Deck"
 	landmark_tag = "nav_deck2_guppy"
+/obj/effect/shuttle_landmark/anaconda/deck2/guppy/north
+	name = "Space near North of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
+/obj/effect/shuttle_landmark/anaconda/deck2/guppy/south
+	name = "Space near South of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
+/obj/effect/shuttle_landmark/anaconda/deck2/guppy/west
+	name = "Space near West of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
 
 /obj/effect/shuttle_landmark/anaconda/deck3/guppy
 	name = "Space near Second Deck"
 	landmark_tag = "nav_deck3_guppy"
+/obj/effect/shuttle_landmark/anaconda/deck3/guppy/north
+	name = "Space near North of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
 
-/obj/effect/shuttle_landmark/anaconda/deck4/guppy
-	name = "Space near First Deck"
-	landmark_tag = "nav_deck4_guppy"
+/obj/effect/shuttle_landmark/anaconda/deck3/guppy/south
+	name = "Space near South of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
 
-/obj/effect/shuttle_landmark/anaconda/deck5/guppy
-	name = "Space near Bridge"
-	landmark_tag = "nav_bridge_guppy"
+/obj/effect/shuttle_landmark/anaconda/deck3/guppy/west
+	name = "Space near West of Second Deck"
+	landmark_tag = "nav_deck3_guppy"
+
 
 /obj/effect/shuttle_landmark/anaconda/transit/guppy
 	name = "In transit"
@@ -664,7 +633,7 @@
 
 //Makes the deck management program use hangar access
 /datum/nano_module/deck_management
-	default_access = list(access_hangar, access_cargo, access_heads)
+	default_access = list(access_cargo, access_heads)
 
 // away transit
 

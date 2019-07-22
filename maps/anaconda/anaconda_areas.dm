@@ -310,11 +310,6 @@
 	requires_power = 0
 	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 
-//Aquila
-/area/aquila
-	name = "Aquila"
-	icon_state = "shuttlered"
-
 //Skipjack
 
 /area/skipjack_station
@@ -342,6 +337,15 @@
 	icon_state = "shuttlered"
 	base_turf = /turf/unsimulated/floor/rescue_base
 
+//Guppy
+/area/guppy_hangar/start
+	name = "Guppy"
+	icon_state = "shuttlered"
+	requires_power = 1
+	dynamic_lighting = 1
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED
+	req_access = list(access_mining)
+
 // Elevator areas.
 /area/turbolift/anaconda_top
 	name = "lift (first deck)"
@@ -357,9 +361,9 @@
 
 /area/turbolift/anaconda_ground
 	name = "lift (third deck)"
-	lift_floor_label = "Deck 3"
-	lift_floor_name = "Deck R"
-	lift_announce_str = ""
+	lift_floor_label = "Deck R"
+	lift_floor_name = "Reactor-Cargo"
+	lift_announce_str = "Arriving at deck R. Deck R including Engineering, Hangar."
 	base_turf = /turf/simulated/floor
 
 // Command

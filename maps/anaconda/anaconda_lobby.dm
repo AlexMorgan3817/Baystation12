@@ -1,5 +1,5 @@
 /datum/map/anaconda
-	lobby_icon = 'maps/anaconda/icons/lobby.dmi'
+	//lobby_icon = 'maps/anaconda/icons/lobby.dmi'
 	lobby_screens = list("title")
 	lobby_tracks = list(
 		/music_track/chasing_time,
