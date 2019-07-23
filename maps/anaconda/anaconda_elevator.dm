@@ -7,7 +7,7 @@
 	lift_size_y = 2
 
 	areas_to_use = list(
-		/area/turbolift/anaconda_ground,
-		/area/turbolift/anaconda_middle,
-		/area/turbolift/anaconda_top,
+		/area/turbolift/cargo/anaconda_ground,
+		/area/turbolift/cargo/anaconda_middle,
+		/area/turbolift/cargo/anaconda_top
 		)
