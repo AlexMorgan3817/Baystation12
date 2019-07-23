@@ -44,7 +44,7 @@
 	#include "../away_inf/smugglers/smugglers.dm"
 	#include "../away_inf/blueriver/blueriver.dm"
 	#include "../away_inf/mining/mining.dm"
-	//#include "../away_inf/salvagers/salvagers.dm"
+	#include "../away_inf/skrellscoutship/skrellscoutship.dm"
 
 	//away_bay
 	#include "../away/bearcat/bearcat.dm"
@@ -61,7 +61,6 @@
 	#include "../away/unishi/unishi.dm"
 	#include "../away/slavers/slavers_base.dm"
 	#include "../away/voxship/voxship.dm"
-	#include "../away/skrellscoutship/skrellscoutship.dm"
 
 
 
