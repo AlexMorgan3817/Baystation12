@@ -23,15 +23,81 @@
 	name = "Bridge Deck Safe Room"
 
 	//Deck R
+		//CARGO
+/area/quartermaster
+	req_access = list(access_cargo)
 
-
-
-		//HANGAR
 /area/quartermaster/hangar
 	name = "Hangar Deck"
 	icon_state = "hangar"
 	sound_env = LARGE_ENCLOSED
 	req_access = list(access_hangar)
+
+/area/quartermaster/office
+	name = "Supply Office"
+	icon_state = "quartoffice"
+
+/area/quartermaster/sorting
+	name = "Sorting Office"
+	icon_state = "quartoffice"
+	req_access = list(access_mailsorting)
+
+/area/quartermaster/storage
+	name = "Warehouse"
+	icon_state = "quartstorage"
+	sound_env = LARGE_ENCLOSED
+
+/area/quartermaster/deckofficer
+	name = "Quartermaster"
+	icon_state = "quart"
+	req_access = list(access_qm)
+
+		//ENGINEERING
+/area/engineering
+	req_access = list(access_engine)
+	icon_state = "engineering"
+
+/area/engineering/hallway
+	name = "Engineering Hallway"
+	icon_state = "engineering_workshop"
+
+/area/engineering/hardstorage
+	name = "Engineering Hard Storage"
+	icon_state = "engineering_storage"
+	sound_env = SMALL_ENCLOSED
+
+/area/engineering/engine_room
+	name = "Engine Room"
+	icon_state = "engine"
+	sound_env = LARGE_ENCLOSED
+	area_flags = AREA_FLAG_ION_SHIELDED
+	req_access = list(access_engine_equip)
+
+/area/engineering/engine_eva
+	name = "Engine EVA"
+	icon_state = "engine_eva"
+	req_access = list(list(access_eva, access_external_airlocks), access_engine)
+
+/area/engineering/engineering_monitoring
+	name = "Engineering Monitoring Room"
+	icon_state = "engine_monitoring"
+	area_flags = AREA_FLAG_RAD_SHIELDED
+
+/area/engineering/locker_room
+	name = "Engineering Locker Room"
+	icon_state = "engineering_locker"
+
+/area/engineering/atmos
+ 	name = "Atmospherics"
+ 	icon_state = "atmos"
+ 	sound_env = LARGE_ENCLOSED
+ 	req_access = list(access_atmospherics)
+
+/area/engineering/drone_fabrication
+	name = "Engineering Drone Fabrication"
+	icon_state = "drone_fab"
+	sound_env = SMALL_ENCLOSED
+	req_access = list(access_ai_upload)
 
 //CC
 	//SP DRONE
