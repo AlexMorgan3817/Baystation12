@@ -33,6 +33,7 @@
 	#include "_anaconda-R.dmm"
 	#include "anaconda-2.dmm"
 	#include "anaconda-3.dmm"
+	#include "~anaconda-B.dmm"
 	#include "../away/empty.dmm"
 
 
