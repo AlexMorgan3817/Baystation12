@@ -86,6 +86,7 @@
 	var/list/sprite_sheets_obj = list()
 
 	var/safely = 0 //Cant harm with != Hurt intent
+	var/undress_do_affter_needed = 0 //if 0: bypass doafter on unequiping //inf
 
 /obj/item/New()
 	..()
@@ -136,6 +137,10 @@
 			M.update_inv_r_hand()
 
 /obj/item/proc/is_held_twohanded(mob/living/M)
+
+	if(istype(loc, /obj/item/rig_module) || istype(loc, /obj/item/weapon/rig))
+		return TRUE
+
 	var/check_hand
 	if(M.l_hand == src && !M.r_hand)
 		check_hand = BP_R_HAND //item in left hand, check right hand
@@ -837,3 +842,8 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 				return min(1, round((min_pressure_protection - pressure) / min_pressure_protection, 0.01))
 			else
 				return 0
+
+/obj/item/do_simple_ranged_interaction(var/mob/user)
+	if(user)
+		attack_self(user)
+	return TRUE

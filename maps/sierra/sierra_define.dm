@@ -6,6 +6,7 @@
 
 	load_legacy_saves = TRUE
 
+	station_levels = list(1,2,3)
 	admin_levels = list(4,5)
 	empty_levels = list(6)
 	accessible_z_levels = list("1"=1,"2"=1,"3"=1,"6"=30)
@@ -30,14 +31,14 @@
 
 	default_law_type = /datum/ai_laws/nanotrasen
 	use_overmap = 1
-	num_exoplanets = 1
+	num_exoplanets = 0
 	planet_size = list(129,129)
 
 	playable = 1
 	recommended_players = 20
 //	minimum_players = 0 its already 0
 
-	away_site_budget = 3
+	away_site_budget = 3 //1 always wastes on mining asteroid
 	id_hud_icons = 'maps/sierra/icons/assignment_hud.dmi'
 
 	available_cultural_info = list(
@@ -81,7 +82,6 @@
 			FACTION_ZPCI,
 			FACTION_PCRC,
 			FACTION_SAARE,
-			FACTION_SCP,
 			FACTION_XYNERGY,
 			FACTION_FREETRADE,
 			FACTION_OTHER
@@ -108,12 +108,17 @@
 			RELIGION_JUDAISM,
 			RELIGION_HINDUISM,
 			RELIGION_BUDDHISM,
+			RELIGION_SIKHISM,
+			RELIGION_JAINISM,
 			RELIGION_ISLAM,
 			RELIGION_CHRISTIANITY,
+			RELIGION_BAHAI_FAITH,
 			RELIGION_AGNOSTICISM,
 			RELIGION_DEISM,
 			RELIGION_ATHEISM,
 			RELIGION_THELEMA,
-			RELIGION_SPIRITUALISM
+			RELIGION_SPIRITUALISM,
+			RELIGION_SHINTO,
+			RELIGION_TAOISM
 		)
 	)

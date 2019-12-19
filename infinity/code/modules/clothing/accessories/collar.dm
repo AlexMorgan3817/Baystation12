@@ -1,55 +1,61 @@
 /obj/item/clothing/accessory/necklace/collar
-	name = "Silver tag collar"
+	name = "silver tag collar"
 	desc = "A collar for your little pets... or the big ones."
 	icon = 'infinity/icons/obj/clothing/obj_accessories.dmi'
 	icon_state = "collar_bksilv"
-	accessory_icons = list(slot_w_uniform_str = 'infinity/icons/mob/onmob/onmob_accessories.dmi', slot_wear_suit_str = 'infinity/icons/mob/onmob/onmob_accessories.dmi', slot_wear_mask_str  = 'infinity/icons/mob/onmob/onmob_accessories.dmi')
+
+	accessory_icons = list(
+		slot_w_uniform_str = 'infinity/icons/mob/onmob/onmob_accessories.dmi', \
+		slot_wear_suit_str = 'infinity/icons/mob/onmob/onmob_accessories.dmi')
+	item_icons = list(
+		slot_wear_mask_str = 'infinity/icons/mob/onmob/onmob_accessories.dmi')
+
 	sprite_sheets = list(
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/misc.dmi',
 		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/misc.dmi'
 		)
 
 /obj/item/clothing/accessory/necklace/collar/gold
-	name = "Golden tag collar"
+	name = "golden tag collar"
 	desc = "A collar for your little pets... or the big ones."
 	icon_state = "collar_bkgold"
 
 /obj/item/clothing/accessory/necklace/collar/bell
-	name = "Bell collar"
+	name = "bell collar"
 	desc = "A collar with a tiny bell hanging from it, purrfect furr kitties."
 	icon_state = "collar_bkbell"
 
 /obj/item/clothing/accessory/necklace/collar/spike
-	name = "Spiked collar"
+	name = "spiked collar"
 	desc = "A collar with spikes that look as sharp as your teeth."
 	icon_state = "collar_bkspike"
 
 /obj/item/clothing/accessory/necklace/collar/pink
-	name = "Pink collar"
+	name = "pink collar"
 	desc = "This collar will make your pets look FA-BU-LOUS."
 	icon_state = "collar_pisilv"
 
 /obj/item/clothing/accessory/necklace/collar/holo
-	name = "Holo-collar"
+	name = "holo-collar"
 	desc = "An expensive holo-collar for the modern day pet."
 	icon_state = "collar_bkholo"
 
 /obj/item/clothing/accessory/necklace/collar/holo/attack_self(mob/user as mob)
-	user << "<span class='notice'>[name]'s interface is projected onto your hand.</span>"
+	to_chat(user, SPAN_NOTICE("[name]'s interface is projected onto your hand."))
 
 	var/str = copytext(reject_bad_text(input(user,"Tag text?","Set tag","")),1,MAX_NAME_LEN)
 
 	if(!str || !length(str))
-		user << "<span class='notice'>[name]'s tag set to be blank.</span>"
+		to_chat(user, SPAN_NOTICE("[name]'s tag set to be blank."))
 		name = initial(name)
 		desc = initial(desc)
 	else
-		user << "<span class='notice'>You set the [name]'s tag to '[str]'.</span>"
+		to_chat(user, SPAN_NOTICE("You set the [name]'s tag to '[str]'."))
 		name = initial(name) + " ([str])"
 		desc = initial(desc) + " The tag says \"[str]\"."
 
 /obj/item/clothing/accessory/necklace/collar/shock
-	name = "Shock collar"
+	name = "shock collar"
 	desc = "A collar used to ease hungry predators."
 	icon_state = "collar_bkshk0"
 	item_state = "collar_bkshk"
@@ -105,7 +111,7 @@
 					if(M.client)
 						attack_self(M)
 	else
-		usr << browse(null, "window=radio")
+		show_browser(usr, null, "window=radio")
 		return
 	return
 
@@ -119,7 +125,7 @@
 			M = loc
 		if(ismob(loc.loc))
 			M = loc.loc // This is about as terse as I can make my solution to the whole 'collar won't work when attached as accessory' thing.
-		M << "<span class='danger'>You feel a sharp shock!</span>"
+		to_chat(M, SPAN_DANGER("You feel a sharp shock!"))
 		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 		s.set_up(3, 1, M)
 		s.start()
@@ -145,6 +151,6 @@
 			<A href='byond://?src=\ref[src];code=1'>+</A>
 			<A href='byond://?src=\ref[src];code=5'>+</A><BR>
 			</TT>"}
-	user << browse(dat, "window=radio")
+	show_browser(user, dat, "window=radio")
 	onclose(user, "radio")
 	return

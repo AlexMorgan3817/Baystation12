@@ -23,6 +23,14 @@
 	var/shorthand = "???"			  // Shorthand that shows up in chat for this language.
 	var/list/partial_understanding				  // List of languages that can /somehwat/ understand it, format is: name = chance of understanding a word
 	var/warning = ""
+	var/hidden_from_codex			  // If it should not show up in Codex
+	var/category = /datum/language    // Used to point at root language types that shouldn't be visible
+
+/datum/language/proc/can_be_spoken_properly_by(var/mob/speaker)
+	return TRUE
+
+/datum/language/proc/muddle(var/message)
+	return message
 
 /datum/language/proc/get_random_name(var/gender, name_count=2, syllable_count=4, syllable_divisor=2)
 	if(!syllables || !syllables.len)
@@ -109,7 +117,7 @@
 	scramble_cache[input] = scrambled_text
 	if(scramble_cache.len > SCRAMBLE_CACHE_LEN)
 		scramble_cache.Cut(1, scramble_cache.len-SCRAMBLE_CACHE_LEN-1)
-	
+
 	return scrambled_text
 
 /datum/language/proc/format_message(message, verb)
@@ -166,12 +174,14 @@
 
 // Language handling.
 /mob/proc/add_language(var/language)
-
 	var/datum/language/new_language = all_languages[language]
 
 	if(!istype(new_language) || (new_language in languages))
 		return 0
-
+	if(ishuman(src)) //inf
+		var/mob/living/carbon/human/H = src
+		if(new_language.primitive_version && !(H.species.name in new_language.native_speaker))
+			new_language = all_languages[new_language.primitive_version]
 	languages.Add(new_language)
 	return 1
 

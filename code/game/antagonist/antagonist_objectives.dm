@@ -17,22 +17,6 @@
 /datum/antagonist/proc/get_special_objective_text()
 	return ""
 
-/datum/antagonist/proc/check_victory()
-	var/result = 1
-	if(config.objectives_disabled == CONFIG_OBJECTIVE_NONE)
-		return 1
-	if(global_objectives && global_objectives.len)
-		for(var/datum/objective/O in global_objectives)
-			if(!O.completed && !O.check_completion())
-				result = 0
-		if(result && victory_text)
-			to_world("<span class='danger'><font size = 3>[victory_text]</font></span>")
-			if(victory_feedback_tag) SSstatistics.set_field_details("round_end_result","[victory_feedback_tag]")
-		else if(loss_text)
-			to_world("<span class='danger'><font size = 3>[loss_text]</font></span>")
-			if(loss_feedback_tag) SSstatistics.set_field_details("round_end_result","[loss_feedback_tag]")
-
-
 /mob/proc/add_objectives()
 	set name = "Get Objectives"
 	set desc = "Recieve optional objectives."
@@ -65,6 +49,7 @@
 		return
 
 	var/datum/goal/ambition/goal = SSgoals.ambitions[mind]
+/*[ORIGINAL]
 	var/new_goal = sanitize(input(src, "Write a short sentence of what your character hopes to accomplish \
 	today as an antagonist.  Remember that this is purely optional.  It will be shown at the end of the \
 	round for everybody else.", "Antagonist Goal", (goal ? html_decode(goal.description) : "")) as null|message)
@@ -78,6 +63,20 @@
 		if(goal)
 			qdel(goal)
 	log_and_message_admins("has set their ambitions to now be: [new_goal].")
+[ORIGINAL]*/
+//[INF]
+	var/new_goal = sanitize(input(src, "Напишите, чего вы хотите достичь в этом раунде как антагонист - \
+	свои цели. Они будут видны всем игрокам после конца раунда. Помните, что вы не можете \
+	Переписать их - только дополнить новыми строками.", "Antagonist Goal") as null|message)
+	if(!isnull(new_goal))
+		if(!goal)
+			goal = new /datum/goal/ambition(mind)
+		goal.description += "|[new_goal]"
+		to_chat(src, SPAN_NOTICE("Теперь, Ваша амбици&#255; выгл&#255;дит как <b>'[goal.description]'</b>. \
+		Вы можете просмотреть её через кнопку <b>Notes</b>. Если вы хотите изменить всю амбицию, \
+		то обратитесь к администратору."))
+		log_and_message_admins("обновил свою амбицию: [new_goal].")
+//[/INF]
 
 //some antagonist datums are not actually antagonists, so we might want to avoid
 //sending them the antagonist meet'n'greet messages.

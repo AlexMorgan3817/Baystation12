@@ -8,8 +8,9 @@
 	power_channel = ENVIRON
 	var/frequency = 0
 	var/id
-	layer = 8.1
+	layer = MOUSETRAP_LAYER //inf, was 8.1
 	idle_power_usage = 15
+	plane = ABOVE_TURF_PLANE //inf
 
 /obj/machinery/meter/Initialize()
 	. = ..()
@@ -31,6 +32,7 @@
 	. = ..()
 
 /obj/machinery/meter/Process()
+	..()
 	if(!target)
 		icon_state = "meterX"
 		return 0

@@ -9,11 +9,12 @@
 		"Mopbot"  = "janitorrobot",
 		"Mop Gear Rex" = "mopgearrex",
 		"Doot" = "eyebot-janitor",
-		"Ver 06" = "wer6-janitor"
+		"Ver 06" = "wer6-janitor",
+		"Motile" = "motile"
 	)
 	equipment = list(
 		/obj/item/device/flash,
-		/obj/item/weapon/soap/nanotrasen,
+		/obj/item/weapon/soap,
 		/obj/item/weapon/storage/bag/trash,
 		/obj/item/weapon/mop/advanced,
 		/obj/item/holosign_creator,
@@ -23,6 +24,11 @@
 		/obj/item/weapon/crowbar
 	)
 	emag = /obj/item/weapon/reagent_containers/spray
+	skills = list(
+		SKILL_EVA    = SKILL_MAX,
+		SKILL_MECH   = HAS_PERK,
+		SKILL_BOTANY = SKILL_MAX
+	) // lol, idk
 
 /obj/item/weapon/robot_module/janitor/finalize_emag()
 	. = ..()

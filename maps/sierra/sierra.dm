@@ -19,6 +19,9 @@
 	#include "sierra_unit_testing.dm"
 
 	#include "datums/uniforms.dm"
+	#include "datums/uniforms_civilian.dm"
+	#include "datums/uniforms_contractor.dm"
+	#include "datums/uniforms_employee.dm"
 
 	#include "datums/reports/command.dm"
 	#include "datums/reports/corporate.dm"
@@ -31,16 +34,20 @@
 	#include "datums/supplypacks/security.dm"
 	#include "datums/supplypacks/science.dm"
 
+	#include "game/antagonist/languages.dm"
+
 	#include "items/cards_ids.dm"
 	#include "items/documents.dm"
 	#include "items/explo_shotgun.dm"
 	#include "items/encryption_keys.dm"
+	#include "items/guns.dm"
 	#include "items/headsets.dm"
 	#include "items/items.dm"
 	#include "items/lighting.dm"
 	#include "items/papers.dm"
 	#include "items/manuals.dm"
 	#include "items/rigs.dm"
+	#include "items/stamps.dm"
 
 	#include "items/clothing/clothing.dm"
 	#include "items/clothing/exploration.dm"
@@ -78,7 +85,6 @@
 
 	#include "machinery/alarm.dm"
 	#include "machinery/doors.dm"
-	#include "machinery/keycard authentication.dm"
 	#include "machinery/machinery.dm"
 	#include "machinery/navbeacons.dm"
 	#include "machinery/power.dm"
@@ -130,7 +136,9 @@
 	#include "../away_inf/blueriver/blueriver.dm"
 	#include "../away_inf/smugglers/smugglers.dm"
 	#include "../away_inf/skrellscoutship/skrellscoutship.dm"
+	#include "../away_inf/patrol/patrol.dm"
 
+	#include "../away/ascent/ascent.dm"
 	#include "../away/bearcat/bearcat.dm"
 	#include "../away/derelict/derelict.dm"
 	#include "../away/magshield/magshield.dm"

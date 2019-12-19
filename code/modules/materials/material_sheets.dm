@@ -385,7 +385,6 @@
 
 /obj/item/stack/material/titanium
 	name = "titanium"
-	icon = 'infinity/icons/obj/items.dmi'
 	icon_state = "sheet-titanium"
 	item_state = "sheet-metal"
 	default_type = "titanium"
@@ -459,6 +458,16 @@
 /obj/item/stack/material/wood/bamboo/fifty
 	amount = 50
 
+/obj/item/stack/material/wood/yew
+	name = "yew plank"
+	default_type = MATERIAL_YEW
+
+/obj/item/stack/material/wood/yew/ten
+	amount = 10
+
+/obj/item/stack/material/wood/yew/twentyfive
+	amount = 25
+
 /obj/item/stack/material/cloth
 	name = "cloth"
 	icon_state = "sheet-cloth"
@@ -482,7 +491,7 @@
 	name = "leather"
 	desc = "The by-product of mob grinding."
 	icon_state = "sheet-leather"
-	default_type = MATERIAL_LEATHER
+	default_type = MATERIAL_LEATHER_GENERIC
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
 /obj/item/stack/material/glass
@@ -555,3 +564,13 @@
 /obj/item/stack/material/generic/Initialize()
 	. = ..()
 	if(material) color = material.icon_colour
+
+/obj/item/stack/material/generic/skin
+	icon_state = "skin"
+	plural_icon_state = "skin-mult"
+	max_icon_state = "skin-max"
+
+/obj/item/stack/material/generic/bone
+	icon_state = "bone"
+	plural_icon_state = "bone-mult"
+	max_icon_state = "bone-max"

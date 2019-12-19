@@ -284,9 +284,9 @@ var/global/list/additional_antag_types = list()
 		"artifacts of eldritch horror",
 		"a brain slug infestation",
 		"killer bugs that lay eggs in the husks of the living",
-		"a deserted transport carrying xenomorph specimens",
+		"a deserted transport carrying xenofauna specimens",
 		"an emissary for the gestalt requesting a security detail",
-		"a Tajaran slave rebellion",
+		"a Tajaran slave rebellion",//inf
 		"radical Skrellian transevolutionaries",
 		"classified security operations",
 		"a gargantuan glowing goat"
@@ -313,12 +313,10 @@ var/global/list/additional_antag_types = list()
 /datum/game_mode/proc/declare_completion()
 	set waitfor = FALSE
 
-	check_victory()
 	sleep(2)
 
 	var/list/all_antag_types = GLOB.all_antag_types_
 	for(var/datum/antagonist/antag in antag_templates)
-		antag.check_victory()
 		antag.print_player_summary()
 		sleep(2)
 	for(var/antag_type in all_antag_types)
@@ -469,9 +467,6 @@ var/global/list/additional_antag_types = list()
 
 	shuffle(antag_templates) //In the case of multiple antag types
 	newscaster_announcements = pick(newscaster_standard_feeds)
-
-/datum/game_mode/proc/check_victory()
-	return
 
 // Manipulates the end-game cinematic in conjunction with GLOB.cinematic
 /datum/game_mode/proc/nuke_act(obj/screen/cinematic_screen, station_missed = 0)

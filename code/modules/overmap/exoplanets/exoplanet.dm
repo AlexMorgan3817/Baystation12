@@ -310,22 +310,22 @@
 /obj/effect/overmap/sector/exoplanet/proc/generate_atmosphere()
 	atmosphere = new
 	if(habitability_class == HABITABILITY_IDEAL)
-		atmosphere.adjust_gas("oxygen", MOLES_O2STANDARD, 0)
-		atmosphere.adjust_gas("nitrogen", MOLES_N2STANDARD)
+		atmosphere.adjust_gas(GAS_OXYGEN, MOLES_O2STANDARD, 0)
+		atmosphere.adjust_gas(GAS_NITROGEN, MOLES_N2STANDARD)
 	else //let the fuckery commence
 		var/list/newgases = gas_data.gases.Copy()
 		if(prob(90)) //all phoron planet should be rare
-			newgases -= "phoron"
+			newgases -= GAS_PHORON
 		if(prob(50)) //alium gas should be slightly less common than mundane shit
-			newgases -= "aliether"
-		newgases -= "watervapor"
+			newgases -= GAS_ALIEN
+		newgases -= GAS_STEAM
 
 		var/total_moles = MOLES_CELLSTANDARD * rand(80,120)/100
 		var/badflag = 0
 
 		//Breathable planet
 		if(habitability_class == HABITABILITY_OKAY)
-			atmosphere.gas["oxygen"] += MOLES_O2STANDARD
+			atmosphere.gas[GAS_OXYGEN] += MOLES_O2STANDARD
 			total_moles -= MOLES_O2STANDARD
 			badflag = XGM_GAS_FUEL|XGM_GAS_CONTAMINANT
 
@@ -387,3 +387,4 @@
 /area/exoplanet
 	name = "\improper Planetary surface"
 	ambience = list('sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg','sound/effects/wind/wind_4_2.ogg','sound/effects/wind/wind_5_1.ogg')
+	always_unpowered = 1

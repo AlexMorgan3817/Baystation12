@@ -8,6 +8,7 @@
 	layer = SIDE_WINDOW_LAYER
 	anchored = 1.0
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CHECKS_BORDER
+	obj_flags = OBJ_FLAG_ROTATABLE
 	alpha = 180
 	var/material/reinf_material
 	var/init_material = MATERIAL_GLASS
@@ -21,6 +22,7 @@
 	var/silicate = 0 // number of units of silicate
 	var/basestate = "window"
 	var/reinf_basestate = "rwindow"
+	rad_resistance_modifier = 0.5
 	blend_objects = list(/obj/machinery/door, /turf/simulated/wall) // Objects which to blend with
 	noblend_objects = list(/obj/machinery/door/window, /obj/machinery/door/blast/regular/evacshield, /obj/machinery/door/firedoor/border_only) //INF, WAS: /obj/machinery/door/window
 	atmos_canpass = CANPASS_PROC
@@ -201,10 +203,6 @@
 		step(src, get_dir(AM, src))
 	take_damage(tforce)
 
-/obj/structure/window/attack_tk(mob/user as mob)
-	user.visible_message("<span class='notice'>Something knocks on [src].</span>")
-	playsound(loc, 'sound/effects/Glasshit.ogg', 50, 1)
-
 /obj/structure/window/attack_hand(mob/user as mob)
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 	if(MUTATION_HULK in user.mutations)
@@ -218,7 +216,7 @@
 		if (istype(user,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = user
 			if(H.species.can_shred(H))
-				attack_generic(H,25)
+				attack_generic(H,25,pick("strikes")) //inf, was without ',pick("strikes")'
 				return
 
 		playsound(src.loc, 'sound/effects/glassknock.ogg', 80, 1)
@@ -248,6 +246,11 @@
 	else
 		visible_message("<span class='notice'>\The [user] bonks \the [src] harmlessly.</span>")
 	return 1
+
+/obj/structure/window/do_simple_ranged_interaction(var/mob/user)
+	visible_message(SPAN_NOTICE("Something knocks on \the [src]."))
+	playsound(loc, 'sound/effects/Glasshit.ogg', 50, 1)
+	return TRUE
 
 /obj/structure/window/attackby(obj/item/W as obj, mob/user as mob)
 	if(!istype(W)) return//I really wish I did not need this
@@ -301,10 +304,11 @@
 		return
 	else if(istype(W, /obj/item/weapon/gun/energy/plasmacutter) && anchored)
 		var/obj/item/weapon/gun/energy/plasmacutter/cutter = W
-		cutter.slice(user)
+		if(!cutter.slice(user))
+			return
 		playsound(src, 'sound/items/Welder.ogg', 80, 1)
 		visible_message("<span class='notice'>[user] has started slicing through the window's frame!</span>")
-		if(do_after(user,30,src))
+		if(do_after(user,20,src))
 			visible_message("<span class='warning'>[user] has sliced through the window's frame!</span>")
 			playsound(src, 'sound/items/Welder.ogg', 80, 1)
 			construction_state = 0
@@ -522,13 +526,12 @@
 	icon = 'icons/obj/power.dmi'
 	icon_state = "light0"
 	desc = "A remote control switch for electrochromic windows."
+	var/id
 	var/range = 7
-
-/obj/machinery/button/windowtint/attack_hand(mob/user as mob)
-	if(..())
-		return 1
-
-	toggle_tint()
+	stock_part_presets = null // This isn't a radio-enabled button; it communicates with nearby structures in view.
+	uncreated_component_parts = list(
+		/obj/item/weapon/stock_parts/power/apc
+	)
 
 /obj/machinery/button/windowtint/attackby(obj/item/device/W as obj, mob/user as mob)
 	if(isMultitool(W))
@@ -548,19 +551,18 @@
 		new /obj/item/frame/light_switch/windowtint(user.loc, 1)
 		qdel(src)
 
-/obj/machinery/button/windowtint/proc/toggle_tint()
-	use_power_oneoff(5)
-
-	active = !active
-	queue_icon_update()
+/obj/machinery/button/windowtint/activate()
+	if(operating)
+		return
 	for(var/obj/structure/window/W in range(src,range))
 		if(W.polarized && (W.id == src.id || !W.id))
 			W.toggle()
+	..()
 
 /obj/machinery/button/windowtint/power_change()
 	. = ..()
-	if(active && !powered(power_channel))
-		toggle_tint()
+	if(active && (stat & NOPOWER))
+		activate()
 
 /obj/machinery/button/windowtint/on_update_icon()
 	icon_state = "light[active]"

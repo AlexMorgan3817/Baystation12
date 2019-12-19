@@ -89,10 +89,10 @@
 	whitelisted = list(SPECIES_IPC)
 
 /datum/gear/suit/lab_xyn_machine
-	display_name = "(IPC) Xynergy labcoat"
+	display_name = "Xynergy labcoat" //INF, WAS "(IPC) Xynergy labcoat"
 	path = /obj/item/clothing/suit/storage/toggle/labcoat/xyn_machine
-	sort_category = "Xenowear"
-	whitelisted = list(SPECIES_IPC)
+//INF	sort_category = "Xenowear"
+//INF	whitelisted = list(SPECIES_IPC)
 
 // Misc clothing
 /datum/gear/uniform/harness
@@ -171,6 +171,13 @@
 	whitelisted = list(SPECIES_TAJARA)
 	sort_category = "Xenowear"
 	cost = 1
+
+/datum/gear/eyes/meson/tajvisor/hybr
+	display_name = "(Tajara) visor, engineering"
+	path = /obj/item/clothing/glasses/meson/prescription/tajvisor/hybrid
+	whitelisted = list(SPECIES_TAJARA)
+	sort_category = "Xenowear"
+	cost = 3
 
 /datum/gear/shoes/caligae
 	display_name = "(Tajara) caligae"
@@ -282,7 +289,7 @@
 
 /datum/gear/storage/adherent_harness
 	display_name = "(Adherent) tools harness"
-	path = /obj/item/weapon/storage/belt/utility/vigil
+	path = /obj/item/weapon/storage/belt/utility/crystal
 	sort_category = "Xenowear"
 	slot = slot_belt
 	cost = 4

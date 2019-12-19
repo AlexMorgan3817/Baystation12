@@ -7,7 +7,13 @@
 					/obj/item/device/radio/off = 1,
 					/obj/item/weapon/reagent_containers/food/snacks/liquidfood = 2)
 
-/obj/item/weapon/storage/box/coffeecups/misc_corps //ANACONDA/LEVEL/CIV/CAFE
+/obj/item/weapon/storage/box/holobombs
+	name = "box of holobombs"
+	desc = "A box containing 5 experimental holobombs."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/device/holobomb = 5, /obj/item/weapon/paper/holobomb = 1)
+
+/obj/item/weapon/storage/box/coffeecups/misc_corps
 	name = "box of misc coffee cups"
 	desc = "It's just an box, with coffee cups."
 	startswith = list(/obj/item/weapon/reagent_containers/food/drinks/glass2/coffeecup/NT = 1,

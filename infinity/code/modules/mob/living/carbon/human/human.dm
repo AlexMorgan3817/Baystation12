@@ -10,15 +10,15 @@
 		if (!(P in view(H.loc)))
 			return
 		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
-		var/hashands = (temp && temp.is_usable())
+		var/hashands = (temp?.is_usable())
 		if (!hashands)
 			temp = H.organs_by_name["l_hand"]
-			hashands = (temp && temp.is_usable())
+			hashands = (temp?.is_usable())
 		temp = P.organs_by_name["r_hand"]
-		var/hashands_p = (temp && temp.is_usable())
+		var/hashands_p = (temp?.is_usable())
 		if (!hashands_p)
 			temp = P.organs_by_name["l_hand"]
-			hashands = (temp && temp.is_usable())
+			hashands = (temp?.is_usable())
 		var/mouthfree = !((H.head && (H.check_mouth_coverage())) || (H.wear_mask && (H.check_mouth_coverage())))
 		var/mouthfree_p = !((P.head && (P.check_mouth_coverage())) || (P.wear_mask && (P.check_mouth_coverage())))
 		var/ya = "&#255;"
@@ -191,3 +191,8 @@
 					if (istype(P.loc, /obj/structure/closet))
 						P.visible_message("<B>[H]</B> пытаетс[ya] поймать <B>[P]</B> за хвост!")
 	..()
+/mob/living/carbon/human/Stat()
+	..()
+	var/obj/item/organ/internal/xeno/plasmavessel/P = internal_organs_by_name[BP_PLASMA]
+	if(P)
+		stat(null, "Phoron Stored: [P.stored_plasma]/[P.max_plasma]")

@@ -7,7 +7,8 @@
 		NETWORK_MEDICAL
 	)
 	subsystems = list(
-		/datum/nano_module/crew_monitor
+		/datum/nano_module/crew_monitor,
+		/datum/nano_module/records //INF, cuz it's mediborg
 	)
 	can_be_pushed = 0
 
@@ -51,6 +52,14 @@
 		/datum/matter_synth/medicine = 10000,
 	)
 	emag = /obj/item/weapon/reagent_containers/spray
+	skills = list(
+		SKILL_ANATOMY     = SKILL_PROF,
+		SKILL_MEDICAL     = SKILL_PROF, //inf, SKILL_ADEPT >> SKILL_EXPERT >> NOW
+		SKILL_VIROLOGY    = SKILL_ADEPT,
+		SKILL_CHEMISTRY   = SKILL_ADEPT,
+		SKILL_BUREAUCRACY = SKILL_ADEPT,
+		SKILL_DEVICES     = SKILL_EXPERT
+	)
 
 /obj/item/weapon/robot_module/medical/surgeon/finalize_equipment()
 	. = ..()
@@ -119,6 +128,15 @@
 		/datum/matter_synth/medicine = 15000
 	)
 	emag = /obj/item/weapon/reagent_containers/spray
+	skills = list(
+		SKILL_ANATOMY     = SKILL_BASIC,
+		SKILL_MEDICAL     = SKILL_PROF,
+		SKILL_VIROLOGY    = SKILL_ADEPT,
+		SKILL_CHEMISTRY   = SKILL_ADEPT,
+		SKILL_BUREAUCRACY = SKILL_ADEPT,
+		SKILL_EVA         = SKILL_EXPERT,
+		SKILL_MECH        = HAS_PERK
+	)
 
 /obj/item/weapon/robot_module/medical/crisis/finalize_equipment()
 	. = ..()

@@ -58,9 +58,20 @@ default behaviour is:
 	return ..()
 
 /mob/living/Bump(atom/movable/AM, yes)
+
+	// This is boilerplate from /atom/movable/Bump() but in all honest
+	// I have no clue what is going on in the logic below this and I'm
+	// afraid to touch it in case it explodes and kills me.
+	if(throwing)
+		throw_impact(AM)
+		throwing = FALSE
+		return
+	// End boilerplate.
+
 	spawn(0)
 		if ((!( yes ) || now_pushing) || !loc)
 			return
+
 		now_pushing = 1
 		if (istype(AM, /mob/living))
 			var/mob/living/tmob = AM
@@ -76,13 +87,6 @@ default behaviour is:
 						to_chat(src, "<span class='warning'>[tmob] is restraining [M], you cannot push past</span>")
 					now_pushing = 0
 					return
-
-			//Leaping mobs just land on the tile, no pushing, no anything.
-			if(status_flags & LEAPING)
-				loc = tmob.loc
-				status_flags &= ~LEAPING
-				now_pushing = 0
-				return
 
 			if(can_swap_with(tmob)) // mutual brohugs all around!
 				var/turf/oldloc = loc
@@ -253,7 +257,7 @@ default behaviour is:
 /mob/living/proc/getToxLoss()
 	return 0
 
-/mob/living/proc/adjustToxLoss(var/amount)
+/mob/living/proc/adjustToxLoss(var/amount, var/admin_healing = 0) //INF, WAS /mob/living/proc/adjustToxLoss(var/amount)
 	adjustBruteLoss(amount * 0.5)
 
 /mob/living/proc/setToxLoss(var/amount)
@@ -627,6 +631,8 @@ default behaviour is:
 	if(!incapacitated(INCAPACITATION_KNOCKOUT) && last_resist + 2 SECONDS <= world.time)
 		last_resist = world.time
 		resist_grab()
+		if(resting)
+			lay_down()
 		if(!weakened)
 			process_resist()
 
@@ -641,11 +647,11 @@ default behaviour is:
 		spawn() escape_buckle()
 		return TRUE
 
-	//Breaking out of a locker?
-	if( src.loc && (istype(src.loc, /obj/structure/closet)) )
-		var/obj/structure/closet/C = loc
-		spawn() C.mob_breakout(src)
-		return TRUE
+	//Breaking out of a structure?
+	if(istype(loc, /obj/structure))
+		var/obj/structure/C = loc
+		if(C.mob_breakout(src))
+			return TRUE
 
 /mob/living/proc/escape_inventory(obj/item/weapon/holder/H)
 	if(H != src.loc) return
@@ -705,6 +711,7 @@ default behaviour is:
 //called when the mob receives a bright flash
 /mob/living/flash_eyes(intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
 	if(override_blindness_check || !(disabilities & BLIND))
+		..()
 		overlay_fullscreen("flash", type)
 		spawn(25)
 			if(src)
@@ -788,8 +795,8 @@ default behaviour is:
 		to_chat(src, "<span class='notice'>You reach out with tendrils of ectoplasm and invade the mind of \the [src]...</span>")
 		to_chat(src, "<b>You have assumed direct control of \the [src].</b>")
 		to_chat(src, "<span class='notice'>Due to the spookiness of the round, you have taken control of the poor animal as an invading, possessing spirit - roleplay accordingly.</span>")
-		src.universal_speak = 1
-		src.universal_understand = 1
+		src.universal_speak = TRUE
+		src.universal_understand = TRUE
 		//src.cultify() // Maybe another time.
 		return
 
@@ -857,7 +864,7 @@ default behaviour is:
 	if(!can_drown() || !loc.is_flooded(lying))
 		return FALSE
 	if(prob(5))
-		to_chat(src, "<span class='danger'>You choke and splutter as you inhale water!</span>")
+		to_chat(src, SPAN_DANGER("You choke and splutter as you inhale water!"))
 	var/turf/T = get_turf(src)
 	T.show_bubbles()
 	return TRUE // Presumably chemical smoke can't be breathed while you're underwater.

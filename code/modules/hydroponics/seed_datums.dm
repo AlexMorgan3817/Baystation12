@@ -164,7 +164,7 @@
 	name = "tomato"
 	seed_name = "tomato"
 	display_name = "tomato plant"
-	mutants = list("bluetomato","bloodtomato")
+	mutants = list("bluetomato","bloodtomato", "mandragora")//inf //was: mutants = list("bluetomato","bloodtomato")
 	chems = list(/datum/reagent/nutriment = list(1,10), /datum/reagent/drink/juice/tomato = list(10,10))
 	kitchen_tag = "tomato"
 
@@ -240,7 +240,7 @@
 	name = "eggplant"
 	seed_name = "eggplant"
 	display_name = "eggplants"
-	mutants = list("realeggplant")
+	mutants = list("realeggplant", "mandragora")//inf //was: mutants = list("realeggplant")
 	chems = list(/datum/reagent/nutriment = list(1,10))
 	kitchen_tag = "eggplant"
 
@@ -1210,26 +1210,6 @@
 	mutants = list("tobacco")
 	chems = list(/datum/reagent/tobacco/bad = list(1,10))
 
-// Alien weeds.
-/datum/seed/xenomorph
-	name = "xenomorph"
-	seed_name = "alien weed"
-	display_name = "alien weeds"
-	force_layer = OBJ_LAYER
-	chems = list(/datum/reagent/toxin/phoron = list(1,3))
-
-/datum/seed/xenomorph/New()
-	..()
-	set_trait(TRAIT_PLANT_ICON,"vine2")
-	set_trait(TRAIT_IMMUTABLE,1)
-	set_trait(TRAIT_PRODUCT_COLOUR,"#3d1934")
-	set_trait(TRAIT_FLESH_COLOUR,"#3d1934")
-	set_trait(TRAIT_PLANT_COLOUR,"#3d1934")
-	set_trait(TRAIT_PRODUCTION,1)
-	set_trait(TRAIT_YIELD,-1)
-	set_trait(TRAIT_SPREAD,2)
-	set_trait(TRAIT_POTENCY,50)
-
 /datum/seed/algae
 	name = "algae"
 	seed_name = "algae"
@@ -1239,7 +1219,7 @@
 		/datum/reagent/toxin/bromide = list(3,8)
 	)
 	kitchen_tag = "algae"
-	exude_gasses = list("methyl_bromide" = 3)
+	exude_gasses = list(GAS_METHYL_BROMIDE = 3)
 
 /datum/seed/algae/New()
 	..()

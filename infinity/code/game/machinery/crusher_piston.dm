@@ -14,6 +14,8 @@
 	idle_power_usage = 300
 
 	var/obj/machinery/crusher_piston/pstn //Piston
+	construct_state = /decl/machine_construction/default/panel_closed
+	uncreated_component_parts = null
 
 	var/action = "idle" //Action the piston should perform
 	// idle -> Do nothing
@@ -53,10 +55,10 @@
 
 /obj/machinery/crusher_base/Initialize()
 	. = ..()
-
+/*
 	//Create parts for crusher.
 	component_parts = list()
-	component_parts += new /obj/item/weapon/circuitboard/crusher(src)
+	component_parts += new /obj/item/weapon/stock_parts/circuitboard/crusher(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
@@ -68,7 +70,7 @@
 	component_parts += new /obj/item/weapon/reagent_containers/glass/beaker(src)
 	component_parts += new /obj/item/weapon/reagent_containers/glass/beaker(src)
 	RefreshParts()
-
+*/
 	action_start_time = world.time
 
 	//Spawn the stage 1 pistons south of it with a density of 0
@@ -112,36 +114,24 @@
 		if(prot == 0)
 			M.apply_damage(45, BRUTE, user.get_active_hand())
 			M.apply_damage(45, PAIN)
-			M.visible_message("<span class='danger'>[user]'s hand catches in the [src]!</span>", "<span class='danger'>Your hand gets caught in the [src]!</span>")
-			M.say("*scream")
+			M.visible_message(SPAN_DANGER("[user]'s hand catches in the [src]!"), SPAN_DANGER("Your hand gets caught in the [src]!"))
+			if(M.can_feel_pain())
+				M.agony_scream()
 		return
-	if(default_deconstruction_screwdriver(user, O))
-		return
-	if(default_deconstruction_crowbar(user, O))
-		return
-	if(default_part_replacement(user, O))
-		return
+	return ..()
 
 	//Stuff you can do if the maint hatch is open
 	if(panel_open)
 		if(isWrench(O))
-			to_chat(user, "<span class='notice'>You start [valve_open ? "closing" : "opening"] the pressure relief valve of [src].</span>")
+			to_chat(user, SPAN_NOTICE("You start [valve_open ? "closing" : "opening"] the pressure relief valve of [src]."))
 			if(do_after(user,50))
 				valve_open = !valve_open
-				to_chat(user, "<span class='notice'>You [valve_open ? "open" : "close"] the pressure relief valve of [src].</span>")
+				to_chat(user, SPAN_NOTICE("You [valve_open ? "open" : "close"] the pressure relief valve of [src]."))
 				if(valve_open)
 					blocked = 0
 					action = "retract"
 			return
 	..()
-
-/obj/machinery/crusher_base/default_deconstruction_crowbar(var/mob/user, var/obj/item/weapon/crowbar/C)
-	if(!istype(C))
-		return 0
-	if(num_progress != 0) //Piston needs to be retracted before you are able to deconstruct it
-		to_chat(user, "<span class='notice'>You can not deconstruct [src] while the piston is extended.</span>")
-		return 0
-	return ..()
 
 /obj/machinery/crusher_base/proc/change_neighbor_base_icons()
 	var/obj/machinery/crusher_base/left = locate(/obj/machinery/crusher_base, get_step(src, WEST))

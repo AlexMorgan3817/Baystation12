@@ -169,7 +169,7 @@
 	BITSET(hud_updateflag, HEALTH_HUD)
 
 /mob/living/carbon/human/getToxLoss()
-	if((species.species_flags & SPECIES_FLAG_NO_POISON) || isSynthetic())
+	if(species.species_flags & SPECIES_FLAG_NO_POISON) //INF, WAS if((species.species_flags & SPECIES_FLAG_NO_POISON) || isSynthetic())
 		return 0
 	var/amount = 0
 	for(var/obj/item/organ/internal/I in internal_organs)
@@ -177,20 +177,25 @@
 	return amount
 
 /mob/living/carbon/human/setToxLoss(var/amount)
-	if(!(species.species_flags & SPECIES_FLAG_NO_POISON) && !isSynthetic())
+	if(!(species.species_flags & SPECIES_FLAG_NO_POISON)) //INF, WAS if(!(species.species_flags & SPECIES_FLAG_NO_POISON) && !isSynthetic())
 		adjustToxLoss(getToxLoss()-amount)
 
 // TODO: better internal organ damage procs.
-/mob/living/carbon/human/adjustToxLoss(var/amount)
+/mob/living/carbon/human/adjustToxLoss(var/amount, var/admin_healing = 0) //INF, WAS /mob/living/carbon/human/adjustToxLoss(var/amount)
 
-	if((species.species_flags & SPECIES_FLAG_NO_POISON) || isSynthetic())
+	if(species.species_flags & SPECIES_FLAG_NO_POISON) //INF, WAS if((species.species_flags & SPECIES_FLAG_NO_POISON) || isSynthetic())
 		return
-
+//[INF]
+	if(isSynthetic() && !admin_healing)
+		return 0
+//[/INF]
 	var/heal = amount < 0
 	amount = abs(amount)
 
-	if(!heal && (CE_ANTITOX in chem_effects))
-		amount *= 1 - (chem_effects[CE_ANTITOX] * 0.25)
+	if (!heal)
+		amount = amount * species.toxins_mod
+		if (CE_ANTITOX in chem_effects)
+			amount *= 1 - (chem_effects[CE_ANTITOX] * 0.25)
 
 	var/list/pick_organs = shuffle(internal_organs.Copy())
 
@@ -301,8 +306,13 @@ In most cases it makes more sense to use apply_damage() instead! And make sure t
 
 		var/brute_was = picked.brute_dam
 		var/burn_was = picked.burn_dam
+//[INF] to heal damaged robotic organs
+		var/organ_type = 0
+		if(picked.status & ORGAN_ROBOTIC)
+			organ_type = 1
+//[/INF]
 
-		picked.heal_damage(brute,burn)
+		picked.heal_damage(brute,burn,0, organ_type) //INF, WAS picked.heal_damage(brute,burn)
 
 		brute -= (brute_was-picked.brute_dam)
 		burn -= (burn_was-picked.burn_dam)
@@ -321,6 +331,11 @@ In most cases it makes more sense to use apply_damage() instead! And make sure t
 	var/brute_avg = brute / parts.len
 	var/burn_avg = burn / parts.len
 	for(var/obj/item/organ/external/E in parts)
+		if(QDELETED(E))
+			continue
+		if(E.owner != src)
+			continue // The code below may affect the children of an organ.
+
 		if(brute_avg)
 			apply_damage(damage = brute_avg, damagetype = BRUTE, damage_flags = dam_flags, used_weapon = used_weapon, silent = TRUE, given_organ = E)
 		if(burn_avg)
@@ -406,10 +421,8 @@ This function restores all organs.
 	damageoverlaytemp = 20
 	switch(damagetype)
 		if(BRUTE)
-			damage = damage*species.brute_mod
 			created_wound = organ.take_external_damage(damage, 0, damage_flags, used_weapon)
 		if(BURN)
-			damage = damage*species.burn_mod
 			created_wound = organ.take_external_damage(0, damage, damage_flags, used_weapon)
 		if(PAIN)
 			organ.add_pain(damage)

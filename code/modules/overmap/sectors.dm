@@ -89,11 +89,14 @@
 		generic_waypoints -= landmark
 
 /obj/effect/overmap/proc/get_waypoints(var/shuttle_name)
-	. = generic_waypoints.Copy()
-	if(shuttle_name in restricted_waypoints)
-		. += restricted_waypoints[shuttle_name]
+	. = list()
 	for(var/obj/effect/overmap/contained in src)
 		. += contained.get_waypoints(shuttle_name)
+	for(var/thing in generic_waypoints)
+		.[thing] = name
+	if(shuttle_name in restricted_waypoints)
+		for(var/thing in restricted_waypoints[shuttle_name])
+			.[thing] = name
 
 /obj/effect/overmap/sector
 	name = "generic sector"
@@ -120,17 +123,14 @@
 	testing("Building overmap...")
 	world.maxz++
 	GLOB.using_map.overmap_z = world.maxz
-	var/list/turfs = list()
+	var/area/overmap/A = new
 	for (var/square in block(locate(1,1,GLOB.using_map.overmap_z), locate(GLOB.using_map.overmap_size,GLOB.using_map.overmap_size,GLOB.using_map.overmap_z)))
 		var/turf/T = square
 		if(T.x == GLOB.using_map.overmap_size || T.y == GLOB.using_map.overmap_size)
 			T = T.ChangeTurf(/turf/unsimulated/map/edge)
 		else
-			T = T.ChangeTurf(/turf/unsimulated/map/)
-		turfs += T
-
-	var/area/overmap/A = new
-	A.contents.Add(turfs)
+			T = T.ChangeTurf(/turf/unsimulated/map)
+		ChangeArea(T, A)
 
 	GLOB.using_map.sealed_levels |= GLOB.using_map.overmap_z
 

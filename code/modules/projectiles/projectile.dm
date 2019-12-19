@@ -28,7 +28,7 @@
 
 	var/hitchance_mod = 0
 	var/dispersion = 0.0
-	var/distance_falloff = 2  //multiplier, higher value means accuracy drops faster with distance
+	var/distance_falloff = 9  //multiplier, higher value means accuracy drops faster with distance //INF, WAS 2
 
 	var/damage = 10
 	var/damage_type = BRUTE //BRUTE, BURN, TOX, OXY, CLONE, PAIN are the only things that should be in here
@@ -36,7 +36,7 @@
 	var/damage_flags = DAM_BULLET
 	var/projectile_type = /obj/item/projectile
 	var/penetrating = 0 //If greater than zero, the projectile will pass through dense objects as specified by on_penetrate()
-	var/kill_count = 50 //This will de-increment every process(). When 0, it will delete the projectile.
+	var/life_span = 50 //This will de-increment every process(). When 0, it will delete the projectile.
 		//Effects
 	var/stun = 0
 	var/weaken = 0
@@ -59,6 +59,7 @@
 
 	var/fire_sound
 	var/miss_sounds
+	var/ricochet_sounds
 	var/shrapnel_type = /obj/item/weapon/material/shard/shrapnel
 
 	var/vacuum_traversal = 1 //Determines if the projectile can exist in vacuum, if false, the projectile will be deleted if it enters vacuum.
@@ -187,38 +188,40 @@
 	setup_trajectory(starting_loc, new_target)
 
 //Called when the projectile intercepts a mob. Returns 1 if the projectile hit the mob, 0 if it missed and should keep flying.
-/obj/item/projectile/proc/attack_mob(var/mob/living/target_mob, var/distance, var/miss_modifier=0)
+/obj/item/projectile/proc/attack_mob(var/mob/living/target_mob, var/distance, var/special_miss_modifier=0)
 	if(!istype(target_mob))
 		return
+//[INF]
+//	var/distance_mod
+	var/miss_modifier
 
-	var/distance_input = round(12.5 * (distance - 2))	// Бонус к попаданию до 4-х метров
-	var/accuracy_input = round(15 * 0)			// Это пока так и останется
-
-	// расчет модификатора попадания
-	miss_modifier = distance_input - accuracy_input + miss_modifier
-
-	if(distance <= 1)
-		miss_modifier -= 10	// Еще бонус от ближнего расстояния
-
-	if(target_mob == original)
-		miss_modifier -= 20	// По человеку попали!
-
-	if(firer == target_mob)
-		miss_modifier -= 30	// По себе уж точно промазать сложно
-
-/* INF-TODO:REMAKE SYSTEM
-	//roll to-hit
-	var/miss_modifier = max(distance_falloff*(distance)*(distance) - hitchance_mod + special_miss_modifier, -30)
+//roll to-hit
+	if(distance >= 2)
+		miss_modifier = max(distance_falloff * (distance+1)  - hitchance_mod + special_miss_modifier, -30)
+	else
+		miss_modifier = max(0 - hitchance_mod + special_miss_modifier, -30)
+//[/INF]
 	//makes moving targets harder to hit, and stationary easier to hit
-	var/movment_mod = min(5, (world.time - target_mob.l_move_time) - 20)
+//inf	var/movment_mod = min(5, (world.time - target_mob.l_move_time) - 20)
+	//Calc close distance bonus
+//[INF]
+/*
+//	if (distance < 5)
+//		distance_mod = 30 / (distance * 2)
+//	if (distance <= 2)
+//		if (movment_mod >= 0)
+//			distance_mod = 30 / distance
+//	miss_modifier -= distance_mod
+*/
+//[/INF]
 	//running in a straight line isnt as helpful tho
-	if(movment_mod < 0)
+/*[INF]	if(movment_mod < 0)
 		if(target_mob.last_move == get_dir(firer, target_mob))
 			movment_mod *= 0.25
 		else if(target_mob.last_move == get_dir(target_mob,firer))
 			movment_mod *= 0.5
 	miss_modifier -= movment_mod
-*/
+[/INF]*/
 	var/hit_zone = get_zone_with_miss_chance(def_zone, target_mob, miss_modifier, ranged_attack=(distance > 1 || original != target_mob)) //if the projectile hits a target we weren't originally aiming at then retain the chance to miss
 
 	var/result = PROJECTILE_FORCE_MISS
@@ -264,7 +267,7 @@
 	if(A == src)
 		return 0 //no
 
-	if(A == firer || istype(A, /obj/mecha) && get_turf(A) == get_turf(firer))
+	if(A == firer || istype(A, /mob/living/exosuit) && get_turf(A) == get_turf(firer))
 		forceMove(A.loc)
 		return 0 //cannot shoot yourself
 
@@ -331,7 +334,7 @@
 	var/first_step = 1
 
 	spawn while(src && src.loc)
-		if(kill_count-- < 1)
+		if(life_span-- < 1)
 			on_impact(src.loc) //for any final impact behaviours
 			qdel(src)
 			return
@@ -364,7 +367,7 @@
 		if(first_step)
 			muzzle_effect(effect_transform)
 			first_step = 0
-		else if(!bumped && kill_count > 0)
+		else if(!bumped && life_span > 0)
 			tracer_effect(effect_transform)
 		if(!hitscan)
 			sleep(step_delay)	//add delay between movement iterations if it's not a hitscan weapon
@@ -427,9 +430,9 @@
 
 /obj/item/projectile/proc/impact_effect(var/matrix/M)
 	if(ispath(impact_type))
-		var/obj/effect/projectile/P = new impact_type(location.loc)
+		var/obj/effect/projectile/P = new impact_type(location ? location.loc : get_turf(src))
 
-		if(istype(P))
+		if(istype(P) && location)
 			P.set_transform(M)
 			P.pixel_x = round(location.pixel_x, 1)
 			P.pixel_y = round(location.pixel_y, 1)
@@ -443,12 +446,12 @@
 	var/result = 0 //To pass the message back to the gun.
 
 /obj/item/projectile/test/Bump(atom/A as mob|obj|turf|area)
-	if(A == firer || istype(A, /obj/mecha) && get_turf(A) == get_turf(firer))
+	if(A == firer || istype(A, /mob/living/exosuit) && get_turf(A) == get_turf(firer))
 		forceMove(A.loc)
 		return //cannot shoot yourself
 	if(istype(A, /obj/item/projectile))
 		return
-	if(istype(A, /mob/living) || istype(A, /obj/mecha) || istype(A, /obj/vehicle))
+	if(istype(A, /mob/living) || istype(A, /obj/vehicle))
 		result = 2 //We hit someone, return 1!
 		return
 	result = 1

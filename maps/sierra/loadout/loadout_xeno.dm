@@ -28,10 +28,6 @@
 // IPC clothing
 
 /datum/gear/suit/lab_xyn_machine
-	display_name = "(IPC) Xynergy labcoat"
-	path = /obj/item/clothing/suit/storage/toggle/labcoat/xyn_machine
-	sort_category = "Xenowear"
-	whitelisted = list(SPECIES_IPC)
 	allowed_branches = list(/datum/mil_branch/contractor)
 
 // Misc clothing
@@ -49,13 +45,13 @@
 // Vox clothing
 
 /datum/gear/mask/gas/vox
-	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /datum/job/stowaway)
+	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /*/datum/job/stowaway*/)
 
 /datum/gear/gloves/vox
-	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /datum/job/stowaway)
+	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /*/datum/job/stowaway*/)
 
 /datum/gear/uniform/vox_cloth
-	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /datum/job/stowaway)
+	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /*/datum/job/stowaway*/)
 
 /datum/gear/uniform/vox_robe
-	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /datum/job/stowaway)
+	allowed_roles = list(/datum/job/merchant, /datum/job/merchant_trainee, /*/datum/job/stowaway*/)

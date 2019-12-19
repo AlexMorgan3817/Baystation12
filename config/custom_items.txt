@@ -140,6 +140,51 @@ ckey: arbuzpersikov
 character_name: Xuel-Qermzix Zixxrim
 item_path: /obj/item/music_player/csplayer/custom_tape
 }
+{
+ckey: evgen00751
+character_name: Andy Robberts
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: doctorducky
+character_name: Marc Hughes
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: morikawacinatsu
+character_name: Henry Blackburn
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: mrkayde
+character_name: kiyaka
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: diesiege
+character_name: Eva Laine
+item_path: /obj/item/music_player/csplayer/custom_tape
+}
+{
+ckey: elloncake
+character_name: Selachii Cirrina
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: 3v4ng4m1ng
+character_name: Finn Straud
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: thehero13
+character_name: Jake Pater
+item_path: /obj/item/music_player/custom_tape
+}
+{
+ckey: sallyvadordomold
+character_name: Denis Serbin
+item_path: /obj/item/music_player/custom_tape
+}
 
 #	SHORT ITEMS HERE (3-4)
 
@@ -192,7 +237,7 @@ item_path: /obj/item/weapon/storage/backpack/wd_sack
 }
 {
 ckey: moonmen
-character_name: Ketdra Nazkin
+character_name: Ketdra Kaytam
 item_path: /obj/item/clothing/ears/earmuffs/headphones/darkred
 }
 {
@@ -340,18 +385,29 @@ item_path: /obj/item/clothing/glasses/sunglasses/blindfold/fake
 #ckey: mceisler
 #character_name: Vladimir Bloodenheart
 #item_path: /obj/item/custkit/sprite/white_card
-#req_access: 67
+#req_access: "ACCESS_HEADS"
 #}
 {
 ckey: arhod
 character_name: Amr'in Battrral
 item_path: /obj/item/custkit/messith
-req_access: 3
+req_access: "ACCESS_ARMORY"
 }
 {
 ckey: arhod
 character_name: Amr'in Battrral
-item_path: /obj/item/weapon/flame/lighter/zippo/custom/messotha/arhod
+item_path: /obj/item/weapon/flame/lighter/zippo/custom/messotha
+}
+{
+ckey: arhod
+character_name: Amr'in Battrral
+item_path: /obj/item/clothing/accessory/necklace/messa
+}
+{
+ckey: arhod
+character_name: Jason Marhod
+item_path: /obj/item/clothing/accessory/medal/solgov/silver/sword
+item_desc: A silver medal awarded to members of the SCG for honorable service while under enemy fire. Belongs to Jason Marhod.
 }
 {
 ckey: laxesh
@@ -372,20 +428,39 @@ item_path: /obj/item/clothing/mask/gas/custom
 req_access: "ACCESS_SECURITY"
 }
 {
+ckey: bob46
+character_name: Hans Becker
+item_path: /obj/item/clothing/mask/gas/custom
+req_access: "ACCESS_SECURITY"
+}
+{
 ckey: jacking
-character_name: James Oscar
-item_path: /obj/item/clothing/mask/gas/gm15m
+character_name: Jack Fisher
+item_path: /obj/item/clothing/glasses/sunglasses/sechud/toggle/stv
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: jacking
+character_name: Alexey Makarov
+item_path: /obj/item/clothing/mask/gas/custom
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: jacking
+character_name: Alexey Makarov
+item_path: /obj/item/clothing/head/helmet/x_four
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: jacking
+character_name: Alexey Makarov
+item_path: /obj/item/clothing/suit/storage/vest/pcrc/custom
 req_access: "ACCESS_SECURITY"
 }
 {
 ckey: jacking
 character_name: Juan Stern
 item_path: /obj/item/clothing/under/custom_flunif
-}
-{
-ckey: jacking
-character_name: James Oscar
-item_path: /obj/item/clothing/head/helmet/x_four
 }
 {
 ckey: warfoxy
@@ -432,12 +507,6 @@ character_name: Shizukana Hikaro
 item_path: /obj/item/weapon/clothingbag/quiet_set
 }
 {
-ckey: jacking
-character_name: Jack Fisher
-item_path: /obj/item/clothing/glasses/sunglasses/sechud/toggle/stv
-req_access: "ACCESS_SECURITY"
-}
-{
 ckey: he11d1ver
 character_name: Aard Barnes
 item_path: /obj/item/clothing/head/helmet/ronin_helmet
@@ -447,11 +516,6 @@ req_access: "ACCESS_SECURITY"
 ckey: chowny
 character_name: Alice Goldstain
 item_path: /obj/item/weapon/clothingbag/chowny_clothing
-}
-{
-ckey: jacking
-character_name: Jon Obrayn
-item_path: /obj/item/weapon/storage/backpack/dufflebag/biohazard/jacking
 }
 {
 ckey: forrya
@@ -468,7 +532,78 @@ ckey: farwa87
 character_name: Alexandra Price
 item_path: /obj/item/toy/plushie/jones
 }
-
+{
+ckey: jacking
+character_name: Carter Williams
+item_path: /obj/item/weapon/clothingbag/custom_army
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: sarov
+character_name: CP.NTC.Sectarian-145
+item_path: /obj/item/weapon/clothingbag/custom_pcrc
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: kirill1243
+character_name: Tei Sar
+item_path: /obj/item/clothing/suit/storage/peacoat
+}
+{
+ckey: vsrneji
+character_name: Pl. Lim-01
+item_path: /obj/item/clothing/suit/storage/rockcloak/alt
+}
+{
+ckey: yourbro
+character_name: Stan Karelin
+item_path: /obj/item/clothing/suit/storage/rockcloak
+}
+{
+ckey: exapster
+character_name: Matthew Stone
+item_path: /obj/item/clothing/suit/storage/rockcloak
+item_desc: An Anti-Front cloak. This one has large red letter "A", crossed out by a white line and circled. This cloak also has a large red brick wall on the back, and in this walls you can notice some blooddrops...You also can see two small intriciptions in the lower part of this cloak and one large over them. The first sats, "Matthew Damir Stone", referring to it's owner. The second one says, "Squeezing our hearts, the memory of the past will live on.". That cloak smells like rock ' n ' roll.
+}
+{
+ckey: ilya2180
+character_name: Malik Myan
+item_path: /obj/item/clothing/accessory/armband/custom_bs
+}
+{
+ckey: jacking
+character_name: Jack McMillan
+item_path: /obj/item/weapon/clothingbag/custom_zpci_knight
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: jacking
+character_name: Mammoth Nestor
+item_path: /obj/item/weapon/clothingbag/custom_saare
+req_access: "ACCESS_SECURITY"
+}
+{
+ckey: coolered
+character_name: Martha Muller
+item_path: /obj/item/clothing/under/thermal/custom
+}
+{
+ckey: sallyvadordomold
+character_name: Denis Serbin
+item_path: /obj/item/clothing/suit/lux_tunic/custom
+}
+{
+ckey: sallyvadordomold
+character_name: Denis Serbin
+item_desc: A bronze heart awarded to members of the SCG for injury or death in the line of duty. Belongs to Denis Serbin.
+item_path: /obj/item/clothing/accessory/medal/solgov/bronze/heart
+}
+{
+ckey: sallyvadordomold
+character_name: Denis Serbin
+item_desc: A gold medal awarded to members of the Defense Forces by the Secretary General for personal acts of valor and heroism above and beyond the call of duty. Belongs to Denis Serbin.
+item_path: /obj/item/clothing/accessory/medal/solgov/gold/crest
+}
 #	MEDIUM ITEMS HERE (5-6)
 
 {
@@ -492,7 +627,7 @@ item_path: /obj/item/modular_computer/pda/wrist/grayson
 {
 ckey: courierr
 character_name: Mia Lee
-item_path: /obj/item/weapon/material/kitchen/utensil/knife/boot
+item_path: /obj/item/weapon/material/knife
 item_name: karambit
 item_desc: A small knife with a curved blade.
 item_icon: karambit
@@ -563,7 +698,7 @@ item_icon: talisman-5
 {
 ckey: furrydog
 character_name: Mathor Ajurth Enai-Kaytam
-item_path: /obj/item/clothing/ring/seal/mason
+item_path: /obj/item/clothing/ring
 item_name: rainbow bracelet
 item_desc: It's a rainbow bracelet. Looks pretty good and stylish, special for gays.
 item_icon: rainbow_bracelet
@@ -571,7 +706,7 @@ item_icon: rainbow_bracelet
 {
 ckey: thehero13
 character_name: Jonn Corsac
-item_path: /obj/item/weapon/material/kitchen/utensil/knife/boot
+item_path: /obj/item/weapon/material/knife
 item_name: karambit
 item_desc: A small curved knife.
 item_icon: karambit2
@@ -590,17 +725,41 @@ item_path: /obj/item/clothing/head/beret/sec/corporate/hos
 item_name: frontier assault squad leader beret
 item_desc: This is an old and shabby beret of a veteran of one of the many wars to the frontier, who paid the price with his blood.
 }
+{
+ckey: asriel15
+character_name: Friedrich Zimmer
+item_path: /obj/item/clothing/head/beret/solgov/expedition/branch
+item_name: frontier mercenary beret
+item_desc: An old, dark beret. A favorite headwear among Frontier mercenaries, this one has a purple-red-silver-blue emblem with words 'Actum ne agas' imprinted on it.
+}
+{
+ckey: asriel15
+character_name: IC-Rachel
+item_path: /obj/item/clothing/head/beret
+item_icon: calypso_beret
+item_name: calypso group beret
+item_desc: A dark green-blue beret with light-blue Calypso Group insignia. This one belongs to a Vat-Grown named "IC-Rachel".
+}
+{
+ckey: asriel15
+character_name: IC-Rachel
+item_path: /obj/item/clothing/shoes/jackboots
+item_icon: calypso_boots
+item_name: calypso group boots
+item_desc: A pair of white plastic boots with shining neon-yellow parts,stylised with small angelic wings. This one belongs  to a Vat-Grown named "IC-Rachel".
+}
+{
+ckey: he11d1ver
+character_name: Aard Barnes
+item_path: /obj/item/clothing/accessory/armor/helmcover/custom_he11d1ver
+}
+{
+ckey: he11d1ver
+character_name: Aard Barnes
+item_path: /obj/item/clothing/suit/armor/pcarrier
+item_name: green tactical vest
+item_desc: Green-colored plate carrier replete with pouches to help you carry mags, trophies, awful teammates and crippling PTSD.
+item_icon: helldiver_pcarrier
+}
 
 #	LONG ITEMS HERE (+7)
-
-{
-ckey: arhod
-character_name: Jason Marhod
-item_path: /obj/item/clothing/accessory/medal/solgov/silver/sword
-item_desc: A silver medal awarded to members of the SCG for honorable service while under enemy fire. No: 48181
-req_titles: Warden
-req_access: "ACCESS_BRIG"
-paper_info: [center]Öåíòðàëüíîå Ïðàâèòåëüñòâî Ñîëíå÷íîé Ñèñòåìû[/center][solcrest][br]Äàííûì ñåðòèôèêàòîì ïîäòâåðæäàåòñÿ íàãðàæäåíèå Äæåéñîíà Ìàðõîäà ìåäàëüþ "Ó÷àñòíèê Áîåâûõ Äåéñòâèè" çà íåéòðàëèçàöèþ ïðîòèâíèêà â îïàñíûõ óñëîâèÿõ.[br]Ïîäïèñü: [sign]Oliver Stocker[/sign]
-paper_title: award certificate
-paper_stamp_type: /obj/item/weapon/stamp/solgov
-}

@@ -27,9 +27,9 @@
 	desc = "A crate with SMES coils, and circuits."
 
 /obj/structure/closet/crate/smes_coils/WillContain()
-	return list(/obj/item/weapon/smes_coil = 4,
-				/obj/item/weapon/smes_coil/super_capacity = 4,
-				/obj/item/weapon/smes_coil/super_io = 4
+	return list(/obj/item/weapon/stock_parts/smes_coil = 4,
+				/obj/item/weapon/stock_parts/smes_coil/super_capacity = 4,
+				/obj/item/weapon/stock_parts/smes_coil/super_io = 4
 	)
 
 /obj/structure/closet/crate/fuel/pacman/phoron

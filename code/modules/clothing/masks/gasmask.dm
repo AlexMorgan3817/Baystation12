@@ -11,10 +11,20 @@
 	permeability_coefficient = 0.01
 	siemens_coefficient = 0.9
 	armor = list(melee = 5, bullet = 5, laser = 5, energy = 0, bomb = 0, bio = 75, rad = 0)
+	filtered_gases = list(
+		GAS_PHORON,
+		GAS_N2O,
+		GAS_CHLORINE,
+		GAS_AMMONIA,
+		GAS_CO,
+		GAS_METHYL_BROMIDE,
+		GAS_METHANE
+	)
 	var/clogged
 	var/filter_water
 	var/gas_filter_strength = 1			//For gas mask filters
-	var/list/filtered_gases = list("phoron","sleeping_agent","chlorine","ammonia","carbon_monoxide","methyl_bromide")
+
+	tint = 2 //INF
 
 /obj/item/clothing/mask/gas/examine(var/mob/user)
 	. = ..()
@@ -60,7 +70,8 @@
 		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/mask.dmi',
 		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_mask_resomi.dmi',
 		SPECIES_EROSAN = 'infinity/icons/mob/species/erosan/mask.dmi',
-		)
+		)//inf
+	tint = 0 //inf
 
 //In scaling order of utility and seriousness
 
@@ -89,6 +100,7 @@
 	body_parts_covered = FACE|EYES
 	armor = list(melee = 15, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 75, rad = 0)
 
+	tint = 0 //inf
 /obj/item/clothing/mask/gas/syndicate
 	name = "tactical mask"
 	desc = "A close-fitting tactical mask that can be connected to an air supply."
@@ -97,6 +109,7 @@
 	siemens_coefficient = 0.7
 	armor = list(melee = 15, bullet = 15, laser = 15, energy = 0, bomb = 0, bio = 75, rad = 0)
 
+	tint = 0 //inf
 /obj/item/clothing/mask/gas/death_commando
 	name = "\improper Death Commando Mask"
 	desc = "A grim tactical mask worn by the fictional Death Commandos, elites of the also fictional Space Syndicate. Saturdays at 10!"
@@ -166,9 +179,13 @@
 	item_state = "respirator"
 	flags_inv = 0
 	body_parts_covered = 0
+
 	species_restricted = list(SPECIES_VOX, SPECIES_VOX_ARMALIS)
-	filtered_gases = list("phoron", "sleeping_agent", "oxygen", "chlorine","ammonia","carbon_monoxide","methyl_bromide")
-	w_class = ITEM_SIZE_SMALL
+	filtered_gases = list(GAS_PHORON, GAS_N2O, GAS_OXYGEN,\
+															GAS_CHLORINE, GAS_AMMONIA, GAS_METHYL_BROMIDE, GAS_CO, GAS_CO2)//inf
+
+
+	tint = 0 //inf
 
 /obj/item/clothing/mask/gas/swat/vox
 	name = "alien mask"
@@ -177,12 +194,23 @@
 	item_state = "voxswat"
 	body_parts_covered = 0
 	species_restricted = list(SPECIES_VOX, SPECIES_VOX_ARMALIS)
-	filtered_gases = list("phoron", "sleeping_agent", "oxygen", "chlorine","ammonia","carbon_monoxide","methyl_bromide")
+	filtered_gases = list(GAS_PHORON, GAS_N2O, GAS_OXYGEN,\
+															GAS_CHLORINE, GAS_AMMONIA, GAS_METHYL_BROMIDE, GAS_CO, GAS_CO2)//inf
+	tint = 0 //inf
 
 /obj/item/clothing/mask/gas/aquabreather
 	name = "aquabreather"
 	desc = "A compact CO2 scrubber and breathing apparatus that draws oxygen from water."
 	icon_state = "halfgas"
 	filter_water = TRUE
+	sprite_sheets = list(
+		SPECIES_VOX = 'icons/mob/species/vox/onmob_mask_vox.dmi',
+		SPECIES_VOX_ARMALIS = 'icons/mob/species/vox/onmob_mask_vox_armalis.dmi',
+		SPECIES_TAJARA = 'icons/mob/species/tajaran/mask.dmi',
+		SPECIES_UNATHI = 'icons/mob/onmob/Unathi/mask.dmi',
+		SPECIES_RESOMI = 'infinity/icons/mob/species/resomi/onmob_mask_resomi.dmi',
+		SPECIES_EROSAN = 'infinity/icons/mob/species/erosan/mask.dmi',
+		) //inf, was nothing
 	body_parts_covered = FACE
+	tint = 0 //INF, WAS NOTHING(0)
 	w_class = 2

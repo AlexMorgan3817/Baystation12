@@ -15,6 +15,14 @@
 		LANGUAGE_GUTTER           = TRUE,
 		LANGUAGE_SPACER           = TRUE
 		)
+	skills = list(
+		SKILL_BUREAUCRACY         = SKILL_PROF,
+		SKILL_FINANCE             = SKILL_PROF,
+		SKILL_COMPUTER            = SKILL_EXPERT,
+		SKILL_SCIENCE             = SKILL_EXPERT,
+		SKILL_DEVICES             = SKILL_EXPERT,
+		SKILL_PILOT        = SKILL_ADEPT //INF
+	)
 
 /obj/item/weapon/robot_module/clerical/butler
 	name = "service robot module"
@@ -49,6 +57,14 @@
 		/obj/item/weapon/reagent_containers/borghypo/service
 	)
 	emag = /obj/item/weapon/reagent_containers/food/drinks/bottle/small/beer
+	skills = list(
+		SKILL_BUREAUCRACY         = SKILL_PROF,
+		SKILL_COMPUTER            = SKILL_EXPERT,
+		SKILL_COOKING             = SKILL_PROF,
+		SKILL_BOTANY              = SKILL_PROF,
+		SKILL_MEDICAL             = SKILL_BASIC,
+		SKILL_CHEMISTRY           = SKILL_ADEPT
+	)
 
 /obj/item/weapon/robot_module/clerical/butler/finalize_equipment()
 	. = ..()

@@ -61,7 +61,7 @@
 	atags["NTSF tag"] = /obj/item/clothing/accessory/armor/tag/nt
 	atags["PCRC tag"] = /obj/item/clothing/accessory/armor/tag/pcrc
 	atags["SAARE tag"] = /obj/item/clothing/accessory/armor/tag/saare
-	atags["SCP tag"] = /obj/item/clothing/accessory/armor/tag/scp
+//	atags["SCP tag"] = /obj/item/clothing/accessory/armor/tag/scp
 	atags["ZPCI tag"] = /obj/item/clothing/accessory/armor/tag/zpci
 	gear_tweaks += new/datum/gear_tweak/path(atags)
 
@@ -70,7 +70,7 @@
 	path = /obj/item/clothing/suit/armor/pcarrier
 	cost = 1
 	slot = slot_wear_suit
-	allowed_roles = list(/datum/job/detective, /datum/job/officer, /datum/job/hos)
+	allowed_roles = list(/datum/job/detective, /datum/job/officer, /datum/job/warden, /datum/job/hos)
 
 /datum/gear/tactical/pcarrier/New()
 	..()

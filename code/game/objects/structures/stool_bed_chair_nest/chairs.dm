@@ -7,8 +7,12 @@
 	buckle_dir = 0
 	buckle_lying = 0 //force people to sit up in chairs when buckled
 	obj_flags = OBJ_FLAG_ROTATABLE
-	
 	var/propelled = 0 // Check for fire-extinguisher-driven chairs
+
+/obj/structure/bed/chair/do_simple_ranged_interaction(var/mob/user)
+	if(!buckled_mob && user)
+		rotate(user)
+	return TRUE
 
 /obj/structure/bed/chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
@@ -26,13 +30,6 @@
 		SK.forceMove(E)
 		SK.master = E
 		qdel(src)
-
-/obj/structure/bed/chair/attack_tk(mob/user)
-	if(buckled_mob)
-		..()
-	else
-		rotate(user)
-	return
 
 /obj/structure/bed/chair/post_buckle_mob()
 	update_icon()
@@ -84,6 +81,14 @@
 				stool_cache[cache_key] = I
 			overlays |= stool_cache[cache_key]
 
+/obj/structure/bed/chair/rotate(mob/user)
+	if(!CanPhysicallyInteract(user))
+		to_chat(user, SPAN_NOTICE("You can't interact with \the [src] right now!"))
+		return
+
+	set_dir(turn(dir, 90))
+	update_icon()
+
 /obj/structure/bed/chair/set_dir()
 	..()
 	if(buckled_mob)
@@ -93,7 +98,7 @@
 	..(newloc, newmaterial, MATERIAL_CARPET)
 
 /obj/structure/bed/chair/padded/brown/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc, newmaterial, MATERIAL_LEATHER)
+	..(newloc, newmaterial, MATERIAL_LEATHER_GENERIC)
 
 /obj/structure/bed/chair/padded/teal/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, "teal")
@@ -118,10 +123,10 @@
 
 /obj/structure/bed/chair/padded/yellow/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, "yellow")
-
-/obj/structure/bed/chair/padded/light/New(var/newloc,var/newmaterial)
-	..(newloc,"steel","cotton")
-
+//[INF]
+/obj/structure/bed/chair/padded/light/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
+	..(newloc, newmaterial, MATERIAL_CLOTH)
+//[/INF]
 // Leaving this in for the sake of compilation.
 /obj/structure/bed/chair/comfy
 	name = "comfy chair"
@@ -130,7 +135,7 @@
 	base_icon = "comfychair"
 
 /obj/structure/bed/chair/comfy/brown/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc, newmaterial, MATERIAL_LEATHER)
+	..(newloc, newmaterial, MATERIAL_LEATHER_GENERIC)
 
 /obj/structure/bed/chair/comfy/red/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, MATERIAL_CARPET)
@@ -183,7 +188,7 @@
 	base_icon = "armchair"
 
 /obj/structure/bed/chair/armchair/brown/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc, newmaterial, MATERIAL_LEATHER)
+	..(newloc, newmaterial, MATERIAL_LEATHER_GENERIC)
 
 /obj/structure/bed/chair/armchair/red/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, MATERIAL_CARPET)
@@ -257,27 +262,27 @@
 		occupant.visible_message("<span class='danger'>[occupant] crashed into \the [A]!</span>")
 
 /obj/structure/bed/chair/office/light/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc, newmaterial, MATERIAL_COTTON)
+	..(newloc, newmaterial, MATERIAL_CLOTH)
 
-//[inf]
+//[INF]
 /obj/structure/bed/chair/office/yellow/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","yellow")
+	..(newloc, newmaterial, "yellow")
 
 /obj/structure/bed/chair/office/brown/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","leather")
+	..(newloc, newmaterial, "leather")
 
 /obj/structure/bed/chair/office/teal/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","teal")
+	..(newloc, newmaterial, "teal")
 
 /obj/structure/bed/chair/office/red/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","carpet")
+	..(newloc, newmaterial, "carpet")
 
 /obj/structure/bed/chair/office/blue/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","blue")
+	..(newloc, newmaterial, "blue")
 
 /obj/structure/bed/chair/office/purple/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","purple")
-//[/inf]
+	..(newloc, newmaterial, "purple")
+//[/INF]
 /obj/structure/bed/chair/office/dark/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, "black")
 
@@ -288,7 +293,7 @@
 	base_icon = "comfyofficechair"
 
 /obj/structure/bed/chair/office/comfy/brown/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc, newmaterial, MATERIAL_LEATHER)
+	..(newloc, newmaterial, MATERIAL_LEATHER_GENERIC)
 
 /obj/structure/bed/chair/office/comfy/red/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, MATERIAL_CARPET)
@@ -316,18 +321,6 @@
 
 /obj/structure/bed/chair/office/comfy/yellow/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
 	..(newloc, newmaterial, "yellow")
-
-// Chair types
-/obj/structure/bed/chair/wood
-	name = "classic chair"
-	desc = "Old is never too old to not be in fashion."
-	base_icon = "wooden_chair"
-	icon_state = "wooden_chair_preview"
-
-/obj/structure/bed/chair/wood/wings
-	name = "winged chair"
-	base_icon = "wooden_chair_wings"
-	icon_state = "wooden_chair_wings_preview"
 
 /obj/structure/bed/chair/shuttle
 	name = "shuttle seat"
@@ -360,13 +353,14 @@
 	..(newloc,MATERIAL_STEEL,"black")
 
 /obj/structure/bed/chair/shuttle/white/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,MATERIAL_STEEL,MATERIAL_COTTON)
-
+	..(newloc,MATERIAL_STEEL,MATERIAL_CLOTH)
+//[INF]
 /obj/structure/bed/chair/shuttle/red/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","carpet")
+	..(newloc, MATERIAL_STEEL, MATERIAL_CARPET)
 
 /obj/structure/bed/chair/shuttle/green/New(newloc, newmaterial = DEFAULT_FURNITURE_MATERIAL)
-	..(newloc,"steel","green")
+	..(newloc, MATERIAL_STEEL, "green")
+//[/INF]
 /obj/structure/bed/chair/wood
 	name = "classic chair"
 	desc = "Old is never too old to not be in fashion."
@@ -420,8 +414,32 @@
 	color = WOOD_COLOR_CHOCOLATE
 	chair_material = MATERIAL_WALNUT
 
-//Deconstruct
+/obj/structure/bed/chair/pew
+	name = "pew"
+	desc = "A long, simple bench with a backboard, commonly found in places of worship, courtrooms and so on. Not known for being particularly comfortable."
+	icon_state = "pew"
+	base_icon = "pew"
+	color = WOOD_COLOR_GENERIC
+	var/material/pew_material = MATERIAL_WOOD
+	obj_flags = 0
 
+/obj/structure/bed/chair/pew/left
+	icon_state = "pew_left"
+	base_icon = "pew_left"
+
+/obj/structure/bed/chair/pew/New(var/newloc)
+	..(newloc, pew_material)
+
+/obj/structure/bed/chair/pew/mahogany
+	color = WOOD_COLOR_RICH
+	pew_material = MATERIAL_MAHOGANY
+
+/obj/structure/bed/chair/pew/left/mahogany
+	color = WOOD_COLOR_RICH
+	pew_material = MATERIAL_MAHOGANY
+
+//[INF]
+	//Deconstruct
 /obj/structure/bed/chair/comfy/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(isWrench(W))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
@@ -463,3 +481,4 @@
 		to_chat(user, "<span class='notice'>You deconstruct wood chair</span>")
 		new /obj/item/stack/material/wood(src.loc, 3)
 		qdel(src)
+//[/INF]

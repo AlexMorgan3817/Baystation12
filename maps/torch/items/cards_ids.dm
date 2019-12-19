@@ -62,7 +62,6 @@
 /obj/item/weapon/card/id/torch/contractor/medical/counselor
 	job_access_type = /datum/job/psychiatrist
 
-
 /obj/item/weapon/card/id/torch/silver/security
 	job_access_type = /datum/job/hos
 	detail_color = "#e00000"
@@ -71,7 +70,7 @@
 	job_access_type = /datum/job/officer
 	detail_color = "#e00000"
 
-/obj/item/weapon/card/id/torch/crew/security/brigofficer
+/obj/item/weapon/card/id/torch/crew/security/brigchief
 	job_access_type = /datum/job/warden
 	extra_details = list("onegoldstripe")
 
@@ -121,6 +120,9 @@
 
 /obj/item/weapon/card/id/torch/crew/service/chef
 	job_access_type = /datum/job/chef
+
+/obj/item/weapon/card/id/torch/crew/service/chaplain
+	job_access_type = /datum/job/chaplain
 
 /obj/item/weapon/card/id/torch/contractor/service //unused
 	job_access_type = /datum/job/assistant
@@ -214,24 +216,3 @@
 	job_access_type = /datum/job/merchant
 	color = COLOR_OFF_WHITE
 	detail_color = COLOR_BEIGE
-
-//Stowaway
-/obj/item/weapon/card/id/torch/stowaway
-	desc = "An identification card issued to personnel aboard the SEV Torch. Looks like the photo fell off this one."
-	job_access_type = /datum/job/crew
-	color = "#b4cbd7"
-
-/obj/item/weapon/card/id/torch/stowaway/New()
-	..()
-	var/species = SPECIES_HUMAN
-	if(prob(10))
-		species = pick(SPECIES_SKRELL,SPECIES_IPC)
-	var/datum/species/S = all_species[species]
-	var/decl/cultural_info/culture/C = SSculture.get_culture(S.default_cultural_info[TAG_CULTURE])
-	var/gender = pick(MALE,FEMALE)
-	registered_name = C.get_random_name(gender)
-	sex = capitalize(gender)
-	age = rand(19,25)
-	fingerprint_hash = md5(registered_name)
-	dna_hash = md5(fingerprint_hash)
-	blood_type = RANDOM_BLOOD_TYPE

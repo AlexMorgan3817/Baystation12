@@ -2,6 +2,7 @@
 	STOP_PROCESSING(SSmobs, src)
 	GLOB.dead_mob_list_ -= src
 	GLOB.living_mob_list_ -= src
+	GLOB.player_list -= src
 	unset_machine()
 	QDEL_NULL(hud_used)
 	if(istype(skillset))
@@ -33,7 +34,6 @@
 	toxin = null
 	fire = null
 	bodytemp = null
-	minsbodytemp = null
 	healths = null
 	throw_icon = null
 	nutrition_icon = null
@@ -48,7 +48,10 @@
 /mob/Initialize()
 	. = ..()
 	skillset = new skillset(src)
-	move_intent = decls_repository.get_decl(move_intent)
+	if(!move_intent)
+		move_intent = move_intents[1]
+	if(ispath(move_intent))
+		move_intent = decls_repository.get_decl(move_intent)
 	START_PROCESSING(SSmobs, src)
 
 /mob/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
@@ -183,7 +186,7 @@
 		var/turf/T = loc
 		. += T.movement_delay
 
-	if ((drowsyness > 0) && !MOVING_DELIBERATELY(src))
+	if (drowsyness > 0)
 		. += 6
 	if(lying) //Crawling, it's slower
 		. += (8 + ((weakened * 3) + (confused * 2)))
@@ -351,8 +354,6 @@
 	set category = "Object"
 	set src = usr
 
-	if(istype(loc,/obj/mecha)) return
-
 	if(hand)
 		var/obj/item/W = l_hand
 		if (W)
@@ -367,37 +368,6 @@
 			update_inv_r_hand()
 		else
 			attack_empty_hand(BP_R_HAND)
-
-/mob/verb/memory()
-	set name = "Notes"
-	set category = "IC"
-	if(mind)
-		mind.show_memory(src)
-	else
-		to_chat(src, "The game appears to have misplaced your mind datum, so we can't show you your notes.")
-/mob/verb/add_memory(msg as message)
-	set name = "Add Note"
-	set category = "IC"
-
-	msg = sanitize(msg)
-
-	if(mind)
-		mind.store_memory(msg)
-	else
-		to_chat(src, "The game appears to have misplaced your mind datum, so we can't show you your notes.")
-/mob/proc/store_memory(msg as message, popup, sane = 1)
-	msg = copytext(msg, 1, MAX_MESSAGE_LEN)
-
-	if (sane)
-		msg = sanitize(msg)
-
-	if (length(memory) == 0)
-		memory += msg
-	else
-		memory += "<BR>[msg]"
-
-	if (popup)
-		memory()
 
 /mob/proc/update_flavor_text()
 	set src in usr
@@ -420,13 +390,6 @@
 			return "<span class='notice'>[sanitize_u2a(msg)]</span>"
 		else
 			return "<span class='notice'>[sanitize_u2a(copytext_preserve_html(msg, 1, 37))]... <a href='byond://?src=\ref[src];flavor_more=1'>More...</a></span>"
-
-/*
-/mob/verb/help()
-	set name = "Help"
-	src << browse('html/help.html', "window=help")
-	return
-*/
 
 /client/verb/changes()
 	set name = "Baystation12 Changelog"
@@ -621,7 +584,7 @@
 			stat("Local Time", stationtime2text())
 			stat("Local Date", stationdate2text())
 			stat("Round Duration", roundduration2text())
-			// infinity code start
+		//[inf]
 			if(game_id)
 				stat("Round ID:", game_id)
 			var/server_status_info
@@ -631,7 +594,7 @@
 				server_status_info = "Map Change"
 			if(server_status_info)
 				stat("Round End type:", server_status_info)
-			// infinity code end
+		//[/inf]
 			stat("Server Time", time2text(world.realtime, "YYYY-MM-DD hh:mm"))
 		if(client.holder || isghost(client.mob))
 			stat("Location:", "([x], [y], [z]) [loc]")
@@ -947,12 +910,7 @@
 
 //Check for brain worms in head.
 /mob/proc/has_brain_worms()
-
-	for(var/I in contents)
-		if(istype(I,/mob/living/simple_animal/borer))
-			return I
-
-	return 0
+	return locate(/mob/living/simple_animal/borer) in contents
 
 // A mob should either use update_icon(), overriding this definition, or use update_icons(), not touching update_icon().
 // It should not use both.
@@ -966,34 +924,6 @@
 		to_chat(usr, "You are now not facing anything.")
 	else
 		to_chat(usr, "You are now facing [dir2text(facing_dir)].")
-
-/mob/proc/air_temperature()
-	var/air_contents = loc.return_air()
-	if(!air_contents)
-		to_chat(usr, "<span class='warning'>It's very cold... oh, shit.</span>")
-		return 0
-
-	var/list/result = atmosanalyzer_scan_lesser(usr, air_contents)
-	print_atmos_analysis_lesser(usr, result)
-	return 1
-
-/mob/proc/print_atmos_analysis_lesser(var/mob/user, var/list/result)
-	for(var/line in result)
-		to_chat(user, "<span class='notice'>[line]</span>")
-
-/mob/proc/atmosanalyzer_scan_lesser(var/atom/target, var/datum/gas_mixture/mixture)
-	. = list()
-	. += "<span class='notice'>Results of the analysis of \the [target]:</span>"
-	if(!mixture)
-		mixture = target.return_air()
-
-	if(mixture)
-		var/total_moles = mixture.total_moles
-		if (total_moles>0)
-			for(var/mix in mixture.gas)
-			. += "<span class='notice'>Temperature: [round(mixture.temperature-T0C)]&deg;C / [round(mixture.temperature)]K</span>"
-			return
-	. += "<span class='warning'>\The [target] has no gases!</span>"
 
 /mob/proc/set_face_dir(var/newdir)
 	if(!isnull(facing_dir) && newdir == facing_dir)
@@ -1155,3 +1085,11 @@
 
 /mob/proc/get_footstep(var/footstep_type)
 	return
+
+/mob/proc/handle_embedded_and_stomach_objects()
+	return
+
+/mob/proc/get_sound_volume_multiplier()
+	if(ear_deaf)
+		return 0
+	return 1

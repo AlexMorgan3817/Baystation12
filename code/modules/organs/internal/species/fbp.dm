@@ -101,7 +101,7 @@
 // Used for an MMI or posibrain being installed into a human.
 /obj/item/organ/internal/mmi_holder
 	name = "brain interface"
-	icon_state = "brain-prosthetic"
+	icon_state = "mmi_empty"
 	organ_tag = BP_BRAIN
 	parent_organ = BP_HEAD
 	vital = 1

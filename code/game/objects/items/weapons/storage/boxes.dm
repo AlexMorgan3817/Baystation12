@@ -216,10 +216,34 @@
 	startswith = list(/obj/item/weapon/grenade/frag = 5)
 
 /obj/item/weapon/storage/box/fragshells
-	name = "box of frag shells"
-	desc = "A box containing 5 military grade fragmentation shells.<br> WARNING: Live explosive munitions. Misuse may result in serious injury or death."
+	name = "box of frag grenades"
+	desc = "A box containing 5 military grade fragmentation shells.<br> WARNING: Live explosives. Misuse may result in serious injury or death."
 	icon_state = "flashbang"
-	startswith = list(/obj/item/weapon/grenade/frag/shell = 5)
+	startswith = list(/obj/item/weapon/grenade/frag/shell = 6)
+
+/obj/item/weapon/storage/box/smokeshells
+	name = "box of smoke shells"
+	desc = "A box containing 5 military grade smoke shells."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/weapon/grenade/smokebomb/shell = 6)
+
+/obj/item/weapon/storage/box/flashshells
+	name = "box of flashbang shells"
+	desc = "A box containing 5 military grade flashbang shells."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/weapon/grenade/flashbang/shell = 6)
+
+/obj/item/weapon/storage/box/empshells
+	name = "box of emp grenade shells"
+	desc = "A box containing 5 military grade emp grenade shells.<br> WARNING: Live explosives. Misuse may result in serious injury or death."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/weapon/grenade/empgrenade/shell = 6)
+
+/obj/item/weapon/storage/box/aphotshells
+	name = "box of photon disruption shells"
+	desc = "A box containing 5 photon disruption shells."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/weapon/grenade/anti_photon/shell = 6)
 
 /obj/item/weapon/storage/box/smokes
 	name = "box of smoke bombs"
@@ -304,7 +328,7 @@
 
 /obj/item/weapon/storage/box/monkeycubes/farwacubes
 	name = "farwa cube box"
-	desc = "Drymate brand farwa cubes, shipped from Ahdomai. Just add water!"
+	desc = "Drymate brand farwa cubes, shipped from Nyx. Just add water!"
 	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/monkeycube/wrapped/farwacube = 5)
 
 /obj/item/weapon/storage/box/monkeycubes/stokcubes
@@ -591,3 +615,18 @@
 
 /obj/item/weapon/storage/box/snack/chips
 	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/chips = 7)
+
+//canned goods in cardboard
+/obj/item/weapon/storage/box/canned
+	name = "box of canned food"
+	desc = "A box full of canned foods."
+	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/canned/spinach = 1)
+
+/obj/item/weapon/storage/box/canned/beef
+	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/canned/beef = 6)
+
+/obj/item/weapon/storage/box/canned/beans
+	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/canned/beans = 6)
+
+/obj/item/weapon/storage/box/canned/tomato
+	startswith = list(/obj/item/weapon/reagent_containers/food/snacks/canned/tomato = 6)

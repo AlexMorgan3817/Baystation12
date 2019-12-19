@@ -131,13 +131,14 @@
 	desc = "Self-polarizing goggles with light amplification for dark environments. Made from durable synthetic."
 	icon_state = "swatgoggles"
 	origin_tech = list(TECH_MAGNET = 2, TECH_COMBAT = 4)
-	darkness_view = 5
+	darkness_view = 4 //inf, was 5
 	action_button_name = "Toggle Goggles"
 	toggleable = TRUE
 	see_invisible = SEE_INVISIBLE_NOLIGHTING
 	armor = list(melee = 20, bullet = 20, laser = 20, energy = 15, bomb = 20, bio = 0, rad = 0)
 	siemens_coefficient = 0.6
 	electric = TRUE
+	tint = 1 //INF, WAS NOTHING
 
 /obj/item/clothing/glasses/eyepatch
 	name = "eyepatch"
@@ -415,7 +416,7 @@
 	name = "optical meson scanner"
 	desc = "Used for seeing walls, floors, and stuff through anything."
 	icon_state = "meson"
-	origin_tech = list(TECH_MAGNET = 3, TECH_ILLEGAL = 4)
+	origin_tech = list(TECH_MAGNET = 3, TECH_ESOTERIC = 4)
 
 /obj/item/clothing/glasses/thermal/plain
 	toggleable = FALSE
@@ -423,7 +424,7 @@
 	action_button_name = null
 
 /obj/item/clothing/glasses/thermal/plain/monocle
-	name = "thermoncle"
+	name = "thermonocle"
 	desc = "A monocle thermal."
 	icon_state = "thermoncle"
 	body_parts_covered = 0 //doesn't protect eyes because it's a monocle, duh

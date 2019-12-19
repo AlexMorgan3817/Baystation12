@@ -298,18 +298,24 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	BACKPACK_OVERRIDE_CHEMISTRY
 
 /decl/hierarchy/outfit/job/sierra/crew/medical/counselor
-	name = OUTFIT_JOB_NAME("Counselor")
-	uniform = /obj/item/clothing/under/rank/psych/turtleneck
+	name = OUTFIT_JOB_NAME("Counselor - Sierra")
+	uniform = /obj/item/clothing/under/rank/psych
 	id_type = /obj/item/weapon/card/id/sierra/crew/medical/counselor
 
-/decl/hierarchy/outfit/job/sierra/crew/medical/counselor/psychiatrist
-	name = OUTFIT_JOB_NAME("Psychiatrist - Sierra")
-	uniform = /obj/item/clothing/under/rank/psych
+/decl/hierarchy/outfit/job/sierra/crew/medical/counselor/equip_id(var/mob/living/carbon/human/H, var/rank, var/assignment, var/equip_adjustments)
+	. = ..()
+	var/obj/item/weapon/card/id/foundation_civilian/regis_card = new
+	if(rank)
+		regis_card.rank = rank
+	if(assignment)
+		regis_card.assignment = assignment
+	H.set_id_info(regis_card)
+	H.equip_to_slot_or_store_or_drop(regis_card)
 
-/decl/hierarchy/outfit/job/sierra/crew/medical/counselor/chaplain
-	name = OUTFIT_JOB_NAME("Chaplain - Sierra")
-	uniform = /obj/item/clothing/under/rank/chaplain
-	l_hand = /obj/item/weapon/storage/bible
+/decl/hierarchy/outfit/job/sierra/crew/medical/counselor/mentalist
+	name = OUTFIT_JOB_NAME("Counselor - Mentalist - Sierra")
+	suit = /obj/item/clothing/suit/storage/toggle/labcoat
+	shoes = /obj/item/clothing/shoes/laceup
 
 	/////////
 	//CARGO//
@@ -375,6 +381,11 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	shoes = /obj/item/clothing/shoes/laceup
 	id_type = /obj/item/weapon/card/id/sierra/crew/service/bartender
 	l_pocket = /obj/item/music_tape/custom
+
+/decl/hierarchy/outfit/job/sierra/crew/service/chaplain
+	name = OUTFIT_JOB_NAME("Chaplain - Sierra")
+	uniform = /obj/item/clothing/under/rank/chaplain
+	id_type = /obj/item/weapon/card/id/sierra/crew/service/chaplain
 
 	///////////////
 	//EXPLORATION//
@@ -508,7 +519,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	uniform = /obj/item/clothing/under/suit_jacket/charcoal
 	shoes = /obj/item/clothing/shoes/laceup
 	id_type = /obj/item/weapon/card/id/sierra/merchant/leader
-
+/*
 /decl/hierarchy/outfit/job/sierra/stowaway
 	name = OUTFIT_JOB_NAME("Stowaway - Sierra")
 	id_type = null
@@ -524,7 +535,7 @@ Keeping them simple for now, just spawning with basic EC uniforms, and pretty mu
 	ID.sex = H.gender
 	ID.gender = H.gender
 	H.put_in_hands(ID)
-
+*/
 /decl/hierarchy/outfit/job/sierra/ert
 	name = OUTFIT_JOB_NAME("ERT - Sierra")
 	uniform = /obj/item/clothing/under/ert_outfit

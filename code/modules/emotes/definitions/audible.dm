@@ -117,7 +117,7 @@
 
 /decl/emote/audible/groan
 	key = "groan"
-	emote_message_3p = "USER досадно вздыхает..."
+	emote_message_3p = "USER болезненно стонет!"
 	conscious = 0
 
 /decl/emote/audible/moan
@@ -160,3 +160,8 @@
 	key ="chitter"
 	emote_message_3p = "USER верещит!"
 	emote_sound = 'sound/voice/Bug.ogg'
+
+/decl/emote/audible/vox_shriek
+	key ="shriek"
+	emote_message_3p = "USER SHRIEKS!"
+	emote_sound = 'sound/voice/shriek1.ogg'
