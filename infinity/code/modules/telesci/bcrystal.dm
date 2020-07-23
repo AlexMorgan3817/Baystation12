@@ -3,27 +3,25 @@
 /obj/item/bluespace_crystal
 	name = "bluespace crystal"
 	desc = "A glowing bluespace crystal, not much is known about how they work. It looks very delicate."
-	icon = 'icons/obj/telescience.dmi'
+	icon = 'infinity/icons/obj/item/bs_crystal.dmi'
 	icon_state = "bluespace_crystal"
+	color = "#6699ff"
 	w_class = 1
 	origin_tech = list(TECH_BLUESPACE = 4, TECH_MATERIAL = 3)
 	var/blink_range = 8 // The teleport range when crushed/thrown at someone.
 
-
-/obj/item/bluespace_crystal/New()
-	..()
-	pixel_x = rand(-5, 5)
-	pixel_y = rand(-5, 5)
-//	create_reagents(10)
-//	reagents.add_reagent("bluespace_dust", blink_range)
+/obj/item/bluespace_crystal/Destroy()
+	playsound(get_turf(loc), 'sound/effects/supermatter.ogg', 60)
+	. = ..()
 
 /obj/item/bluespace_crystal/attack_self(mob/user)
 	user.visible_message("<span class='warning'>[user] crushes [src]!</span>", "<span class='danger'>You crush [src]!</span>")
+	playsound(loc, 'sound/effects/supermatter.ogg', 60)
 	var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
 	sparks.set_up(5, 0, get_turf(user))
 	sparks.start()
-	playsound(src.loc, "sparks", 50, 1)
-	playsound(src.loc, 'sound/effects/phasein.ogg', 25, 1)
+	playsound(loc, "sparks", 50, 1)
+	playsound(loc, 'sound/effects/phasein.ogg', 25, 1)
 	blink_mob(user)
 	user.unEquip(src)
 	qdel(src)
@@ -42,7 +40,7 @@
 		var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
 		sparks.set_up(5, 0, T)
 		sparks.start()
-		playsound(src.loc, "sparks", 50, 1)
+		playsound(loc, "sparks", 50, 1)
 		if(isliving(hit_atom))
 			blink_mob(hit_atom)
 			playsound(T, 'sound/effects/phasein.ogg', 25, 1)
