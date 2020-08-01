@@ -1,7 +1,7 @@
 /mob/living
-	var/datum/stigmas/stigmata
+	var/datum/stigma/stigmata
 
 /mob/living/Life()
 	. = ..()
-	if(stigmata)
-		stigmata.onLife(args.Copy())
+	if(istype(stigmata))
+		stigmata.onLife(arglist(args))
