@@ -29,6 +29,11 @@ hr {
     background-color: #40628a;
     height: 1px;
 }
+/*inf*/
+hr.bad, .bad hr{
+    background-color: var(color);
+}
+/*/inf*/
 
 .link, .linkOn, .linkOff, .selected, .disabled, .yellowButton, .redButton {
     float: left;

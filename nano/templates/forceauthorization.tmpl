@@ -1,3 +1,6 @@
+<!--INF-->
+{{if data.autorized}}
+<!--/INF-->
 <h1>Registered Weapons</h1>
 {{if data.registered_guns.length}}
 	{{for data.registered_guns :value:index}}
@@ -46,3 +49,13 @@
 {{else}}
 	No unregistered weapons found.
 {{/if}}
+
+<!--INF-->
+{{else}}
+	<div class="bad">
+		<hr>
+		Not Authorized
+		<hr>
+	</div>
+{{/if}}
+<!--/INF-->

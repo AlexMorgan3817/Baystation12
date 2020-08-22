@@ -17,7 +17,12 @@
 
 /datum/nano_module/forceauthorization/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
 	var/list/data = host.initial_data()
-
+//[INF]
+	var/obj/item/weapon/stock_parts/computer/card_slot/card_slot = program.computer.get_component(PART_CARD)
+	if(card_slot)
+		if(card_slot.stored_card)
+			data["autorized"] = ((required_access in card_slot.stored_card.GetAccess()) ? card_slot.stored_card.registered_name : null)
+//[/INF]
 	data["registered_guns"] = list()
 	data["unregistered_guns"] = list()
 	var/atom/movable/AM = nano_host()
