@@ -104,15 +104,6 @@
 	var/has_safety = TRUE
 	var/safety_icon 	   //overlay to apply to gun based on safety state, if any
 
-//[INF]
-	var/is_serial = 0 //the entrie variable that defines should the gun have serial
-	var/serial // < most important thing, this is the SERIAL itself
-	var/s_type //energy or kinetic
-	var/s_gun //gun type, e.g. LP - laep
-	//see below
-
-var/global/serials = list()
-//[/INF]
 /obj/item/weapon/gun/Initialize()
 	. = ..()
 	for(var/i in 1 to firemodes.len)
@@ -123,14 +114,6 @@ var/global/serials = list()
 
 	if(scope_zoom)
 		verbs += /obj/item/weapon/gun/proc/scope
-//[INF]
-	if(is_serial) //serial
-		var/snum = rand(1,10000)
-		while(snum in serials) //system against similar numbers
-			snum = rand(1,10000)
-		serial = "[s_type]-[s_gun]-[snum]" //e.g K-P20-9999
-		serials += serial //list of serials
-//[/INF]
 
 /obj/item/weapon/gun/update_twohanding()
 	if(one_hand_penalty)
@@ -233,19 +216,29 @@ var/global/serials = list()
 
 	if((!waterproof && submerged()) || !special_check(user))
 		return
-
+//[INF]
+	if(world.time < next_fire_time)
+		if (world.time % 3) //to prevent spam
+			to_chat(user, "<span class='warning'>[src] is not ready to fire again!</span>")
+		return
+//[/INF]
 	if(safety())
 		if(user.a_intent == I_HURT && !user.skill_fail_prob(SKILL_WEAPONS, 100, SKILL_EXPERT, 0.5)) //reflex un-safeying
 			toggle_safety(user)
 		else
 			handle_click_safety(user)
 			return
-
+/*MOVED UP
 	if(world.time < next_fire_time)
 		if (world.time % 3) //to prevent spam
 			to_chat(user, "<span class='warning'>[src] is not ready to fire again!</span>")
 		return
-
+*/
+//[INF]
+	if(!check_can_fire(user, target))
+		handle_click_empty()
+		return
+//[/INF]
 	last_safety_check = world.time
 	var/shoot_time = (burst - 1)* burst_delay
 	user.setClickCooldown(shoot_time) //no clicking on things while shooting
@@ -622,8 +615,10 @@ var/global/serials = list()
 //[/INF]
 
 /obj/item/weapon/gun/proc/switch_firemodes()
-
+/*inf
 	var/next_mode = get_next_firemode()
+
+
 	if(!next_mode || next_mode == sel_mode)
 		return null
 
@@ -634,7 +629,9 @@ var/global/serials = list()
 	var/datum/firemode/new_mode = firemodes[sel_mode]
 	new_mode.apply_to(src)
 	playsound(loc, selector_sound, 50, 1)
-	return new_mode
+inf*/
+//inf return new_mode
+	return set_firemode(get_next_firemode()) //inf
 
 /obj/item/weapon/gun/proc/get_next_firemode()
 	if(firemodes.len <= 1)

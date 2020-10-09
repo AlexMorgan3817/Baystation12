@@ -91,6 +91,7 @@ h1.alert, h2.alert		{color: #000000;}
 .info					{color: #0000cc;}
 .notice					{color: #000099;}
 .subtle					{color: #000099; font-size: 75%; font-style: italic;}
+.syntetic_voice			{color: #00ecff;}/* INF */
 .alium					{color: #00ff00;}
 .cult					{color: #800080; font-weight: bold; font-style: italic;}
 .cultannounce			{color: #800080; font-style: italic; font-size: 175%;}
@@ -101,14 +102,14 @@ h1.alert, h2.alert		{color: #000000;}
 
 /* Languages */
 
-.alien					{color: #543354;}
-.tajaran				{color: #803b56;}
-.tajaran_signlang		{color: #941c1c;}
+.alien					{color: #543354;}/* INF */
+.tajaran				{color: #803b56;}/* INF */
+.tajaran_signlang		{color: #941c1c;}/* INF */
 .skrell					{color: #00ced1;}
 .soghun					{color: #228b22;}
-.yeosa					{color: #218b89;}
+.yeosa					{color: #218b89;}/* INF */
 .nabber_lang			{color: #525252;}
-.changeling				{color: #800080;}
+.changeling				{color: #800080;}/* INF */
 .vox					{color: #aa00aa;}
 .rough					{font-family: "Trebuchet MS", cursive, sans-serif;}
 .say_quote				{font-family: Georgia, Verdana, sans-serif;}

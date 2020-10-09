@@ -4,6 +4,8 @@
 
 #define SPAN_ALIEN(X) "<span class='alien'>[X]</span>"
 
+#define SPAN_SYNTH_VOICE(X) "<span class='syntetic_voice'>[X]</span>"
+
 #define GET_ATOMLOC_HREF_FOR(M) "<a href='?_src_=holder;adminplayerobservecoodjump=1;X=[M.x];Y=[M.y];Z=[M.z]'>JMP</a>"
 
 #define GET_2D_DISTANCE(atom1, atom2) sqrt((atom1.x - atom2.x) ** 2 + (atom1.y - atom2.y) ** 2)

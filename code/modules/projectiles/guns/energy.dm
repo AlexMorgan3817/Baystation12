@@ -5,7 +5,7 @@
 	icon_state = "energy"
 	fire_sound = 'sound/weapons/Taser.ogg'
 	fire_sound_text = "laser blast"
-	s_type = "E" //inf thing, serials
+	s_type = "E" //inf
 //inf	accuracy = 1
 
 	var/obj/item/weapon/cell/power_supply //What type of power cell this uses

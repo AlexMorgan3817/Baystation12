@@ -9,6 +9,7 @@
 	req_access = list(list(access_brig, access_bridge))
 	authorized_modes = list(AUTHORIZED, AUTHORIZED, UNAUTHORIZED) //inf, was: list(ALWAYS_AUTHORIZED, AUTHORIZED, UNAUTHORIZED)
 	s_gun = "LP90-CS"
+	target_checker_extension_type = /datum/extension/target_check/threat //inf
 
 /obj/item/weapon/gun/energy/stunrevolver/secure
 	name = "A&M X6 stun revolver"
@@ -37,6 +38,7 @@
 	req_access = list(list(access_brig, access_bridge))
 	authorized_modes = list(AUTHORIZED, AUTHORIZED, UNAUTHORIZED) //inf, was: list(ALWAYS_AUTHORIZED, AUTHORIZED, UNAUTHORIZED)
 	s_gun = "LP90-S"
+	target_checker_extension_type = /datum/extension/target_check/threat //inf
 
 /obj/item/weapon/gun/energy/gun/secure/preauthorized
 	authorized_modes = list(ALWAYS_AUTHORIZED, AUTHORIZED, AUTHORIZED)
