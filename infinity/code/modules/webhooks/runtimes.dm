@@ -9,7 +9,7 @@
 	else
 		var/runtime_desc = list(
 			"color" = COLOR_WEBHOOK_RUNTIME,
-			"footer" = list("text" = time2text(world.timeofday, "hh:mm:ss/DD:MM:YYYY")),
+			"footer" = list("text" = time2text(world.timeofday, "YYYY:MM:DD/hh:mm:ss")),
 			"title" = "Произошла ошибка во время исполнения вашей Мечты.",
 			"description" = DiscordSanitize(data["main_desc"]),
 		)
