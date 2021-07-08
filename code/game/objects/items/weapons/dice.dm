@@ -49,7 +49,7 @@
 /obj/item/dice/d100/Initialize()
 	. = ..()
 	icon_state = "[name][rand(1,sides)*10]"
-
+/*[INF.override('infinity/[__FILE__.path]')]
 /obj/item/dice/proc/roll_die()
 	var/result = rand(1, sides)
 	return list(result, "")
@@ -84,3 +84,4 @@
 	var/comment = roll_result[2]
 	icon_state = "[name][result]"
 	src.visible_message("<span class='notice'>\The [src] lands on [result]. [comment]</span>")
+[INF.override]*/
