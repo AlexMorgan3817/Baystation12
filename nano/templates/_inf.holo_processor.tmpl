@@ -1,0 +1,84 @@
+{{:helper.DAISMode()}}
+{{if data.error}}
+	<h2>An error has occurred:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists, contact your system administrator for assistance.</i>
+	{{:helper.link('', 'arrowreturn-1-w', {'PRG_backtomenu': 1})}}
+{{else}}
+	{{if data.browsing}}
+		{{:helper.link('', 'arrowreturn-1-w', {'PRG_closebrowser': 1})}}
+		<h2>Local Engrams:</h2>
+		<table>
+			<tr>
+				<th>Name (HGR)
+				<th>Size (GQ)
+			{{for data.files}}
+			<tr>
+				<td>{{:helper.link(value.name, null, {'PRG_openfile': value.name})}}
+				<td>{{:value.size}}
+			{{/for}}
+		</table>
+		{{if data.usbfiles}}
+			<h2>External Engrams (Removable storage):</h2>
+			<table>
+				<tr>
+					<th>Name
+					<th>Size (GQ)
+				{{for data.usbfiles}}
+				<tr>
+					<td>{{:helper.link(value.name, null, {'PRG_openfile': value.name})}}
+					<td>{{:value.size}}
+				{{/for}}
+			</table>
+		{{/if}}
+	{{else}}
+		<h2>Document: {{:data.filename}}</h2>
+		<div class='item'>
+			{{:helper.link('Clear', 'document', {'PRG_clear': 1})}}
+			{{:helper.link('Load', 'folder-open', {'PRG_loadmenu': 1})}}
+			{{:helper.link('Save', 'disk', {'PRG_save': 1})}}
+			{{:helper.link('Set File Name', null, {'PRG_rename': 1})}}
+		</div>
+		{{if data.filedata}}
+		<div class='block'>
+			<style>
+				#HoloAlgorithmEditor {
+					width: 100%;
+				}
+				#HoloAlgorithmEditor td, #HoloAlgorithmEditor th {
+					border-right: 1px solid #677;
+					border-left: 1px solid #677;
+					border-radius: 4px;
+
+					padding: 3px;
+					min-width: 10px;
+					max-width: 200px;
+					overflow: hidden;
+				}
+				#HoloAlgorithmEditor th
+				{
+					border-radius: 3px 3px 0 0;
+				}
+				#HoloAlgorithmEditor .link
+				{
+					margin-bottom: 0;
+				}
+			</style>
+			<table id = "HoloAlgorithmEditor">
+				<tr>
+					<th>#
+					<th>Message
+					<th>Seconds after
+					<th>{{:helper.link('', 'plus', {'PRG_addcommand': -1})}}
+				{{for data.filedata :value :Index}}
+				<tr>
+					<td>{{:Index}}
+					<td>{{:helper.link('','pencil', {'PRG_change_message': Index})}}:<br>"{{:value.message}}"
+					<td>{{:helper.link(value.sleep, null, {'PRG_change_sleep': Index})}}
+					<th>{{:helper.link('','plus', {'PRG_addcommand': Index})}}
+				{{/for}}
+			</table>
+		</div>
+		{{/if}}
+	{{/if}}
+{{/if}}

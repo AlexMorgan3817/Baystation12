@@ -37,6 +37,9 @@ body {
     width: 42px;
     height: 24px;
     background: url(uiTitleFluff.png) 50% 50% no-repeat;
+    /*INF*/
+    background-size: 42px 24px;
+    /*/INF*/
 }
 
 #uiStatusIcon {

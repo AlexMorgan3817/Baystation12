@@ -20,7 +20,7 @@ NanoBaseHelpers = function ()
 			//[INF]
 			DAISMode: function()
 			{
-				$('body').css("background-color","#382d1c");
+				$('body').css("background-color","#3d4c4b");
 				$('body').css("background-image","url('_inf.uiBackground-DAIS.png')");
 				$('body').css("background-position","50% 0");
 				$('body').css("background-repeat","repeat-x");
