@@ -60,7 +60,7 @@
 	if(href_list["PRG_change_message"])
 		var/index = clamp(text2num(href_list["PRG_change_message"]) + 1, 1, length(loaded_data))
 		if(length(loaded_data) >= index)
-			var/inp = sanitize(input(usr, "Edit message (512 characters cap)", "Input", loaded_data[index]["message"]) as text|null)
+			var/inp = sanitize(input(usr, "Edit message (512 characters cap)", "Message", loaded_data[index]["message"]) as message|null)
 			if(istext(inp) && length_char(inp) <= 512)
 				loaded_data[index]["message"] = inp
 				return 1
@@ -68,16 +68,38 @@
 	if(href_list["PRG_change_sleep"])
 		var/index = clamp(text2num(href_list["PRG_change_sleep"]) + 1, 1, length(loaded_data))
 		if(length(loaded_data) >= index)
-			var/inp = clamp(input(usr, "Delay before next message \[0-20] seconds):", "Input", loaded_data[index]["sleep"]) as num|null, 0, 20)
+			var/inp = clamp(input(usr, "Delay before next message \[0-20] seconds:", "Delay", loaded_data[index]["sleep"]) as num|null, 0, 20)
 			loaded_data[index]["sleep"] = inp
+			return 1
+		return
+	if(href_list["PRG_change_goto"])
+		var/index = clamp(text2num(href_list["PRG_change_goto"]) + 1, 1, length(loaded_data))
+		var/goto_index = input(usr, "Go to command after delay:", "Go to", loaded_data[index]["goto"]) as text|null
+		if(goto_index && length_char(goto_index) <= 4)
+			var/converted = text2num(goto_index)
+			if(isnum(converted))
+				goto_index = converted // no clamp, because holographer self must give error if it face an inappropriate goto
+			loaded_data[index]["goto"] = goto_index
+			return 1
+		return
+	if(href_list["PRG_swap"])
+		var/index = clamp(text2num(href_list["PRG_swap"]) + 1, 1, length(loaded_data))
+		var/goto_swap
+		if(href_list["PRG_swap_index"])
+			goto_swap = clamp(index + text2num(href_list["PRG_swap_index"]), 1, length(loaded_data))
+		else
+			goto_swap = clamp(text2num(input(usr, "Swap with index:", "Go to", loaded_data[index]["goto"]) as num|null), 1, length(loaded_data))
+		if(goto_swap)
+			loaded_data.Swap(index, goto_swap)
 			return 1
 		return
 	if(href_list["PRG_addcommand"])
 		var/index = clamp(text2num(href_list["PRG_addcommand"]) + 2, 1, length(loaded_data) + 1)
 		var/obj/item/stock_parts/computer/processor_unit/CPU = computer.get_component(PART_CPU)
 		if(length(loaded_data) + 1 >= index && maxalgorithmlen * CPU.processing_power > length(loaded_data))
-			loaded_data.Insert(index, list(list("message" = "", "sleep" = 0)))
+			loaded_data.Insert(index, list(HOLOEN_ALGORITHM_BLOCK("", 0, "NEXT")))
 			return 1
+		return
 	if(href_list["PRG_openfile"])
 		return open_file(href_list["PRG_openfile"])
 	if(href_list["PRG_rename"])

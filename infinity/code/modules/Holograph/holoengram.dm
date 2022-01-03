@@ -1,3 +1,5 @@
+#define HOLOEN_ALGORITHM_BLOCK(msg, delay, goTo) list("message" = msg, "delay" = delay, "goto" = goTo)
+//MSG - message to say; DELAY - delay before goto; GOTO - (num)index or in ["NEXT", "END"] GOTO is strictly [1-4] characters
 /datum/computer_file/holoengram
 	filetype = "HGR"
 	var/list/program = list()
@@ -9,8 +11,8 @@
 
 /datum/computer_file/holoengram/proc/calculate_size()
 	. = 0
-	for(var/i in program)
-		if(istext(i))
+	for(var/list/i in program)
+		if(istext(i["message"]))
 			. += length(i)
 		/*
 		else if(istype(i, /datum/holoaction))

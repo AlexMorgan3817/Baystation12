@@ -69,12 +69,16 @@
 					<th>#
 					<th>Message
 					<th>Seconds after
+					<th>Go to
 					<th>{{:helper.link('', 'plus', {'PRG_addcommand': -1})}}
 				{{for data.filedata :value :Index}}
 				<tr>
-					<td>{{:Index}}
+					<td>{{:helper.link('','carat-1-n', {'PRG_swap': Index, 'PRG_swap_index': -1}, Index == 0 ? 'linkOff' : null)}}
+						{{:helper.link(Index + 1,null, {'PRG_swap': Index})}}
+						{{:helper.link('','carat-1-s', {'PRG_swap': Index, 'PRG_swap_index':1}, ((Object.keys(data.filedata).length == Index + 1) ? 'linkOff' : null))}}
 					<td>{{:helper.link('','pencil', {'PRG_change_message': Index})}}:<br>"{{:value.message}}"
 					<td>{{:helper.link(value.sleep, null, {'PRG_change_sleep': Index})}}
+					<td>{{:helper.link(value.goto, null, {'PRG_change_goto': Index})}}
 					<th>{{:helper.link('','plus', {'PRG_addcommand': Index})}}
 				{{/for}}
 			</table>
