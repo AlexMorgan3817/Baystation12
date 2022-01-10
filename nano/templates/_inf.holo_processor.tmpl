@@ -38,22 +38,25 @@
 			{{:helper.link('Load', 'folder-open', {'PRG_loadmenu': 1})}}
 			{{:helper.link('Save', 'disk', {'PRG_save': 1})}}
 			{{:helper.link('Set File Name', null, {'PRG_rename': 1})}}
+			{{:helper.link(data.default_delay, null, {'PRG_default_delay': 1})}}
 		</div>
 		{{if data.filedata}}
+		<hr>
 		<div class='block'>
 			<style>
 				#HoloAlgorithmEditor {
 					width: 100%;
 				}
-				#HoloAlgorithmEditor td, #HoloAlgorithmEditor th {
+				#HoloAlgorithmEditor .holoeditorCell, #HoloAlgorithmEditor .holoeditorHeaderCell {
 					border-right: 1px solid #677;
 					border-left: 1px solid #677;
 					border-radius: 4px;
 
 					padding: 3px;
-					min-width: 10px;
-					max-width: 200px;
+					min-width: 5px;
+					max-width: 300px;
 					overflow: hidden;
+					white-space: wrap;
 				}
 				#HoloAlgorithmEditor th
 				{
@@ -64,22 +67,32 @@
 					margin-bottom: 0;
 				}
 			</style>
+			<div style = "width: 100%; text-align: right;">
+				{{:data.filedata_size}} GQ
+			</div>
 			<table id = "HoloAlgorithmEditor">
 				<tr>
-					<th>#
-					<th>Message
-					<th>Seconds after
-					<th>Go to
-					<th>{{:helper.link('', 'plus', {'PRG_addcommand': -1})}}
+					<th class='holoeditorHeaderCell' style='max-width: 5px'>#
+					<th class='holoeditorHeaderCell' style='min-width: 50px; max-width: 100px'>Message
+					<th class='holoeditorHeaderCell' style='max-width: 5px'>Delay
+					<!-- <th>Go to -->
+					<th class='holoeditorHeaderCell' style='max-width: 5px'>{{:helper.link('', 'plus', {'PRG_addcommand': -1})}}
 				{{for data.filedata :value :Index}}
 				<tr>
-					<td>{{:helper.link('','carat-1-n', {'PRG_swap': Index, 'PRG_swap_index': -1}, Index == 0 ? 'linkOff' : null)}}
-						{{:helper.link(Index + 1,null, {'PRG_swap': Index})}}
-						{{:helper.link('','carat-1-s', {'PRG_swap': Index, 'PRG_swap_index':1}, ((Object.keys(data.filedata).length == Index + 1) ? 'linkOff' : null))}}
-					<td>{{:helper.link('','pencil', {'PRG_change_message': Index})}}:<br>"{{:value.message}}"
-					<td>{{:helper.link(value.sleep, null, {'PRG_change_sleep': Index})}}
-					<td>{{:helper.link(value.goto, null, {'PRG_change_goto': Index})}}
-					<th>{{:helper.link('','plus', {'PRG_addcommand': Index})}}
+					<td class='holoeditorCell' style='max-width: 5px'>
+						<table>
+							<tr><td>{{:helper.link('','carat-1-n', {'PRG_swap': Index, 'PRG_swap_index': -1}, Index == 0 ? 'linkOff' : null)}}
+							<tr><td>{{:helper.link(Index + 1,null, {'PRG_swap': Index})}}
+							<tr><td>{{:helper.link('','carat-1-s', {'PRG_swap': Index, 'PRG_swap_index':1}, ((Object.keys(data.filedata).length == Index + 1) ? 'linkOff' : null))}}
+						</table>
+					<td class='holoeditorCell' style='min-width: 50px; max-width: 100px'>{{:helper.link('','pencil', {'PRG_change_message': Index})}}:<br>"{{:value.message}}"
+					<td class='holoeditorCell' style='max-width: 5px'>{{:helper.link(value.delay, null, {'PRG_change_sleep': Index})}}
+					<!-- <td>{{:helper.link(value.goto, null, {'PRG_change_goto': Index})}} -->
+					<td class='holoeditorCell' style='max-width: 5px'>
+						<table>
+							<tr><td>{{:helper.link('','plus', {'PRG_addcommand': Index})}}
+							<tr><td>{{:helper.link('','minus', {'PRG_removecommand': Index})}}
+						</table>
 				{{/for}}
 			</table>
 		</div>

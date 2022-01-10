@@ -4,6 +4,7 @@
 	extended_desc = "This program developed by DAIS for programing artificial holographic engrams."
 	program_icon_state = "word"
 	program_key_state = "atmos_key"
+	program_menu_icon = "script"
 	size = 16
 	requires_ntnet = FALSE
 	available_on_ntnet = TRUE
@@ -11,11 +12,13 @@
 	usage_flags = PROGRAM_ALL
 	category = PROG_OFFICE
 
+	var/default_delay = 0.5
 	var/fname = "NewHologram"
 	var/list/loaded_data = list()
+	var/tmp/cached_loaded_data = 0
 	var/error
 	var/browsing
-	var/maxalgorithmlen = 20
+	var/algorithmlenPerProcessing = 16
 
 /datum/computer_file/program/holoprocessor/proc/open_file(var/_fname)
 	var/datum/computer_file/holoengram/F = get_file(_fname)
@@ -32,10 +35,12 @@
 	if(!.)
 		error = "I/O Error: Check hard drive. You need [result.size] GQ."
 		qdel(result)
-
+	else
+		result.calculate_size()
 /datum/computer_file/program/holoprocessor/proc/clear_file()
 	fname = "NewHologram"
 	loaded_data = list()
+	cached_loaded_data = 0
 
 /datum/computer_file/program/holoprocessor/Topic(href, href_list)
 	if(..())
@@ -60,18 +65,20 @@
 	if(href_list["PRG_change_message"])
 		var/index = clamp(text2num(href_list["PRG_change_message"]) + 1, 1, length(loaded_data))
 		if(length(loaded_data) >= index)
-			var/inp = sanitize(input(usr, "Edit message (512 characters cap)", "Message", loaded_data[index]["message"]) as message|null)
-			if(istext(inp) && length_char(inp) <= 512)
+			var/inp = sanitize(input(usr, "Edit message (512 characters cap)", "Message", loaded_data[index]["message"]) as message)
+			if(length_char(inp) <= 512)
 				loaded_data[index]["message"] = inp
+				cached_loaded_data = holoengram_size_by_program(loaded_data)
 				return 1
 		return
 	if(href_list["PRG_change_sleep"])
 		var/index = clamp(text2num(href_list["PRG_change_sleep"]) + 1, 1, length(loaded_data))
 		if(length(loaded_data) >= index)
-			var/inp = clamp(input(usr, "Delay before next message \[0-20] seconds:", "Delay", loaded_data[index]["sleep"]) as num|null, 0, 20)
-			loaded_data[index]["sleep"] = inp
+			var/inp = clamp(input(usr, "Delay before next message \[0-20] seconds:", "Delay", loaded_data[index]["delay"]) as num, 0, 20)
+			loaded_data[index]["delay"] = inp
 			return 1
 		return
+/*
 	if(href_list["PRG_change_goto"])
 		var/index = clamp(text2num(href_list["PRG_change_goto"]) + 1, 1, length(loaded_data))
 		var/goto_index = input(usr, "Go to command after delay:", "Go to", loaded_data[index]["goto"]) as text|null
@@ -82,13 +89,17 @@
 			loaded_data[index]["goto"] = goto_index
 			return 1
 		return
+*/
 	if(href_list["PRG_swap"])
 		var/index = clamp(text2num(href_list["PRG_swap"]) + 1, 1, length(loaded_data))
 		var/goto_swap
 		if(href_list["PRG_swap_index"])
 			goto_swap = clamp(index + text2num(href_list["PRG_swap_index"]), 1, length(loaded_data))
 		else
-			goto_swap = clamp(text2num(input(usr, "Swap with index:", "Go to", loaded_data[index]["goto"]) as num|null), 1, length(loaded_data))
+			goto_swap = input(usr, "Swap with index:", "Go to", loaded_data[index]["goto"]) as num|null
+			if(goto_swap == null)
+				return
+			goto_swap = clamp(text2num(goto_swap), 1, length(loaded_data))
 		if(goto_swap)
 			loaded_data.Swap(index, goto_swap)
 			return 1
@@ -96,19 +107,36 @@
 	if(href_list["PRG_addcommand"])
 		var/index = clamp(text2num(href_list["PRG_addcommand"]) + 2, 1, length(loaded_data) + 1)
 		var/obj/item/stock_parts/computer/processor_unit/CPU = computer.get_component(PART_CPU)
-		if(length(loaded_data) + 1 >= index && maxalgorithmlen * CPU.processing_power > length(loaded_data))
-			loaded_data.Insert(index, list(HOLOEN_ALGORITHM_BLOCK("", 0, "NEXT")))
+		if(length(loaded_data) + 1 >= index)
+			if(algorithmlenPerProcessing * CPU.processing_power > length(loaded_data))
+				loaded_data.Insert(index, list(HOLOEN_ALGORITHM_BLOCK("", default_delay)))
+			else
+				error = "CPU ERROR: RAM is full, can't add more commands"
+			return 1
+		return
+	if(href_list["PRG_removecommand"])
+		var/index = clamp(text2num(href_list["PRG_removecommand"]) + 1, 1, length(loaded_data))
+		if(length(loaded_data) >= index)
+			loaded_data.Cut(index, index + 1)
+			cached_loaded_data = holoengram_size_by_program(loaded_data)
 			return 1
 		return
 	if(href_list["PRG_openfile"])
-		return open_file(href_list["PRG_openfile"])
+		. = open_file(href_list["PRG_openfile"])
+		if(.)
+			cached_loaded_data = holoengram_size_by_program(loaded_data)
+		browsing = 0
+		return
 	if(href_list["PRG_rename"])
 		var/nfn = sanitize(input(usr, "Enter file name (20 characters cap):", "New Engram", fname) as text|null)
 		if(istext(nfn) && length(nfn) <= 20)
 			fname = nfn
 			return 1
 		return
-
+	if(href_list["PRG_default_delay"])
+		default_delay = text2num(input(usr, "Default delay when command created:", "Default Delay", default_delay) as num)
+		return 1
+	return 1
 /datum/nano_module/program/computer_holoprocessor
 	name = "HoloEngram Programer"
 
@@ -144,10 +172,12 @@
 	else
 		data["filename"] = PRG.fname
 		data["filedata"] = PRG.loaded_data
+		data["filedata_size"] = PRG.cached_loaded_data
+		data["default_delay"] = PRG.default_delay
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if(!ui)
-		ui = new(user, src, ui_key, "_inf.holo_processor.tmpl", "Holo Processor", 575, 700, state = state)
+		ui = new(user, src, ui_key, "_inf.holo_processor.tmpl", "Holo Processor", 700, 700, state = state)
 		ui.auto_update_layout = 1
 		ui.set_initial_data(data)
 		ui.open()
